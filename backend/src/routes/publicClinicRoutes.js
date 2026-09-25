@@ -1,0 +1,1 @@
+import {Router} from 'express';import {asyncHandler} from '../utils/asyncHandler.js';import * as c from '../controllers/publicClinicController.js';const r=Router();r.get('/clinic-info',asyncHandler(c.info));r.get('/operating-hours',asyncHandler(c.hours));r.get('/services',asyncHandler(c.services));r.get('/reviews',asyncHandler(c.reviews));export default r;

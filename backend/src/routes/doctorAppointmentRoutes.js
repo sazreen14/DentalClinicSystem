@@ -1,0 +1,2 @@
+import { Router } from 'express'; import * as c from '../controllers/doctorAppointmentController.js'; import { authenticateToken } from '../middleware/authenticateToken.js'; import { requireRole } from '../middleware/requireRole.js'; import { asyncHandler } from '../utils/asyncHandler.js';
+const r=Router();r.use(authenticateToken,requireRole('Doctor'));r.get('/appointments',asyncHandler(c.list));r.get('/schedule',asyncHandler(c.schedule));export default r;

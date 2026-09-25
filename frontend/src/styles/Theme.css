@@ -1,0 +1,39 @@
+:root,[data-theme="light"]{--bg-page:#f4f7f9;--bg-surface:#fff;--bg-elevated:#f8fafc;--bg-soft:#effcfc;--text-primary:#172033;--text-secondary:#64748b;--text-muted:#94a3b8;--border:#dce5eb;--accent:#159c9f;--accent-bright:#2ec4c7;--accent-soft:#eafafa;--input-bg:#fff;--overlay:rgba(15,23,42,.58);color-scheme:light}
+[data-theme="dark"]{--bg-page:#0d141c;--bg-surface:#151f2a;--bg-elevated:#1b2734;--bg-soft:#173137;--text-primary:#edf5f7;--text-secondary:#b7c5ce;--text-muted:#8fa2ae;--border:#344653;--accent:#52d5d7;--accent-bright:#36c8ca;--accent-soft:#17383c;--input-bg:#111b25;--overlay:rgba(2,6,12,.78);color-scheme:dark}
+body{background:var(--bg-page);color:var(--text-primary);transition:background-color .18s ease,color .18s ease}
+.theme-toggle{min-width:40px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 10px;border:1px solid var(--border);border-radius:10px;color:var(--text-secondary);background:var(--bg-surface);font:inherit;font-size:12px;font-weight:700}.theme-toggle:hover{color:var(--accent);background:var(--accent-soft)}.theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 35%,transparent);outline-offset:2px}.admin-topbar-actions .theme-toggle span,.doctor-topbar-actions .theme-toggle span,.figma-topbar-actions .theme-toggle span{display:none}
+[data-theme="dark"] :is(.admin-layout,.doctor-layout,.figma-patient-layout,.admin-page,.doctor-page,.figma-patient-page,.home-page){color:var(--text-primary);background:var(--bg-page)}
+[data-theme="dark"] :is(.admin-sidebar,.doctor-sidebar,.figma-patient-sidebar,.admin-topbar,.doctor-topbar,.figma-patient-topbar,.navbar,.topbar){background:var(--bg-surface);border-color:var(--border)}
+[data-theme="dark"] :is(h1,h2,h3,h4,h5,h6,strong,label,legend){color:var(--text-primary)}
+[data-theme="dark"] :is(p,small,.subtitle){color:var(--text-secondary)}
+[data-theme="dark"] :is(input,select,textarea){color:var(--text-primary);background:var(--input-bg);border-color:var(--border)}
+[data-theme="dark"] :is(input,textarea)::placeholder{color:var(--text-muted)}
+[data-theme="dark"] :is(input,select,textarea):disabled{color:var(--text-muted);background:#202b35}
+[data-theme="dark"] :is(.admin-sidebar-menu,.doctor-sidebar-menu,.figma-sidebar-menu,.admin-sidebar-logout,.doctor-sidebar-logout,.figma-sidebar-logout){color:var(--text-secondary)}
+[data-theme="dark"] :is(.admin-sidebar-logout,.doctor-sidebar-logout,.figma-sidebar-logout):is(:hover,:focus-visible){color:#f87171;background:rgba(239,68,68,.16);border:1px solid rgba(239,68,68,.35)}
+[data-theme="dark"] :is(.admin-sidebar-logout,.doctor-sidebar-logout,.figma-sidebar-logout):active{color:#f87171;background:rgba(239,68,68,.24);border-color:rgba(239,68,68,.45)}
+[data-theme="dark"] :is(.admin-sidebar-logout,.doctor-sidebar-logout,.figma-sidebar-logout):is(:hover,:focus-visible,:active) svg{color:currentColor}
+[data-theme="dark"] :is(.admin-sidebar-logout,.doctor-sidebar-logout,.figma-sidebar-logout):focus-visible{outline:3px solid rgba(248,113,113,.35);outline-offset:2px}
+[data-theme="dark"] :is(.admin-sidebar-menu,.doctor-sidebar-menu,.figma-sidebar-menu):is(:hover,.active){color:var(--accent);background:var(--accent-soft)}
+[data-theme="dark"] :is(.admin-notification-button,.doctor-topbar-notifications,.figma-topbar-notification-button,.admin-topbar-menu,.doctor-topbar-menu-button,.figma-topbar-menu-button,.admin-topbar-profile,.doctor-topbar-profile,.figma-topbar-profile){color:var(--text-secondary);background:var(--bg-surface);border-color:var(--border)}
+[data-theme="dark"] :is(.admin-topbar-profile,.doctor-topbar-profile,.figma-topbar-profile):hover{background:var(--bg-elevated)}
+[data-theme="dark"] :is(.invoice-list-card,.invoice-detail-card,.invoice-modal,.dental-chart,.dental-chart-legend,.clinical-images,.clinical-image-card,.clinical-image-viewer){color:var(--text-primary);background:var(--bg-surface);border-color:var(--border);box-shadow:none}
+[data-theme="dark"] :is(.invoice-list-card>header,.invoice-detail-header,.invoice-detail-actions,.invoice-modal>header,.invoice-list>button,.invoice-item-row,.dental-chart-history>article){border-color:var(--border)}
+[data-theme="dark"] :is(.invoice-list>button,.invoice-detail-header button,.invoice-detail-actions button,.invoice-create-items button,.add-line,.invoice-modal footer button,.invoice-modal>header button,.invoice-row-actions button,.invoice-item-row.add>button){color:var(--text-secondary);background:var(--bg-surface);border-color:var(--border)}
+[data-theme="dark"] :is(.invoice-list>button.active,.dental-tooth.selected,.dental-surface-options button.active){background:var(--accent-soft)}
+[data-theme="dark"] :is(.invoice-detail-meta,.invoice-items-head,.invoice-draft-total,.dental-chart-board,.dental-chart-history article p,.clinical-image-upload,.clinical-image-viewer-meta p,.clinical-image-caption){color:var(--text-primary);background:var(--bg-elevated);border-color:var(--border)}
+[data-theme="dark"] :is(.dental-chart-editor,.clinical-image-picker){color:var(--text-primary);background:var(--bg-soft);border-color:var(--border)}
+[data-theme="dark"] :is(.dental-surface-options button,.dental-chart-history article button,.clinical-image-viewer header button,.clinical-image-viewer footer button){color:var(--text-secondary);background:var(--bg-surface);border-color:var(--border)}
+[data-theme="dark"] .dental-tooth path:not(.whole-mark){stroke:#b8c4cc}
+[data-theme="dark"] .dental-chart-legend i{border-color:rgba(255,255,255,.3)}
+[data-theme="dark"] :is(.clinical-image-thumb,.clinical-image-local-preview){background:#1d3335}
+[data-theme="dark"] :is(.modal-overlay,.invoice-modal-overlay,.appointment-modal-overlay,.appointment-overlay,.auth-modal-overlay,.register-modal-overlay,.forgot-modal-overlay,.clinical-image-viewer-backdrop){background:var(--overlay)}
+[data-theme="dark"] [class*="modal"] :is(section,form,.modal-content),[data-theme="dark"] :is(.auth-modal-card,.register-modal-card,.forgot-modal-card,.appointment-modal){color:var(--text-primary);background:var(--bg-surface);border-color:var(--border);box-shadow:none}
+[data-theme="dark"] :is(.auth-modal-card,.register-modal-card,.forgot-modal-card,.appointment-modal) :is(input,select,textarea){color:var(--text-primary);background:var(--input-bg);border-color:var(--border)}
+[data-theme="dark"] :is(.admin-page,.doctor-page,.figma-patient-page) :is(article,section,table,.card,[class*="-card"],[class*="-panel"]){border-color:var(--border)}
+[data-theme="dark"] :is(.admin-page,.doctor-page,.figma-patient-page) :is([class*="-card"],[class*="-panel"]):not(.invoice-heading){color:var(--text-primary);background-color:var(--bg-surface)}
+[data-theme="dark"] table{color:var(--text-primary);background:var(--bg-surface)}[data-theme="dark"] :is(th,td){border-color:var(--border)}[data-theme="dark"] th{background:var(--bg-elevated)}
+[data-theme="dark"] .home-page :is(.services,.about,.patient-management,.location,.reviews){color:var(--text-primary);background-color:var(--bg-page)}
+[data-theme="dark"] .home-page :is(.service-card,.review-card,.location-card,.about-card){color:var(--text-primary);background:var(--bg-surface);border-color:var(--border)}
+[data-theme="dark"] img{filter:none}
+@media(max-width:700px){.theme-toggle{min-width:38px;min-height:38px;padding:0}.navbar .theme-toggle span{display:none}}

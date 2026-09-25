@@ -1,0 +1,65 @@
+.not-found-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f4f7f9;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.not-found-card {
+  width: min(460px, 100%);
+  padding: 42px 28px;
+  border: 1px solid #e5ebef;
+  border-radius: 16px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.07);
+}
+
+.not-found-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 16px;
+  color: #159c9f;
+  background: #eafafa;
+  font-size: 24px;
+}
+
+.not-found-card > span {
+  color: #159c9f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.not-found-card h1 {
+  margin: 8px 0 10px;
+  color: #172033;
+  font-size: 30px;
+}
+
+.not-found-card p {
+  margin: 0 auto 24px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.not-found-card a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 18px;
+  border-radius: 10px;
+  color: #ffffff;
+  background: #159c9f;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}

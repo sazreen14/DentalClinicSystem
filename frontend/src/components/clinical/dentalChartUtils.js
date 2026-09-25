@@ -1,0 +1,6 @@
+export const ARCHES={upper:['18','17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'],lower:['48','47','46','45','44','43','42','41','31','32','33','34','35','36','37','38']};
+const anterior=new Set(['11','12','13','21','22','23','31','32','33','41','42','43']);
+export function surfacesFor(tooth){const upper=['1','2'].includes(tooth[0]);return anterior.has(tooth)?['Mesial','Distal','Facial',upper?'Palatal':'Lingual','Incisal','Whole']:['Mesial','Distal','Buccal',upper?'Palatal':'Lingual','Occlusal','Whole'];}
+export function surfacePositions(tooth){const values=surfacesFor(tooth);return {left:'Mesial',right:'Distal',top:values.includes('Buccal')?'Buccal':'Facial',bottom:values.includes('Palatal')?'Palatal':'Lingual',center:values.includes('Occlusal')?'Occlusal':'Incisal'};}
+export const displayDate=value=>value?new Date(value).toLocaleString('en-MY',{dateStyle:'medium',timeStyle:'short'}):'Unknown date';
+export function resolveEncounter(encounters,{selectedRecordId='',originRecordId=null,originAppointmentId=null}={}){return encounters.find(x=>x.recordId===selectedRecordId)||encounters.find(x=>originRecordId&&x.recordId===originRecordId)||encounters.find(x=>originAppointmentId&&x.appointmentId===originAppointmentId)||encounters[0]||null;}

@@ -1,0 +1,25 @@
+.topbar {
+  width: 100%;
+  background: #2ec4c7;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.topbar-content {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+@media (max-width: 750px) {
+  .topbar-content {
+    justify-content: center;
+  }
+
+  .topbar-content span:nth-child(2),
+  .topbar-content span:nth-child(3) {
+    display: none;
+  }
+}

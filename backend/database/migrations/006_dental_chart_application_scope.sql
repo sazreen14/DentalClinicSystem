@@ -1,0 +1,2 @@
+ALTER TABLE dental_chart_definitions
+  ADD COLUMN application_scope ENUM('WHOLE','SURFACES','WHOLE_OR_SURFACES') NOT NULL DEFAULT 'WHOLE_OR_SURFACES' AFTER pattern_key;

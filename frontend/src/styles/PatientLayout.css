@@ -1,0 +1,517 @@
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.figma-patient-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 242px minmax(0, 1fr);
+  color: #172033;
+  background: #f4f7f9;
+}
+
+.figma-sidebar-wrapper {
+  position: relative;
+  z-index: 50;
+  min-width: 0;
+}
+
+.figma-patient-content {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.figma-patient-page {
+  width: 100%;
+  min-width: 0;
+  padding: 20px 24px 32px;
+}
+
+.figma-patient-page section {
+  min-height: 0;
+}
+
+.figma-sidebar-overlay {
+  display: none;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.figma-patient-sidebar {
+  position: sticky;
+  top: 0;
+  width: 242px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 15px;
+  border-right: 1px solid #e5ebef;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.figma-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 5px 19px;
+  border-bottom: 1px solid #edf2f5;
+}
+
+.figma-sidebar-logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: #ffffff;
+  background: #2ec4c7;
+  font-size: 20px;
+}
+
+.figma-sidebar-brand strong,
+.figma-sidebar-brand span {
+  display: block;
+}
+
+.figma-sidebar-brand strong {
+  color: #172033;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.figma-sidebar-brand span {
+  margin-top: 3px;
+  color: #16aeb1;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.figma-sidebar-patient {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 5px;
+}
+
+.figma-sidebar-avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #159c9f;
+  background: #ddfafa;
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.figma-sidebar-avatar img,
+.figma-topbar-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+.figma-sidebar-patient strong,
+.figma-sidebar-patient span {
+  display: block;
+}
+
+.figma-sidebar-patient strong {
+  color: #172033;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.figma-sidebar-patient span {
+  margin-top: 4px;
+  color: #94a3b8;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+[data-theme="dark"] .figma-patient-layout .figma-patient-sidebar .figma-sidebar-patient span {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.figma-sidebar-navigation {
+  display: grid;
+  min-height: 0;
+  gap: 5px;
+  margin-top: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.figma-sidebar-menu {
+  width: 100%;
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 10px;
+  color: #64748b;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.figma-sidebar-menu:hover,
+.figma-sidebar-menu.active {
+  color: #159c9f;
+  background: #eafafa;
+}
+
+.figma-sidebar-menu-icon {
+  display: grid;
+  place-items: center;
+  color: #8fa0b5;
+  font-size: 15px;
+}
+
+.figma-sidebar-menu:hover .figma-sidebar-menu-icon,
+.figma-sidebar-menu.active .figma-sidebar-menu-icon {
+  color: #2ec4c7;
+}
+
+.figma-sidebar-menu-label {
+  white-space: nowrap;
+}
+
+.figma-sidebar-badge {
+  min-width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  padding: 0 6px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #2ec4c7;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.figma-sidebar-logout {
+  flex-shrink: 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 10px;
+  color: #64748b;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.figma-sidebar-logout:hover {
+  color: #dc2626;
+  background: #fff1f2;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.figma-patient-topbar {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px 24px;
+  border-bottom: 1px solid #e5ebef;
+  background: #ffffff;
+}
+
+.figma-topbar-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.figma-topbar-left h1 {
+  margin: 0 0 3px;
+  color: #172033;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.figma-topbar-left p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.figma-topbar-menu-button {
+  width: 38px;
+  height: 38px;
+  display: none;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  color: #64748b;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.figma-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.figma-topbar-book-button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  background: #2ec4c7;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.figma-topbar-book-button:hover {
+  background: #20b4b7;
+}
+
+.figma-topbar-notification-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #e1e9ee;
+  border-radius: 10px;
+  color: #64748b;
+  background: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.figma-topbar-notification-button > span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #2ec4c7;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.figma-topbar-profile {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 8px 4px 4px;
+}
+
+.figma-topbar-avatar {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #159c9f;
+  background: #ddfafa;
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.figma-topbar-profile strong,
+.figma-topbar-profile span {
+  display: block;
+  white-space: nowrap;
+}
+
+.figma-topbar-profile strong {
+  color: #172033;
+  font-size: 13px;
+}
+
+.figma-topbar-profile span {
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  .figma-patient-layout {
+    grid-template-columns: 80px minmax(0, 1fr);
+  }
+
+  .figma-patient-sidebar {
+    width: 80px;
+    align-items: center;
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .figma-sidebar-brand > div:last-child,
+  .figma-sidebar-patient > div:last-child,
+  .figma-sidebar-menu-label,
+  .figma-sidebar-badge,
+  .figma-sidebar-logout span {
+    display: none;
+  }
+
+  .figma-sidebar-brand {
+    justify-content: center;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .figma-sidebar-menu {
+    width: 46px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 0;
+  }
+
+  .figma-sidebar-logout {
+    width: 46px;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .figma-patient-layout {
+    display: block;
+  }
+
+  .figma-sidebar-wrapper {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+  }
+
+  .figma-sidebar-wrapper.open {
+    transform: translateX(0);
+  }
+
+  .figma-sidebar-wrapper .figma-patient-sidebar {
+    width: 242px;
+    align-items: stretch;
+  }
+
+  .figma-sidebar-wrapper
+    .figma-sidebar-brand
+    > div:last-child,
+  .figma-sidebar-wrapper
+    .figma-sidebar-patient
+    > div:last-child,
+  .figma-sidebar-wrapper
+    .figma-sidebar-menu-label,
+  .figma-sidebar-wrapper
+    .figma-sidebar-badge,
+  .figma-sidebar-wrapper
+    .figma-sidebar-logout
+    span {
+    display: block;
+  }
+
+  .figma-sidebar-wrapper .figma-sidebar-menu {
+    width: 100%;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    justify-items: initial;
+    padding: 0 11px;
+  }
+
+  .figma-sidebar-wrapper .figma-sidebar-logout {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0 11px;
+  }
+
+  .figma-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: rgba(15, 23, 42, 0.48);
+  }
+
+  .figma-patient-topbar {
+    min-height: 72px;
+    padding: 12px 15px;
+  }
+
+  .figma-topbar-menu-button {
+    display: grid;
+  }
+
+  .figma-topbar-book-button span,
+  .figma-topbar-profile > div:last-child {
+    display: none;
+  }
+
+  .figma-topbar-book-button {
+    width: 40px;
+    padding: 0;
+  }
+
+  .figma-topbar-left h1 {
+    font-size: 18px;
+  }
+
+  .figma-topbar-left p {
+    display: none;
+  }
+
+  .figma-patient-page {
+    padding: 16px;
+  }
+}
+
+.figma-topbar-profile{border:0;color:inherit;background:transparent;font-family:inherit;text-align:left;cursor:pointer;transition:background .2s ease,box-shadow .2s ease}.figma-topbar-profile:hover{background:#f1f8f8}.figma-topbar-profile:focus-visible{outline:0;background:#f1f8f8;box-shadow:0 0 0 3px rgba(46,196,199,.18)}

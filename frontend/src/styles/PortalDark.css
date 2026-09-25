@@ -1,0 +1,705 @@
+/* Authenticated portal polish only. Light mode and public pages are intentionally untouched. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout){
+  --portal-page:#0b1220;
+  --portal-surface:#111827;
+  --portal-elevated:#172033;
+  --portal-input:#111827;
+  --portal-primary:#f8fafc;
+  --portal-secondary:#cbd5e1;
+  --portal-muted:#94a3b8;
+  --portal-border:#334155;
+  --portal-accent:#52d5d7;
+  --portal-accent-soft:#12353b;
+  color:var(--portal-primary);
+  background:var(--portal-page);
+}
+
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page){background:var(--portal-page);color:var(--portal-primary)}
+[data-theme="dark"] :is(.figma-patient-sidebar,.doctor-sidebar,.admin-sidebar,.figma-patient-topbar,.doctor-topbar,.admin-topbar){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(h1,h2,h3,h4,h5,h6,strong,label,legend){color:var(--portal-primary)}
+[data-theme="dark"] .admin-page .admin-appointment-modal .admin-cancel-warning p > strong{color:#991b1b;font-weight:700}
+[data-theme="dark"] .admin-page .admin-appointment-modal .admin-cancel-warning p > span{color:#6b4f55}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(p,small){color:var(--portal-secondary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is([class*="meta"],[class*="subtitle"],[class*="caption"],[class*="helper"],[class*="empty"]){color:var(--portal-secondary)}
+
+/* Repeated portal surfaces. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is([class$="-card"],[class*="-card "],[class$="-panel"],[class*="-panel "],[class$="-table"],[class*="-table "],[class$="-list"],[class*="-list "]){background-color:var(--portal-surface);border-color:var(--portal-border);color:var(--portal-primary);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is([class*="summary"],[class*="stat"],[class*="overview"] article,[class*="quick"] article){background-color:var(--portal-surface);border-color:var(--portal-border);color:var(--portal-primary);box-shadow:none}
+
+/* Preserve dashboard stat-icon semantics after the generic stat surface rule. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.teal,.doctor-stat-icon.teal,.admin-stat-grid article>.teal
+){color:#2dd4bf;background:rgba(20,184,166,.16)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.blue,.doctor-stat-icon.blue,.admin-stat-grid article>.blue
+){color:#60a5fa;background:rgba(37,99,235,.18)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.orange,.doctor-stat-icon.orange,.admin-stat-grid article>.orange
+){color:#fbbf24;background:rgba(245,158,11,.16)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.purple,.doctor-stat-icon.purple,.admin-stat-grid article>.purple
+){color:#a78bfa;background:rgba(124,58,237,.18)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.green,.doctor-stat-icon.green,.admin-stat-grid article>.green
+){color:#4ade80;background:rgba(34,197,94,.16)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .patient-figma-stat-icon.red,.doctor-stat-icon.red,.admin-stat-grid article>.red
+){color:#f87171;background:rgba(239,68,68,.16)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(header,[class*="header"],[class*="toolbar"],[class*="filter"],[class*="tabs"]){border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is([class*="row"],[class*="item"],[class*="entry"]){border-color:var(--portal-border)}
+
+/* Forms, search, filters, and controls. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,select,textarea){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border);caret-color:var(--portal-accent)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,textarea)::placeholder{color:var(--portal-muted);opacity:1}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,select,textarea):focus{border-color:var(--portal-accent);outline-color:var(--portal-accent)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,select,textarea):disabled{color:var(--portal-muted);background:#1e293b}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) option{color:var(--portal-primary);background:var(--portal-input)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is([class*="search"],[class*="filter"]){border-color:var(--portal-border)}
+
+/* Tables and directories. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) table{color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(thead,th){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(tbody,tr,td){background-color:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) tbody tr:hover{background-color:var(--portal-elevated)}
+
+/* Patient dashboard, care, appointments, notifications, and profile. */
+[data-theme="dark"] .figma-patient-page :is(.figma-stat-card,.figma-next-appointment,.figma-patient-info,.figma-recent-visits,.figma-quick-actions,.figma-appointment-reminder){background:var(--portal-surface);border-color:var(--portal-border);color:var(--portal-primary);box-shadow:none}
+[data-theme="dark"] .figma-patient-page :is(.figma-stat-card p,.figma-next-appointment p,.figma-patient-info p,.figma-recent-visits p){color:var(--portal-secondary)}
+[data-theme="dark"] .figma-patient-page :is(.patient-appointment-card,.patient-record-card,.patient-notification-card,.figma-profile-card){background:var(--portal-surface);border-color:var(--portal-border);color:var(--portal-primary);box-shadow:none}
+
+/* Doctor and Admin schedule grids. */
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is([class*="schedule"],[class*="calendar"]){color:var(--portal-primary);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is([class*="calendar"] [class*="cell"],[class*="schedule"] [class*="slot"],[class*="calendar"] [class*="day"],[class*="schedule"] [class*="day"]){background-color:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is([class*="calendar"] [class*="header"],[class*="schedule"] [class*="header"],[class*="time-column"]){color:var(--portal-secondary);background-color:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Patient-record clinical workspace. */
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is([class*="clinical"],[class*="record-detail"],[class*="record-section"],[class*="history"]){border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is([class*="clinical-card"],[class*="record-card"],[class*="history-card"]){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+
+/* Settings surfaces and dialogs. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(.portal-settings-panel,.portal-settings-panel>header,.portal-settings-panel-footer,.portal-settings-session p,.portal-settings-action-grid button,.portal-settings-modal>section,.portal-settings-modal header){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(.portal-settings-row,.portal-settings-note,.portal-settings-session article){border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(.portal-settings-row small,.portal-settings-note small,.portal-settings-session span,.portal-settings-action-grid small){color:var(--portal-secondary)}
+
+/* Invoice editor/read-only details. Semantic Draft/Issued badge colors remain unchanged. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.invoice-list-card,.invoice-detail-card,.invoice-list>button,.invoice-modal){background:var(--portal-surface);border-color:var(--portal-border);color:var(--portal-primary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.invoice-detail-meta,.invoice-items-head,.invoice-draft-total){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.invoice-item-row,.invoice-totals p,.invoice-detail-header,.invoice-detail-actions){border-color:var(--portal-border)}
+
+/* Dental Chart: surrounding chrome only; configured definition colors are not overridden. */
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.dental-chart,.dental-chart-legend){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.dental-chart-board,.dental-chart-history article p){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) .dental-chart-editor{background:var(--portal-surface);border-color:#28545a}
+[data-theme="dark"] .admin-page .dental-chart-development{color:#fde68a;background:#3b2b12;border-color:#a16207}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.dental-chart-heading p,.dental-chart-history small,.dental-chart-legend small,.dental-arch h4){color:var(--portal-secondary)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) .dental-tooth path:not(.whole-mark){stroke:#cbd5e1}
+
+/* Clinical images: surrounding UI only. Image pixels and the neutral viewer stage are untouched. */
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.clinical-images,.clinical-image-card,.clinical-image-viewer){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.clinical-image-upload,.clinical-image-viewer-meta p,.clinical-image-caption){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.clinical-images-heading p,.clinical-image-card-copy span,.clinical-image-viewer-meta span){color:var(--portal-secondary)}
+[data-theme="dark"] :is(.doctor-page,.admin-page) .clinical-image-picker{background:var(--portal-input);border-color:#3f777b}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.clinical-image-thumb,.clinical-image-local-preview){background:#172b31}
+[data-theme="dark"] :is(.doctor-page,.admin-page) :is(.clinical-image-thumb img,.clinical-image-local-preview img,.clinical-image-viewer img){filter:none}
+
+/* Authenticated modals rendered inside portal layouts. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(.appointment-modal,.invoice-modal,.portal-settings-modal>section,[class*="dialog"]){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+
+@media(max-width:700px){
+  [data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page){overflow-x:hidden}
+}
+
+/* Targeted control polish: composite fields need their wrapper themed because
+   many page inputs are intentionally transparent. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) label>div:has(>input,>textarea,>select){
+  color:var(--portal-primary);
+  background:var(--portal-input);
+  border-color:var(--portal-border);
+}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) label>div:has(>input,>textarea,>select):focus-within{
+  border-color:var(--portal-accent);
+  box-shadow:0 0 0 3px rgba(46,196,199,.14);
+}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) label>div:has(>:disabled){background:var(--portal-elevated)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,textarea,select)[readonly],
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input,textarea,select):disabled{
+  color:var(--portal-secondary);
+  -webkit-text-fill-color:var(--portal-secondary);
+  opacity:1;
+  cursor:not-allowed;
+}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(input[type="date"],input[type="time"],input[type="datetime-local"],input[type="number"]){color-scheme:dark}
+
+/* Doctor Profile UAT controls and secondary actions. */
+[data-theme="dark"] .doctor-page .doctor-profile-fields label{color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields label>div{color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields label>div>svg{color:var(--portal-muted)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields :is(input,textarea){color:var(--portal-primary);background:transparent}
+[data-theme="dark"] .doctor-page .doctor-profile-fields :is(input,textarea):disabled{color:var(--portal-secondary);-webkit-text-fill-color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-profile-hours{border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-profile-hours div{border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-profile-hours span{color:var(--portal-muted)}
+[data-theme="dark"] .doctor-page .doctor-profile-summary-card>button,
+[data-theme="dark"] .doctor-page .doctor-profile-actions button.cancel{
+  color:var(--portal-accent);
+  background:var(--portal-elevated);
+  border:1px solid var(--portal-border);
+}
+[data-theme="dark"] .doctor-page .doctor-profile-summary-card>button:hover,
+[data-theme="dark"] .doctor-page .doctor-profile-actions button.cancel:hover{background:var(--portal-accent-soft);border-color:#3b7378}
+
+/* Search/filter containers whose inputs are transparent. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .admin-appointments-search,.doctor-appointments-search,.patient-appointments-search,
+  .admin-users-search,.doctor-records-search,
+  .invoice-list-card label,[class$="-search"]
+){color:var(--portal-secondary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .admin-appointments-search,.doctor-appointments-search,.patient-appointments-search,
+  .admin-users-search,.doctor-records-search,
+  .invoice-list-card label,[class$="-search"]
+):focus-within{border-color:var(--portal-accent);box-shadow:0 0 0 3px rgba(46,196,199,.14)}
+
+/* Authenticated modal fields and their elevated surfaces. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .appointment-modal,.admin-modal,.admin-appointment-modal,.doctor-schedule-modal,.invoice-modal,.portal-settings-modal>section
+){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .admin-modal>header,.admin-appointment-modal>header,.doctor-schedule-modal>header,.portal-settings-modal header
+){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .admin-modal-grid>div,.admin-appointment-modal-grid>div,.doctor-schedule-modal-grid>div,
+  .admin-reschedule-summary>div,.admin-dashboard-reschedule-summary>div,
+  .admin-current-appointment,.admin-appointment-confirm-copy
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .admin-appointment-form,.admin-reschedule-form,.invoice-modal,.portal-settings-form,
+  .doctor-schedule-modal,.appointment-modal
+) :is(input,textarea,select){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .admin-appointment-modal>footer,.doctor-schedule-modal footer,.admin-appointment-form footer
+){background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Appointment booking cards and selectors are controls, not content cards. */
+[data-theme="dark"] .figma-patient-layout :is(
+  .appointment-doctor-card,.appointment-service-card,.appointment-date-card,
+  .appointment-time-card,.appointment-slot,.appointment-summary
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-layout :is(
+  .appointment-doctor-card,.appointment-service-card,.appointment-date-card,
+  .appointment-time-card,.appointment-slot
+):is(:hover,.selected){color:var(--portal-primary);background:var(--portal-accent-soft);border-color:var(--portal-accent)}
+
+/* Invoice editor fields and non-primary controls. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .invoice-item-row input,.invoice-modal input,.invoice-modal select
+){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .invoice-detail-header button,.invoice-create-items button,.invoice-row-actions button,
+  .invoice-item-row.add>button,.invoice-modal>header button,.invoice-modal footer button:not(.primary),.add-line
+){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Settings, directories, row actions, and other explicit secondary buttons. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .portal-settings-field input,.portal-settings-session article button,.portal-settings-action-grid button,
+  .portal-settings-modal header>button,.portal-settings-modal footer button:not(.primary),
+  .admin-row-actions button,.admin-appointment-card-actions button:not(.confirm):not(.danger),
+  .doctor-schedule-modal footer button:not(.primary),.admin-modal footer button:not(.primary):not(.danger),
+  button.secondary,button.cancel,[class*="view-"] button,[class*="record-"] button
+){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(
+  .portal-settings-field input,.portal-settings-session article button,.portal-settings-action-grid button,
+  .admin-row-actions button,.admin-appointment-card-actions button:not(.confirm):not(.danger),
+  button.secondary,button.cancel
+):hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+
+/* Complete authenticated page audit: Patient portal. */
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-stat-card,.patient-figma-card,.patient-figma-visit-row,
+  .figma-appointments-tabs,.figma-appointments-section,.figma-appointment-card,.figma-history-header,.figma-history-row,
+  .figma-records-stat-card,.figma-records-section,.figma-record-card,.figma-record-details,.figma-record-detail-item,
+  .patient-care-card,.patient-care-content,.figma-notifications-section,.figma-notification-card,
+  .figma-profile-card,.figma-profile-input-wrapper
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-card-header,.figma-history-header,.patient-care-card-header
+){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-stat-card span,.patient-figma-stat-card small,.patient-figma-appointment-meta span,.patient-figma-info-list span,
+  .patient-figma-visit-row div:nth-child(2) span,.figma-appointments-heading p,.figma-section-heading p,.figma-appointment-meta span,
+  .figma-history-row span,.figma-records-stat-card span,.figma-records-stat-card small,.figma-record-meta span,
+  .patient-care-meta span,.figma-notifications-heading p,.figma-notification-title-row time,.figma-notification-content>p,
+  .figma-profile-heading p,.figma-profile-photo-info>span,.figma-profile-photo-card>small
+){color:var(--portal-secondary)}
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-stat-card strong,.patient-figma-card-header h3,.patient-figma-appointment-title-row h4,.patient-figma-info-list strong,.patient-figma-visit-row strong,
+  .figma-appointments-heading h2,.figma-section-heading h3,.figma-appointment-info h3,.figma-history-service strong,
+  .figma-records-heading h2,.figma-records-section-heading h3,.figma-record-main-information h3,.patient-care-main h4,
+  .figma-notifications-heading h2,.figma-notifications-section-heading h3,.figma-notification-title-row h3,
+  .figma-profile-heading h2,.figma-profile-card-heading h3,.figma-profile-photo-info>strong
+){color:var(--portal-primary)}
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-appointment-actions button,.patient-figma-quick-list button,.figma-details-button,
+  .figma-notifications-summary button,.figma-notification-action button,.figma-profile-upload
+){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-page :is(
+  .patient-figma-appointment-actions button,.patient-figma-quick-list button,.figma-details-button,
+  .figma-notifications-summary button,.figma-notification-action button,.figma-profile-upload
+):hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+[data-theme="dark"] .figma-patient-page :is(.figma-appointments-tabs button,.figma-appointments-tabs button span){color:var(--portal-secondary);background:transparent}
+[data-theme="dark"] .figma-patient-page .figma-appointments-tabs button.active{color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] .figma-patient-page :is(.figma-records-search,.figma-profile-input-wrapper){background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-page .figma-notification-card.read{background:var(--portal-elevated)}
+
+/* Patient appointment/detail and booking dialogs. */
+[data-theme="dark"] .figma-patient-layout :is(.figma-appointment-details-modal,.appointment-modal){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .figma-patient-layout :is(.figma-appointment-details-modal>header,.figma-appointment-details-modal>footer){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-layout :is(.figma-appointment-details-grid>div,.selected-date-box,.review-panel,.success-summary-card){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-layout :is(.calendar-header button,.calendar-grid button,.time-grid button,.appointment-back-button,.figma-appointment-details-modal>header button){color:var(--portal-secondary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .figma-patient-layout :is(.calendar-grid button,.time-grid button):is(:hover,.selected){color:var(--portal-primary);background:var(--portal-accent-soft);border-color:var(--portal-accent)}
+[data-theme="dark"] .figma-patient-layout :is(.patient-details-form input,.patient-details-form textarea){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+
+/* Complete authenticated page audit: Doctor dashboard and appointments. */
+[data-theme="dark"] .doctor-page :is(
+  .doctor-stat-card,.doctor-dashboard-card,.doctor-schedule-row,.doctor-record-row,
+  .doctor-appointments-tabs,.doctor-appointments-panel,.doctor-appointment-card,.doctor-appointment-note
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page :is(.doctor-card-header,.doctor-appointments-panel-heading){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(
+  .doctor-stat-card strong,.doctor-card-header h3,.doctor-schedule-time strong,.doctor-schedule-patient strong,.doctor-record-row strong,
+  .doctor-appointments-heading h2,.doctor-appointments-panel-heading h3,.doctor-appointment-patient h3,.doctor-appointment-details h4,.doctor-appointment-note strong
+){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(
+  .doctor-stat-card span,.doctor-stat-card small,.doctor-schedule-patient small,.doctor-record-row span,.doctor-clinic-info span,
+  .doctor-appointments-heading p,.doctor-appointments-panel-heading>p,.doctor-appointment-patient small,.doctor-appointment-meta span,.doctor-appointment-note p
+){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-schedule-row>button{color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-schedule-row>button:hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button{color:var(--portal-secondary);background:var(--portal-elevated);border:1px solid transparent}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button>span{color:var(--portal-secondary);background:#334155}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button:not(.active):hover{color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button.active{color:#5eead4;background:rgba(20,184,166,.16);border-color:rgba(45,212,191,.45);box-shadow:inset 0 -2px #2dd4bf}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button.active>span{color:#062b2d;background:#2dd4bf}
+[data-theme="dark"] .doctor-page .doctor-appointments-tabs button:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+[data-theme="dark"] .doctor-page .doctor-appointment-status.pending,
+[data-theme="dark"] .doctor-page .doctor-appointment-status.waiting{color:#fbbf24;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.5)}
+[data-theme="dark"] .doctor-page .doctor-appointment-status.confirmed{color:#4ade80;background:rgba(34,197,94,.16);border:1px solid rgba(74,222,128,.42)}
+[data-theme="dark"] .doctor-page .doctor-appointment-status.completed{color:var(--portal-secondary);background:var(--portal-elevated);border:1px solid var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-appointment-status.cancelled{color:#f87171;background:rgba(239,68,68,.17);border:1px solid rgba(239,68,68,.45)}
+[data-theme="dark"] .doctor-page .doctor-appointment-card-actions button{color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-appointment-card-actions button:first-child{color:#5eead4;background:rgba(20,184,166,.1);border-color:rgba(45,212,191,.42)}
+[data-theme="dark"] .doctor-page .doctor-appointment-card-actions button:hover{color:#99f6e4;background:rgba(20,184,166,.2);border-color:rgba(45,212,191,.62)}
+[data-theme="dark"] .doctor-page .doctor-appointment-card-actions button:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+
+/* Doctor Schedule: explicit grid/control coverage. */
+[data-theme="dark"] .doctor-page :is(
+  .doctor-schedule-navigation,.doctor-schedule-view-toggle,.doctor-schedule-summary article,
+  .doctor-calendar-card,.doctor-schedule-side-card,.doctor-calendar-slot,.doctor-today-list button,
+  .doctor-hours-list p
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page :is(.doctor-calendar-card-heading,.doctor-schedule-side-heading,.doctor-calendar-corner,.doctor-calendar-day){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-calendar-time,.doctor-calendar-slot){color:var(--portal-secondary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-calendar-slot.closed,.doctor-calendar-closed){color:var(--portal-muted);background:#0e1725}
+[data-theme="dark"] .doctor-page :is(.doctor-schedule-navigation button,.doctor-schedule-view-toggle button,.doctor-next-actions button,.doctor-available-slots span,.doctor-block-slot-action){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-schedule-navigation button,.doctor-schedule-view-toggle button,.doctor-next-actions button,.doctor-available-slots span,.doctor-block-slot-action):hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+[data-theme="dark"] .doctor-page .doctor-schedule-view-toggle button.active{color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] .doctor-page :is(.doctor-schedule-summary strong,.doctor-calendar-day strong,.doctor-today-list strong,.doctor-next-content strong,.doctor-hours-list strong){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(.doctor-schedule-summary span,.doctor-schedule-summary small,.doctor-calendar-day span,.doctor-today-list span,.doctor-next-content span,.doctor-hours-list span){color:var(--portal-secondary)}
+
+/* Doctor Patient Records, clinical forms, notes, timeline, and instructions. */
+[data-theme="dark"] .doctor-page :is(
+  .doctor-records-summary article,.doctor-records-filters,.doctor-directory-panel,.doctor-directory-card,
+  .doctor-full-record-heading,.doctor-record-hero-details>div,.doctor-full-record-actions,
+  .doctor-record-section-card,.doctor-information-item,.doctor-clinical-item,
+  .doctor-treatment-table-header,.doctor-treatment-table-row,.doctor-record-appointment-list>div,
+  .doctor-clinical-note-entry,.doctor-clinical-note-entry-heading,.doctor-clinical-note-entry-grid>div,
+  .doctor-encounter-timeline article,.doctor-patient-instructions>article
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page :is(.doctor-record-section-heading,.doctor-treatment-table-header,.doctor-clinical-note-entry-heading){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(
+  .doctor-records-summary strong,.doctor-records-panel-heading h3,.doctor-directory-identity strong,.doctor-directory-detail strong,
+  .doctor-record-hero-identity h2,.doctor-record-hero-details strong,.doctor-record-section-heading h3,
+  .doctor-information-item strong,.doctor-clinical-item strong,.doctor-treatment-table-row strong,
+  .doctor-record-appointment-list strong,.doctor-clinical-note-entry-heading strong,.doctor-encounter-timeline strong,.doctor-patient-instructions strong
+){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(
+  .doctor-records-summary span,.doctor-records-summary small,.doctor-records-panel-heading>p,.doctor-directory-identity small,.doctor-directory-detail small,
+  .doctor-record-hero-identity p,.doctor-record-hero-details small,.doctor-information-item small,.doctor-clinical-item small,
+  .doctor-treatment-table-row small,.doctor-record-appointment-list span,.doctor-clinical-note-entry-grid span,
+  .doctor-encounter-timeline span,.doctor-encounter-timeline small,.doctor-patient-instructions>article>small
+){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page :is(.doctor-record-back,.doctor-full-record-actions button:not(.primary)){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-record-back:hover,.doctor-full-record-actions button:not(.primary):hover){color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+[data-theme="dark"] .doctor-page .doctor-records-filters button{color:var(--portal-secondary);background:var(--portal-elevated);border:1px solid transparent}
+[data-theme="dark"] .doctor-page .doctor-records-filters button:not(.active):hover{color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-records-filters button.active{color:#5eead4;background:rgba(20,184,166,.16);border-color:rgba(45,212,191,.45);box-shadow:inset 0 -2px #2dd4bf}
+[data-theme="dark"] .doctor-page .doctor-records-filters button:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+[data-theme="dark"] .doctor-page .doctor-record-status.active{color:#4ade80;background:rgba(34,197,94,.16);border:1px solid rgba(74,222,128,.42)}
+[data-theme="dark"] .doctor-page .doctor-record-status.inactive{color:var(--portal-secondary);background:var(--portal-elevated);border:1px solid var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-view-patient{color:#5eead4;background:rgba(20,184,166,.12);border-color:rgba(45,212,191,.42)}
+[data-theme="dark"] .doctor-page .doctor-view-patient:hover{color:#99f6e4;background:rgba(20,184,166,.22);border-color:rgba(45,212,191,.65)}
+[data-theme="dark"] .doctor-page .doctor-view-patient:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+[data-theme="dark"] .doctor-layout :is(.doctor-treatment-modal,.doctor-appointment-details-modal,.doctor-dashboard-modal,.doctor-schedule-modal){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-layout :is(.doctor-treatment-modal-header,.doctor-appointment-details-header,.doctor-dashboard-modal>header,.doctor-schedule-modal>header,.doctor-appointment-details-actions,.doctor-dashboard-modal>footer,.doctor-schedule-modal footer){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout :is(.doctor-treatment-form input,.doctor-treatment-form select,.doctor-treatment-form textarea){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout :is(.doctor-treatment-form footer button:not(.primary),.doctor-treatment-success button,.doctor-appointment-details-actions button,.doctor-dashboard-modal footer button:not(.primary)){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Complete authenticated page audit: Admin dashboards, directories, and appointments. */
+[data-theme="dark"] .admin-page :is(
+  .admin-stat-grid article,.admin-card,.admin-appointment-row,.admin-patient-row,.admin-pending-list>div,
+  .admin-appointments-summary article,.admin-appointments-tabs,.admin-appointments-panel,.admin-appointment-card,.admin-appointment-note,
+  .admin-users-summary article,.admin-users-tabs,.admin-users-panel,.admin-user-card,
+  .admin-records-summary article,.admin-records-tabs,.admin-records-panel,.admin-record-card
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .admin-page :is(.admin-card>header,.admin-appointments-panel>header,.admin-users-panel>header,.admin-records-panel>header){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(
+  .admin-stat-grid strong,.admin-appointment-row strong,.admin-patient-row strong,.admin-pending-list strong,
+  .admin-appointments-summary strong,.admin-appointment-service strong,.admin-appointment-note strong,
+  .admin-users-summary strong,.admin-user-identity strong,.admin-user-contact strong,.admin-user-access strong,.admin-record-card strong
+){color:var(--portal-primary)}
+[data-theme="dark"] .admin-page :is(
+  .admin-stat-grid span,.admin-stat-grid small,.admin-appointment-row>div>span,.admin-patient-row span,.admin-patient-row small,.admin-pending-list small,
+  .admin-appointments-summary span,.admin-appointments-summary small,.admin-appointment-patient small,.admin-appointment-service small,.admin-appointment-note p,
+  .admin-users-summary span,.admin-users-summary small,.admin-user-identity small,.admin-user-contact small,.admin-user-access small,
+  .admin-records-summary span,.admin-records-summary small,.admin-record-card small
+){color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page :is(.admin-appointments-tabs button,.admin-users-tabs button,.admin-records-tabs button){color:var(--portal-secondary);background:transparent}
+[data-theme="dark"] .admin-page :is(.admin-appointments-tabs button.active,.admin-users-tabs button.active,.admin-records-tabs button.active){color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] .admin-page :is(.admin-row-actions button,.admin-patient-row button,.admin-user-actions button,.admin-record-card-actions button,.admin-service-actions button){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-row-actions button,.admin-patient-row button,.admin-user-actions button,.admin-record-card-actions button,.admin-service-actions button):hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+
+/* Admin Schedule and calendar. */
+[data-theme="dark"] .admin-page :is(.admin-schedule-controls,.admin-schedule-card,.admin-schedule-grid .slot){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .admin-page :is(.admin-schedule-card>header,.admin-schedule-grid>.corner,.admin-schedule-grid>.day){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-schedule-grid .time,.admin-schedule-grid .slot){color:var(--portal-secondary);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-schedule-controls button,.admin-schedule-controls select){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page .admin-schedule-controls button:hover{color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] .admin-layout :is(.admin-schedule-modal,.admin-patient-modal,.admin-user-modal,.admin-record-modal,.admin-appointment-modal,.admin-modal,.admin-operations-modal){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .admin-layout :is(.admin-schedule-modal>header,.admin-patient-modal>header,.admin-user-modal>header,.admin-record-modal>header,.admin-appointment-modal>header,.admin-modal>header,.admin-operations-modal>header){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-layout :is(.admin-schedule-modal footer,.admin-patient-modal>footer,.admin-patient-form footer,.admin-user-modal>footer,.admin-user-form footer,.admin-record-modal>footer,.admin-record-form footer,.admin-appointment-modal>footer,.admin-appointment-form footer,.admin-operations-modal-form footer){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-layout :is(.admin-patient-modal-grid>div,.admin-user-modal-grid>div,.admin-record-modal-grid>div,.admin-schedule-modal-grid>div,.admin-user-confirm){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-layout :is(.admin-patient-form,.admin-user-form,.admin-record-form,.admin-operations-form,.admin-operations-modal-form) :is(input,select,textarea){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+
+/* Admin Patient Records detail and clinical read-only workspace. */
+[data-theme="dark"] .admin-page :is(
+  .admin-record-hero,.admin-record-actions,.admin-record-section,.admin-record-section>header,
+  .admin-record-info-grid p,.admin-record-clinical p,.admin-record-history article,.admin-record-notes article,
+  .admin-record-appointments p,.admin-record-timeline article,.admin-record-instructions>article
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .admin-page .admin-record-hero{background:radial-gradient(circle at 100% 100%,var(--portal-accent-soft) 0,transparent 58%),linear-gradient(135deg,var(--portal-surface),var(--portal-page))}
+[data-theme="dark"] .admin-page .admin-record-hero .admin-record-status.active{color:#86efac;background:rgba(34,197,94,.18);border:1px solid rgba(134,239,172,.38)}
+[data-theme="dark"] .admin-page .admin-record-hero-meta p{color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-record-section>header,.admin-record-notes article header){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-record-hero-meta span,.admin-record-info-grid span,.admin-record-clinical small,.admin-record-history span,.admin-record-timeline span,.admin-record-timeline small,.admin-record-instructions>article>small){color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page :is(.admin-record-hero-meta strong,.admin-record-info-grid strong,.admin-record-clinical strong,.admin-record-appointments strong){color:var(--portal-primary)}
+[data-theme="dark"] .admin-page .admin-record-actions button{color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Clinic Operations. */
+[data-theme="dark"] .admin-page :is(
+  .admin-clinic-hero,.admin-clinic-hero-top,.admin-clinic-hero-brand>div,.admin-clinic-hero-metrics article,.admin-clinic-contact,
+  .admin-operation-card,.admin-operation-card>header,.admin-hours-row,.admin-hours-value,.admin-slot,.admin-service-list article,
+  .admin-operations-note
+){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .admin-page :is(.admin-operation-card>header,.admin-clinic-hero-top){background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-clinic-hero-brand h3,.admin-clinic-hero-metrics strong,.admin-clinic-contact strong,.admin-operation-card h3,.admin-hours-row>strong,.admin-service-list strong){color:var(--portal-primary)}
+[data-theme="dark"] .admin-page :is(.admin-clinic-hero-brand p,.admin-clinic-hero-metrics span,.admin-clinic-hero-metrics small,.admin-clinic-contact span,.admin-operation-card>header p,.admin-service-duration){color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page :is(.admin-clinic-hero-top>button,.admin-operation-card-action button,.admin-card-footer-actions button,.admin-slot>button:last-child,.admin-service-actions button){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page :is(.admin-hours-time,.admin-hours-value){color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+
+/* Preserve the Clinic Overview hierarchy: teal identity, status semantics, and
+   distinct neutral information surfaces. */
+[data-theme="dark"] .admin-page .admin-clinic-hero-top{background:linear-gradient(100deg,rgba(20,184,166,.13) 0%,rgba(20,184,166,.045) 58%,var(--portal-elevated) 100%);border-color:rgba(45,212,191,.24)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-brand>div{color:#2dd4bf;background:rgba(20,184,166,.18);box-shadow:none}
+[data-theme="dark"] .admin-page .admin-clinic-hero-brand small{color:#5eead4}
+[data-theme="dark"] .admin-page .admin-clinic-hero-brand h3{color:var(--portal-primary)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-brand p{color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-top>button{color:#5eead4;background:rgba(20,184,166,.08);border-color:rgba(45,212,191,.42)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-top>button:hover{color:#99f6e4;background:rgba(20,184,166,.16);border-color:rgba(45,212,191,.62)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-top>button:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics article{background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics article.open{background:rgba(34,197,94,.11);border-color:rgba(74,222,128,.38)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics article.open strong{color:#4ade80}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics article.closed{background:rgba(239,68,68,.1);border-color:rgba(248,113,113,.38)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics article.closed strong{color:#f87171}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics span,
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics small{color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page .admin-clinic-hero-metrics strong{color:var(--portal-primary)}
+
+[data-theme="dark"] .admin-page .admin-clinic-contact p{background:var(--portal-elevated);border:1px solid var(--portal-border)}
+[data-theme="dark"] .admin-page .admin-clinic-contact span{color:var(--portal-secondary)}
+[data-theme="dark"] .admin-page .admin-clinic-contact strong{color:var(--portal-primary);overflow-wrap:anywhere;word-break:break-word}
+
+/* Preserve each operations section's light-mode semantic identity in dark mode. */
+[data-theme="dark"] .admin-page .admin-operation-card.hours-card{border-color:var(--portal-border);border-top-color:#60a5fa}
+[data-theme="dark"] .admin-page .hours-card>header{background:rgba(37,99,235,.08)}
+[data-theme="dark"] .admin-page .hours-card>header span{color:#93c5fd}
+[data-theme="dark"] .admin-page .hours-card .admin-operation-card-icon{color:#60a5fa;background:rgba(37,99,235,.18)}
+[data-theme="dark"] .admin-page .hours-card .admin-operation-card-action button{color:#93c5fd;background:rgba(37,99,235,.08);border-color:rgba(96,165,250,.48)}
+
+[data-theme="dark"] .admin-page .admin-operation-card.slots-card{border-color:var(--portal-border);border-top-color:#a78bfa}
+[data-theme="dark"] .admin-page .slots-card>header{background:rgba(124,58,237,.08)}
+[data-theme="dark"] .admin-page .slots-card>header span{color:#c4b5fd}
+[data-theme="dark"] .admin-page .slots-card .admin-operation-card-icon{color:#a78bfa;background:rgba(124,58,237,.18)}
+[data-theme="dark"] .admin-page .slots-card .admin-operation-card-action button{color:#c4b5fd;background:rgba(124,58,237,.08);border-color:rgba(167,139,250,.48)}
+
+[data-theme="dark"] .admin-page .admin-operation-card.closed-card{border-color:var(--portal-border);border-top-color:#f87171}
+[data-theme="dark"] .admin-page .closed-card>header{background:rgba(239,68,68,.07)}
+[data-theme="dark"] .admin-page .closed-card>header span{color:#fca5a5}
+[data-theme="dark"] .admin-page .closed-card .admin-operation-card-icon{color:#f87171;background:rgba(239,68,68,.17)}
+[data-theme="dark"] .admin-page .closed-card .admin-operation-card-action button{color:#fca5a5;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.45)}
+
+[data-theme="dark"] .admin-page .admin-operation-card.services-card{border-color:var(--portal-border);border-top-color:#4ade80}
+[data-theme="dark"] .admin-page .services-card>header{background:rgba(34,197,94,.07)}
+[data-theme="dark"] .admin-page .services-card>header span{color:#86efac}
+[data-theme="dark"] .admin-page .services-card .admin-operation-card-icon{color:#4ade80;background:rgba(34,197,94,.16)}
+[data-theme="dark"] .admin-page .services-card .admin-operation-card-action button{color:#86efac;background:rgba(34,197,94,.08);border-color:rgba(74,222,128,.45)}
+
+[data-theme="dark"] .admin-page :is(.hours-card,.slots-card,.closed-card,.services-card) .admin-operation-card-action button:hover{filter:brightness(1.14)}
+[data-theme="dark"] .admin-page :is(.hours-card,.slots-card,.closed-card,.services-card) .admin-operation-card-action button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+
+/* All three portals share one NotificationView and one dark visual state system. */
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-section{color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-list{background:transparent}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-heading h2{color:var(--portal-primary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-heading p{color:var(--portal-secondary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-heading-icon{color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-section-heading>div>span{color:var(--portal-accent)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-section-heading h3{color:var(--portal-primary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-summary p{color:#5eead4;background:rgba(45,212,191,.18);border:1px solid rgba(45,212,191,.45)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notifications-summary p strong{color:inherit}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.figma-notifications-summary button,.figma-notification-action button){color:#5eead4;background:rgba(20,184,166,.12);border-color:rgba(45,212,191,.42)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.figma-notifications-summary button,.figma-notification-action button):hover{color:#99f6e4;background:rgba(20,184,166,.2);border-color:rgba(45,212,191,.62)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.figma-notifications-summary button,.figma-notification-action button):focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card{color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card.unread{background:rgba(20,184,166,.06);border-color:rgba(45,212,191,.36)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card.unread::before{background:#2dd4bf}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card.clickable:is(:hover,:focus-visible){background:var(--portal-accent-soft);border-color:rgba(45,212,191,.52);box-shadow:none}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card.clickable:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-title-row h3{color:var(--portal-primary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) :is(.figma-notification-title-row time,.figma-notification-content>p,.figma-notification-action>span){color:var(--portal-secondary)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-icon{color:#2dd4bf;background:rgba(20,184,166,.16)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-card.read .figma-notification-icon{color:var(--portal-secondary);background:var(--portal-input)}
+[data-theme="dark"] :is(.figma-patient-page,.doctor-page,.admin-page) .figma-notification-unread-label{color:#5eead4;background:rgba(45,212,191,.16);border:1px solid rgba(45,212,191,.32)}
+
+/* Modal secondary hierarchy after page-specific high-specificity rules. */
+[data-theme="dark"] :is(.figma-patient-layout,.doctor-layout,.admin-layout) :is(
+  .figma-appointment-details-modal,.doctor-dashboard-modal,.doctor-appointment-details-modal,.doctor-schedule-modal,.doctor-treatment-modal,
+  .admin-modal,.admin-appointment-modal,.admin-schedule-modal,.admin-patient-modal,.admin-user-modal,.admin-record-modal,.admin-operations-modal,
+  .invoice-modal,.portal-settings-modal>section
+) button:not(.primary):not(.danger):not([type="submit"]){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Shared reschedule tabs must follow their state after the modal button reset. */
+[data-theme="dark"] .admin-layout :is(.admin-appointment-modal,.admin-modal) :is(.admin-slot-mode-tabs,.admin-dashboard-slot-tabs) button:not(.primary):not(.danger):not([type="submit"]){color:var(--portal-secondary);background:var(--portal-elevated);border:1px solid transparent;box-shadow:none}
+[data-theme="dark"] .admin-layout :is(.admin-appointment-modal,.admin-modal) :is(.admin-slot-mode-tabs,.admin-dashboard-slot-tabs) button.active:not(.primary):not(.danger):not([type="submit"]){color:#5eead4;background:rgba(20,184,166,.16);border-color:rgba(45,212,191,.45);box-shadow:0 0 0 1px rgba(45,212,191,.1)}
+[data-theme="dark"] .admin-layout :is(.admin-appointment-modal,.admin-modal) :is(.admin-slot-mode-tabs,.admin-dashboard-slot-tabs) button:not(.primary):not(.danger):not([type="submit"]):not(.active):hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:rgba(45,212,191,.25)}
+[data-theme="dark"] .admin-layout :is(.admin-appointment-modal,.admin-modal) :is(.admin-slot-mode-tabs,.admin-dashboard-slot-tabs) button:not(.primary):not(.danger):not([type="submit"]):focus-visible{outline:2px solid rgba(45,212,191,.55);outline-offset:2px}
+
+/* Targeted Doctor portal polish: schedule, settings, records, and forms. */
+
+[data-theme="dark"] .doctor-page .doctor-schedule-heading-icon{color:var(--portal-accent);background:var(--portal-elevated);border:1px solid var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-calendar-empty{color:var(--portal-muted);background:transparent}
+[data-theme="dark"] .doctor-page .doctor-calendar-empty:is(:hover,:focus-visible){color:var(--portal-accent);background:var(--portal-accent-soft);outline:1px solid #3b7378}
+[data-theme="dark"] .doctor-page :is(.doctor-calendar-corner,.doctor-calendar-day,.doctor-calendar-time,.doctor-calendar-slot){border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-schedule-navigation strong,.doctor-calendar-card-heading h3,.doctor-schedule-side-heading h3){color:var(--portal-primary)}
+
+[data-theme="dark"] .doctor-page .doctor-treatment-history-card>.dental-chart-history{color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page .doctor-treatment-history-card>.dental-chart-history>article{border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .dental-chart-history :is(h4,article strong){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page .dental-chart-history :is(header>small,article small){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-treatment-history-card>.dental-chart-history article span{color:#67d7d8}
+[data-theme="dark"] .doctor-page .dental-chart-history article p{color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .dental-chart-history article em{color:#c4b5fd}
+[data-theme="dark"] .doctor-page .dental-chart-history article button{color:var(--portal-accent);background:var(--portal-elevated);border-color:#3b7378}
+[data-theme="dark"] .doctor-page .dental-chart-history article button:hover{background:var(--portal-accent-soft);border-color:var(--portal-accent)}
+
+[data-theme="dark"] .doctor-layout :is(form,.portal-settings-modal,.doctor-treatment-modal,.doctor-appointment-details-modal,.doctor-dashboard-modal,.doctor-schedule-modal,.invoice-modal) :is(input,select,textarea){
+  color:var(--portal-primary);background-color:var(--portal-input);border-color:var(--portal-border);box-shadow:none
+}
+[data-theme="dark"] .doctor-layout :is(form,.portal-settings-modal,.doctor-treatment-modal,.doctor-appointment-details-modal,.doctor-dashboard-modal,.doctor-schedule-modal,.invoice-modal) :is(input,select,textarea)::placeholder{color:var(--portal-muted)}
+[data-theme="dark"] .doctor-layout :is(form,.portal-settings-modal,.doctor-treatment-modal,.doctor-appointment-details-modal,.doctor-dashboard-modal,.doctor-schedule-modal,.invoice-modal) :is(input,select,textarea):focus{border-color:var(--portal-accent);outline:2px solid var(--portal-accent-soft);outline-offset:1px}
+[data-theme="dark"] .doctor-layout :is(form,.portal-settings-modal,.doctor-treatment-modal,.doctor-appointment-details-modal,.doctor-dashboard-modal,.doctor-schedule-modal,.invoice-modal) :is(input,select,textarea):is(:disabled,[readonly]){color:var(--portal-muted);background:#0e1725;border-color:var(--portal-border);opacity:1}
+[data-theme="dark"] .doctor-layout :is(.portal-settings-field>span,.dental-chart-editor label,.dental-chart-editor fieldset,.clinical-image-upload label>span){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-layout select option{color:var(--portal-primary);background:var(--portal-input)}
+
+/* Complete manual Doctor audit: dashboard and appointment detail surfaces. */
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-overlay,.doctor-appointment-details-overlay,.doctor-schedule-modal-overlay,.doctor-treatment-modal-overlay,.clinical-image-viewer-backdrop){background:rgba(2,6,23,.78)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal,.doctor-appointment-details-modal,.doctor-schedule-modal,.doctor-treatment-modal){background:var(--portal-elevated);border-color:var(--portal-border);box-shadow:0 28px 80px rgba(0,0,0,.45)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal>header,.doctor-appointment-details-header,.doctor-schedule-modal>header,.doctor-treatment-modal-header){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal>header h2,.doctor-appointment-details-header h2,.doctor-schedule-modal>header h2,.doctor-treatment-modal-header h2){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal>header>button,.doctor-appointment-details-header>button,.doctor-schedule-modal>header>button,.doctor-treatment-modal-header>button){color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-patient,.doctor-appointment-details-patient,.doctor-schedule-modal-patient,.doctor-treatment-patient){color:var(--portal-primary);background:var(--portal-surface);border-color:#28545a}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-patient,.doctor-appointment-details-patient,.doctor-schedule-modal-patient,.doctor-treatment-patient) :is(h3,strong){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-patient,.doctor-appointment-details-patient,.doctor-schedule-modal-patient,.doctor-treatment-patient) :is(p,small){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-grid,.doctor-appointment-details-grid,.doctor-schedule-modal-grid)>div{color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal-grid,.doctor-appointment-details-grid,.doctor-schedule-modal-grid)>div strong{color:var(--portal-primary)}
+[data-theme="dark"] .doctor-layout .doctor-appointment-details-note{color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout .doctor-appointment-details-note p{color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-layout :is(.doctor-dashboard-modal>footer,.doctor-appointment-details-actions,.doctor-schedule-modal>footer,.doctor-treatment-form footer){background:var(--portal-elevated);border-color:var(--portal-border)}
+
+/* Complete manual Doctor audit: appointments. */
+[data-theme="dark"] .doctor-page :is(.doctor-appointments-toolbar,.doctor-appointments-search){color:var(--portal-secondary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-appointments-search input{color:var(--portal-primary);background:transparent}
+[data-theme="dark"] .doctor-page .doctor-appointment-note{color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-appointment-card:hover{background:var(--portal-elevated);border-color:#3b7378;box-shadow:none}
+[data-theme="dark"] .doctor-page .doctor-appointments-empty{color:var(--portal-secondary);background:var(--portal-surface)}
+
+/* Complete manual Doctor audit: every schedule state and side panel. */
+[data-theme="dark"] .doctor-page .doctor-calendar-empty{color:var(--portal-muted);background:#0e1725}
+[data-theme="dark"] .doctor-page .doctor-calendar-empty:is(:hover,:focus-visible,:active){color:var(--portal-accent);background:var(--portal-accent-soft);border-color:var(--portal-accent)}
+[data-theme="dark"] .doctor-page .doctor-calendar-blocked{color:var(--portal-secondary);background:#1e293b;border:1px solid var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-calendar-blocked:is(:hover,:focus-visible){color:var(--portal-primary);background:#263449;border-color:#64748b;outline:0}
+[data-theme="dark"] .doctor-page .doctor-calendar-appointment.confirmed{color:#bbf7d0;background:#123525;border-color:#22c55e}
+[data-theme="dark"] .doctor-page .doctor-calendar-appointment.pending{color:#fde68a;background:#3b2b12;border-color:#f59e0b}
+[data-theme="dark"] .doctor-page .doctor-calendar-appointment.completed{color:#cbd5e1;background:#263244;border-color:#64748b}
+[data-theme="dark"] .doctor-page .doctor-calendar-appointment.cancelled{color:#fecaca;background:#3b1820;border-color:#ef4444}
+[data-theme="dark"] .doctor-page :is(.doctor-today-list button,.doctor-next-content,.doctor-available-slots,.doctor-hours-list){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-today-list button:hover{background:var(--portal-accent-soft)}
+[data-theme="dark"] .doctor-page .doctor-next-content>div{color:var(--portal-accent);background:var(--portal-accent-soft)}
+
+/* Complete manual Doctor audit: clinical workspace. Clinical definition colours and image pixels stay untouched. */
+[data-theme="dark"] .doctor-page .dental-chart-development{color:#fde68a;background:#3b2b12;border-color:#a16207}
+[data-theme="dark"] .doctor-page :is(.dental-chart-editor,.clinical-image-upload,.clinical-image-picker,.clinical-images-empty){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.dental-chart-editor h4,.dental-chart-legend header strong,.dental-chart-legend strong,.clinical-images-heading h3,.clinical-image-card-copy strong){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(.dental-chart-editor small,.dental-chart-legend small,.clinical-images-heading p,.clinical-images-heading>small,.clinical-image-card-copy span,.clinical-images-empty){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page :is(.dental-surface-options button,.dental-chart-editor>header button){color:var(--portal-secondary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .dental-surface-options button:is(.active,:hover){color:var(--portal-accent);background:var(--portal-accent-soft);border-color:var(--portal-accent)}
+[data-theme="dark"] .doctor-page :is(.doctor-clinical-note-entry-grid>div,.doctor-clinical-note-entry-grid>div.follow-up){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-clinical-note-entry-grid p{color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-patient-instructions>article>p{color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page :is(.clinical-images,.clinical-image-card,.clinical-image-viewer){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page .clinical-image-card:hover{background:var(--portal-elevated);border-color:#3b7378}
+[data-theme="dark"] .doctor-layout .clinical-image-viewer :is(header button,.clinical-image-viewer-meta p,.clinical-image-caption){color:var(--portal-primary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-layout .clinical-image-viewer footer button{color:#fca5a5;background:#3b1820;border-color:#7f1d1d}
+
+/* Complete manual Doctor audit: profile. */
+[data-theme="dark"] .doctor-page :is(.doctor-profile-summary-card,.doctor-profile-card){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.doctor-profile-summary-copy h3,.doctor-profile-card-heading h3,.doctor-profile-hours strong){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(.doctor-profile-summary-copy p,.doctor-profile-hours span,.doctor-profile-fields label){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .doctor-profile-photo{border-color:var(--portal-border);background:var(--portal-accent-soft);box-shadow:none}
+[data-theme="dark"] .doctor-page .doctor-profile-card-icon{color:var(--portal-accent);background:var(--portal-accent-soft)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields label>div{color:var(--portal-primary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields label>div:focus-within{border-color:var(--portal-accent);box-shadow:0 0 0 3px rgba(82,213,215,.12)}
+[data-theme="dark"] .doctor-page .doctor-profile-fields :is(input,textarea){color:var(--portal-primary);background:transparent}
+
+/* Complete manual Doctor audit: read-only invoice workspace. */
+[data-theme="dark"] .doctor-page :is(.invoice-list-card,.invoice-detail-card,.invoice-list>button,.invoice-detail-meta,.invoice-items-head,.invoice-item-row,.invoice-empty){color:var(--portal-primary);background:var(--portal-surface);border-color:var(--portal-border);box-shadow:none}
+[data-theme="dark"] .doctor-page .invoice-list>button:is(.active,:hover){background:var(--portal-accent-soft);border-color:#3b7378}
+[data-theme="dark"] .doctor-page .invoice-list-card>header label{color:var(--portal-secondary);background:var(--portal-input);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .invoice-list-card>header input{color:var(--portal-primary);background:transparent}
+[data-theme="dark"] .doctor-page :is(.invoice-detail-header,.invoice-detail-actions){background:var(--portal-surface);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page :is(.invoice-detail-header h3,.invoice-detail-meta strong,.invoice-item-row strong,.invoice-totals strong,.invoice-empty h3){color:var(--portal-primary)}
+[data-theme="dark"] .doctor-page :is(.invoice-detail-header p,.invoice-detail-meta span,.invoice-items>header span,.invoice-list>button small,.invoice-empty p){color:var(--portal-secondary)}
+[data-theme="dark"] .doctor-page .invoice-detail-header button{color:var(--portal-secondary);background:var(--portal-elevated);border-color:var(--portal-border)}
+[data-theme="dark"] .doctor-page .invoice-detail-header button:hover{color:var(--portal-accent);background:var(--portal-accent-soft);border-color:#3b7378}
+
+/* Doctor Patient Records print/PDF is always a light clinical document. */
+@media print {
+  @page { size:A4 portrait; margin:14mm; }
+
+  html,
+  html[data-theme="dark"],
+  html[data-theme="light"],
+  html body,
+  html[data-theme="dark"] body,
+  html[data-theme="light"] body {
+    color:#111827 !important;
+    background:#fff !important;
+  }
+
+  html[data-theme] .doctor-layout,
+  html[data-theme] .doctor-content,
+  html[data-theme] .doctor-page,
+  html[data-theme] .doctor-full-record {
+    color:#111827 !important;
+    background:#fff !important;
+    box-shadow:none !important;
+  }
+
+  html[data-theme] .doctor-layout {
+    display:block !important;
+    min-height:0 !important;
+  }
+
+  html[data-theme] .doctor-content,
+  html[data-theme] .doctor-page {
+    width:100% !important;
+    min-height:0 !important;
+    padding:0 !important;
+  }
+
+  html[data-theme] .doctor-page :is(
+    .doctor-print-header,.doctor-full-record-heading,.doctor-record-hero-details>div,
+    .doctor-record-section-card,.doctor-record-section-heading,.doctor-information-item,.doctor-clinical-item,
+    .doctor-treatment-table-header,.doctor-treatment-table-row,.doctor-record-appointment-list>div,
+    .doctor-clinical-note-entry,.doctor-clinical-note-entry-heading,.doctor-clinical-note-entry-grid>div,
+    .doctor-encounter-timeline article,.doctor-patient-instructions>article,
+    .dental-chart,.dental-chart-board,.dental-chart-legend,.dental-chart-history,
+    .dental-chart-history>article,.dental-chart-history article p,
+    .clinical-images,.clinical-image-card,.clinical-images-empty
+  ) {
+    color:#111827 !important;
+    background:#fff !important;
+    border-color:#cbd5e1 !important;
+    box-shadow:none !important;
+  }
+
+  html[data-theme] .doctor-page :is(
+    .doctor-print-header h1,.doctor-record-hero-identity h2,.doctor-record-hero-details strong,
+    .doctor-record-section-heading h3,.doctor-information-item strong,.doctor-clinical-item strong,
+    .doctor-treatment-table-row strong,.doctor-record-appointment-list strong,
+    .doctor-clinical-note-entry-heading strong,.doctor-encounter-timeline strong,
+    .doctor-patient-instructions strong,.dental-chart-heading h3,.dental-chart-history h4,
+    .dental-chart-history article strong,.dental-chart-legend strong,.clinical-images-heading h3,
+    .clinical-image-card-copy strong
+  ) { color:#111827 !important; }
+
+  html[data-theme] .doctor-page :is(
+    .doctor-print-header p,.doctor-record-hero-identity p,.doctor-record-hero-details small,
+    .doctor-record-section-heading small,.doctor-information-item small,.doctor-clinical-item small,
+    .doctor-treatment-table-row small,.doctor-record-appointment-list span,
+    .doctor-clinical-note-entry-heading small,.doctor-clinical-note-entry-grid span,
+    .doctor-clinical-note-entry-grid p,.doctor-encounter-timeline span,.doctor-encounter-timeline small,
+    .doctor-patient-instructions>article>p,.doctor-patient-instructions>article>small,
+    .dental-chart-heading p,.dental-chart-history small,.dental-chart-history article p,
+    .dental-arch h4,.dental-chart-legend small,.clinical-images-heading p,
+    .clinical-images-heading>small,.clinical-image-card-copy span
+  ) { color:#475569 !important; }
+
+  html[data-theme] .doctor-page :is(.doctor-full-record-heading,.doctor-record-section-heading,.dental-chart-heading,.clinical-images-heading) {
+    break-after:avoid-page;
+  }
+
+  html[data-theme] .doctor-page :is(
+    .doctor-record-hero-details>div,.doctor-information-item,.doctor-clinical-item,
+    .doctor-treatment-table-row,.doctor-record-appointment-list>div,.doctor-clinical-note-entry,
+    .doctor-encounter-timeline article,.doctor-patient-instructions>article,
+    .dental-chart-history>article,.clinical-image-card
+  ) { break-inside:avoid; page-break-inside:avoid; }
+
+  html[data-theme] .doctor-page :is(.dental-tooth-number,.dental-chart-legend header strong) { color:#111827 !important; }
+  html[data-theme] .doctor-page .dental-tooth path:not(.whole-mark) { stroke:#64748b !important; }
+  html[data-theme] .doctor-page .dental-chart-legend i {
+    border-color:#64748b !important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  html[data-theme] .doctor-page :is(.clinical-image-thumb,.clinical-image-viewer__image-stage) { background:#fff !important; }
+  html[data-theme] .doctor-page :is(.clinical-image-thumb img,.clinical-image-viewer__full-image) {
+    filter:none !important;
+    opacity:1 !important;
+  }
+
+  html[data-theme] .doctor-layout :is(
+    .doctor-sidebar-wrapper,.doctor-sidebar-overlay,.doctor-topbar,.doctor-full-record-actions,.doctor-record-back,
+    .doctor-treatment-modal-overlay,.clinical-image-viewer-backdrop,.dental-chart-editor,.clinical-image-upload,
+    button:not(.dental-tooth-number),input,select,textarea
+  ) { display:none !important; }
+
+  html[data-theme] .doctor-page .dental-tooth-number { display:block !important; background:transparent !important; }
+
+  html[data-theme] .doctor-page :is(.doctor-record-section-card,.dental-chart,.clinical-images) {
+    overflow:visible !important;
+  }
+}

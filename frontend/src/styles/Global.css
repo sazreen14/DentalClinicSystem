@@ -1,0 +1,45 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Poppins",sans-serif;
+    background:#ffffff;
+    color:#1e293b;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul{
+    list-style:none;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1200px,90%);
+    margin:auto;
+}
+
+.home-page section{
+    padding:100px 0;
+}

@@ -1,0 +1,254 @@
+.register-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.register-modal-card {
+  position: relative;
+  width: min(100%, 720px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 34px;
+  border: 1px solid #e3ecef;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.26);
+}
+
+.register-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #64748b;
+  background: #f1f5f9;
+  font-size: 24px;
+}
+
+.register-modal-heading {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.register-modal-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  border-radius: 16px;
+  color: #159c9f;
+  background: #e7fbfb;
+  font-size: 20px;
+}
+
+.register-modal-heading > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #1aaeb1;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.register-modal-heading h2 {
+  margin: 0 0 8px;
+  color: #172033;
+  font-size: 30px;
+}
+
+.register-modal-heading p {
+  margin: 0;
+  color: #7a8798;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.register-form {
+  display: grid;
+  gap: 20px;
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.register-field {
+  display: grid;
+  gap: 8px;
+}
+
+.register-field label {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.register-input-wrapper {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 15px;
+  border: 1px solid #dfe8ec;
+  border-radius: 12px;
+  background: #fbfdfd;
+}
+
+.register-input-wrapper:focus-within {
+  border-color: #2ec4c7;
+  box-shadow: 0 0 0 4px rgba(46, 196, 199, 0.12);
+}
+
+.register-input-wrapper > svg {
+  flex-shrink: 0;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.register-input-wrapper input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: #172033;
+  background: transparent;
+  font-size: 13px;
+}
+
+.register-input-wrapper input::placeholder {
+  color: #a7b2c0;
+}
+
+.register-password-toggle {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  color: #94a3b8;
+  background: transparent;
+}
+
+.register-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.register-consent input {
+  margin-top: 3px;
+  accent-color: #2ec4c7;
+}
+
+.register-submit-button {
+  min-height: 50px;
+  border: 0;
+  border-radius: 12px;
+  color: #ffffff;
+  background: #2ec4c7;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 12px 26px rgba(46, 196, 199, 0.22);
+}
+
+.register-submit-button:hover {
+  background: #1ba7aa;
+}
+
+.register-switch-text {
+  margin: 20px 0 0;
+  color: #7a8798;
+  font-size: 12px;
+  text-align: center;
+}
+
+.register-switch-text button {
+  margin-left: 5px;
+  padding: 0;
+  border: 0;
+  color: #1aaeb1;
+  background: transparent;
+  font-weight: 700;
+}
+
+@media (max-width: 680px) {
+  .register-modal-overlay {
+    padding: 14px;
+  }
+
+  .register-modal-card {
+    padding: 30px 20px 24px;
+    border-radius: 20px;
+  }
+
+  .register-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.register-password-guidance,
+.register-field-error {
+  display: block;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.register-password-guidance {
+  color: #64748b;
+}
+
+.register-field-error {
+  color: #b42332;
+  font-weight: 600;
+}
+
+.register-input-wrapper:has(input[aria-invalid="true"]) {
+  border-color: #df7882;
+}
+.register-form-message {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #f2c9ce;
+  border-radius: 10px;
+  color: #a42834;
+  background: #fff0f1;
+  font-size: 13px;
+}
+
+.register-field-wide { margin: 16px 0; }
+.register-input-wrapper select,
+.register-input-wrapper textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #172033;
+  font: inherit;
+  resize: vertical;
+}
+.register-input-wrapper textarea { padding-top: 11px; }
+.register-submit-button:disabled { cursor: wait; opacity: .7; }

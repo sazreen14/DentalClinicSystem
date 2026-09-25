@@ -1,0 +1,112 @@
+.admin-feedback { min-height:42px; display:flex; align-items:center; gap:9px; margin-bottom:14px; padding:0 14px; border:1px solid #bde9d0; border-radius:11px; color:#15803d; background:#f0fdf4; font-size:12px; font-weight:600; }.admin-feedback button { display:grid; place-items:center; margin-left:auto; padding:5px; border:0; color:inherit; background:transparent; cursor:pointer; }
+.admin-welcome { min-height:118px; display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:16px; padding:22px 26px; border-radius:16px; color:#fff; background:radial-gradient(circle at 85% 10%,rgba(255,255,255,.14),transparent 34%),linear-gradient(135deg,#31c2c4,#159b9e); }.admin-welcome > div:first-child > span { display:block; margin-bottom:8px; font-size:14px; font-weight:600; }.admin-welcome h2 { margin:0 0 8px; font-size:29px; line-height:1.15; }.admin-welcome p { margin:0; font-size:13px; line-height:1.5; opacity:.9; }.admin-welcome-date { display:flex; align-items:center; gap:11px; flex-shrink:0; padding:13px 15px; border:1px solid rgba(255,255,255,.22); border-radius:12px; background:rgba(255,255,255,.12); }.admin-welcome-date > svg { font-size:17px; }.admin-welcome-date p { margin:0; }.admin-welcome-date strong,.admin-welcome-date span { display:block; }.admin-welcome-date strong { font-size:12px; }.admin-welcome-date span { margin-top:4px; font-size:11px; }
+.admin-stat-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:16px; }.admin-stat-grid article { min-width:0; min-height:98px; display:flex; align-items:center; gap:14px; padding:17px; border:1px solid #e1e8ee; border-radius:15px; background:#fff; }.admin-stat-grid article > div { width:47px; height:47px; display:grid; place-items:center; flex-shrink:0; border-radius:13px; font-size:18px; }.admin-stat-grid .teal { color:#16aaad; background:#e8fbfb; }.admin-stat-grid .blue { color:#2563eb; background:#edf4ff; }.admin-stat-grid .orange { color:#f59e0b; background:#fff8e8; }.admin-stat-grid .purple { color:#9333ea; background:#f6efff; }.admin-stat-grid p { margin:0; }.admin-stat-grid strong,.admin-stat-grid span,.admin-stat-grid small { display:block; }.admin-stat-grid strong { color:#111827; font-size:25px; }.admin-stat-grid span { color:#64748b; font-size:13px; }.admin-stat-grid small { margin-top:3px; color:#94a3b8; font-size:11px; }
+.admin-dashboard-grid { display:grid; grid-template-columns:minmax(0,1.75fr) minmax(280px,.75fr); gap:18px; align-items:start; }.admin-main-column,.admin-side-column { min-width:0; display:grid; gap:18px; }.admin-card { min-width:0; overflow:hidden; border:1px solid #e1e8ee; border-radius:15px; background:#fff; }.admin-card > header { min-height:60px; display:flex; align-items:center; padding:10px 21px; border-bottom:1px solid #edf1f4; }.admin-card > header span { color:#1aaeb1; font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; }.admin-card > header h3 { margin:3px 0 0; font-size:17px; }
+.admin-appointment-row { display:grid; grid-template-columns:minmax(135px,.9fr) minmax(155px,1fr) minmax(120px,.7fr) auto; align-items:center; gap:13px; padding:14px 21px; border-bottom:1px solid #edf1f4; }.admin-appointment-row:last-child,.admin-patient-row:last-child { border-bottom:0; }.admin-appointment-row strong,.admin-appointment-row span { display:block; }.admin-appointment-row strong { color:#334155; font-size:13px; }.admin-appointment-row > div > span { margin-top:4px; color:#94a3b8; font-size:11px; }.admin-status { width:max-content; padding:6px 9px; border-radius:999px; font-size:10px; font-weight:700; }.admin-status.confirmed { color:#15803d; background:#dcfce7; }.admin-status.pending { color:#b45309; background:#fef3c7; }.admin-status.cancelled { color:#dc2626; background:#fee2e2; }.admin-row-actions { grid-column:1/-1; display:flex; justify-content:flex-end; flex-wrap:wrap; gap:7px; }.admin-row-actions button { min-height:32px; padding:0 10px; border:1px solid #dce5eb; border-radius:8px; color:#64748b; background:#fff; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; }.admin-row-actions button:hover { color:#159c9f; border-color:#a9e3e4; }.admin-row-actions button.danger { color:#dc2626; }
+.admin-patient-row { display:grid; grid-template-columns:auto minmax(130px,.8fr) minmax(130px,.8fr) minmax(180px,1.1fr) auto; align-items:center; gap:13px; padding:14px 21px; border-bottom:1px solid #edf1f4; }.admin-patient-avatar { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; color:#159c9f; background:#eafafa; font-size:11px; font-weight:700; }.admin-patient-row strong,.admin-patient-row span,.admin-patient-row small { display:block; }.admin-patient-row strong { color:#334155; font-size:12px; }.admin-patient-row span,.admin-patient-row small { margin-bottom:4px; color:#94a3b8; font-size:10px; }.admin-patient-row button { min-height:34px; padding:0 11px; border:1px solid #cceeee; border-radius:8px; color:#159c9f; background:#effcfc; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; }
+.admin-pending-list { display:grid; }.admin-pending-list > div { display:flex; align-items:center; gap:11px; padding:14px 17px; border-bottom:1px solid #edf1f4; }.admin-pending-list > div:last-child { border-bottom:0; }.admin-pending-list > div > span { min-width:32px; height:32px; display:grid; place-items:center; border-radius:9px; font-size:12px; font-weight:800; }.admin-pending-list .orange { color:#b45309; background:#fef3c7; }.admin-pending-list .teal { color:#159c9f; background:#eafafa; }.admin-pending-list .blue { color:#2563eb; background:#edf4ff; }.admin-pending-list p { margin:0; }.admin-pending-list strong,.admin-pending-list small { display:block; }.admin-pending-list strong { color:#334155; font-size:12px; }.admin-pending-list small { margin-top:4px; color:#94a3b8; font-size:10px; line-height:1.4; }
+.admin-clinic-info { display:grid; gap:17px; padding:18px 21px; }.admin-clinic-info > div { display:flex; align-items:flex-start; gap:11px; }.admin-clinic-info svg { flex-shrink:0; margin-top:2px; color:#2ec4c7; }.admin-clinic-info p { margin:0; }.admin-clinic-info strong,.admin-clinic-info span { display:block; }.admin-clinic-info strong { color:#334155; font-size:12px; }.admin-clinic-info span { margin-top:4px; color:#94a3b8; font-size:11px; line-height:1.5; }
+.admin-modal-overlay { position:fixed; inset:0; z-index:650; display:grid; place-items:center; padding:20px; background:rgba(15,23,42,.6); backdrop-filter:blur(5px); }.admin-modal { width:min(100%,620px); max-height:calc(100dvh - 40px); overflow:auto; border:1px solid #dce5eb; border-radius:16px; background:#fff; box-shadow:0 28px 80px rgba(15,23,42,.28); }.admin-modal > header { display:flex; align-items:center; gap:12px; padding:19px 21px; border-bottom:1px solid #e5ebef; background:linear-gradient(135deg,#fff,#effcfc); }.admin-modal > header > div { width:42px; height:42px; display:grid; place-items:center; flex-shrink:0; border-radius:11px; color:#fff; background:#2ec4c7; }.admin-modal > header > span { min-width:0; }.admin-modal > header small { display:block; color:#159c9f; font-size:10px; font-weight:800; text-transform:uppercase; }.admin-modal > header h2 { margin:3px 0 0; font-size:21px; }.admin-modal > header > button { width:34px; height:34px; display:grid; place-items:center; margin-left:auto; padding:0; border:1px solid #e5ebef; border-radius:9px; color:#64748b; background:#fff; cursor:pointer; }.admin-modal-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:17px 21px 0; }.admin-modal-grid > div { min-width:0; padding:12px; border:1px solid #edf1f4; border-radius:10px; background:#f8fafc; }.admin-modal-grid span,.admin-modal-grid strong { display:block; }.admin-modal-grid span { color:#94a3b8; font-size:10px; font-weight:700; text-transform:uppercase; }.admin-modal-grid strong { margin-top:5px; color:#334155; font-size:12px; line-height:1.45; }.admin-modal > footer { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px; padding:17px 21px 21px; }.admin-modal footer:empty { display:none; }.admin-modal footer button,.admin-reschedule-form button { min-height:38px; padding:0 13px; border:1px solid #dce5eb; border-radius:9px; color:#64748b; background:#fff; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; }.admin-modal button.primary,.admin-reschedule-form button.primary { border-color:#2ec4c7; color:#fff; background:#2ec4c7; }.admin-modal button.danger { color:#dc2626; }
+.admin-reschedule-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; padding:18px 21px 21px; }.admin-reschedule-form label span { display:block; margin-bottom:7px; color:#475569; font-size:12px; font-weight:700; }.admin-reschedule-form input,.admin-reschedule-form select { width:100%; min-height:42px; padding:0 11px; border:1px solid #dce5eb; border-radius:9px; color:#334155; background:#fff; font:inherit; font-size:13px; }.admin-reschedule-form > div { grid-column:1/-1; display:flex; justify-content:flex-end; gap:8px; }
+
+[data-theme="dark"] .admin-layout .admin-page .admin-appointment-row .admin-status.pending { color:#fbbf24; border:1px solid rgba(245,158,11,.5); background:rgba(245,158,11,.18); }
+[data-theme="dark"] .admin-layout .admin-page .admin-appointment-row .admin-status.cancelled { color:#f87171; border:1px solid rgba(239,68,68,.45); background:rgba(239,68,68,.17); }
+[data-theme="dark"] .admin-layout .admin-page .admin-welcome h2 { color:#fff; }
+[data-theme="dark"] .admin-layout .admin-page .admin-welcome > div:first-child > p { color:rgba(255,255,255,.85); opacity:1; }
+[data-theme="dark"] .admin-layout .admin-page .admin-welcome-date strong { color:#fff; }
+[data-theme="dark"] .admin-layout .admin-page .admin-welcome-date span { color:rgba(255,255,255,.85); }
+@media (max-width:1150px) { .admin-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.admin-dashboard-grid { grid-template-columns:1fr; }.admin-side-column { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:760px) { .admin-side-column { grid-template-columns:1fr; }.admin-appointment-row { grid-template-columns:repeat(2,minmax(0,1fr)); }.admin-status { justify-self:start; }.admin-patient-row { grid-template-columns:auto minmax(0,1fr) auto; }.admin-patient-row > div:nth-child(3),.admin-patient-row > div:nth-child(4) { grid-column:2; }.admin-patient-row > button { grid-column:3; grid-row:1/span 3; } }
+@media (max-width:560px) { .admin-welcome { align-items:flex-start; flex-direction:column; padding:20px; }.admin-welcome h2 { font-size:24px; }.admin-welcome-date { width:100%; }.admin-stat-grid { grid-template-columns:1fr; }.admin-appointment-row { grid-template-columns:1fr; padding:15px 17px; }.admin-row-actions { grid-column:1; justify-content:flex-start; }.admin-patient-row { padding:14px 17px; }.admin-modal-overlay { align-items:end; padding:10px; }.admin-modal { max-height:calc(100dvh - 20px); }.admin-modal-grid,.admin-reschedule-form { grid-template-columns:1fr; }.admin-reschedule-form > div { grid-column:1; }.admin-modal > footer button { flex:1; } }
+
+/* Patient Dashboard visual scale alignment */
+.admin-welcome > div:first-child > span { font-size:15px; }
+.admin-welcome h2 { font-size:31px; }
+.admin-welcome p { font-size:15px; }
+.admin-welcome-date strong { font-size:13px; }
+.admin-card > header span { font-size:12px; }
+.admin-card > header h3 { font-size:17px; }
+.admin-appointment-row,.admin-patient-row { padding-top:18px; padding-bottom:18px; }
+.admin-appointment-row strong,.admin-patient-row strong { font-size:13px; }
+.admin-appointment-row > div > span,.admin-patient-row span,.admin-patient-row small { font-size:12px; }
+.admin-row-actions button,.admin-patient-row button { min-height:35px; padding:0 12px; font-size:12px; }
+.admin-pending-list strong,.admin-clinic-info strong { font-size:13px; }
+.admin-pending-list small,.admin-clinic-info span { font-size:12px; }
+.admin-modal-grid span { font-size:11px; }
+.admin-modal-grid strong { font-size:13px; }
+.admin-modal footer button,.admin-reschedule-form button { min-height:42px; padding:0 18px; font-size:13px; }
+.admin-reschedule-form label span { font-size:13px; }
+.admin-reschedule-form input,.admin-reschedule-form select { font-size:14px; }
+@media (max-width:560px) { .admin-welcome h2 { font-size:23px; } }
+
+/* Dashboard Find Available Slot modal */
+.admin-dashboard-reschedule-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin:17px 21px 0; }
+.admin-dashboard-reschedule-summary > div { min-width:0; padding:11px 12px; border:1px solid #e7eef2; border-radius:10px; background:#f8fafc; }
+.admin-dashboard-reschedule-summary span,.admin-dashboard-reschedule-summary strong,.admin-dashboard-reschedule-summary small { display:block; }
+.admin-dashboard-reschedule-summary span { margin-bottom:4px; color:#159c9f; font-size:10px; font-weight:800; letter-spacing:.45px; text-transform:uppercase; }
+.admin-dashboard-reschedule-summary strong { overflow-wrap:anywhere; color:#334155; font-size:13px; line-height:1.4; }
+.admin-dashboard-reschedule-summary small { margin-top:3px; color:#8491a3; font-size:11px; }
+.admin-dashboard-slot-form { display:grid; gap:13px; padding:15px 21px 21px; }
+.admin-dashboard-slot-finder { min-width:0; overflow:hidden; border:1px solid #dfe9ee; border-radius:12px; background:#fff; }
+.admin-dashboard-slot-finder > header { padding:12px 14px; border-bottom:1px solid #edf2f5; background:#fbfefe; }
+.admin-dashboard-slot-finder > header strong,.admin-dashboard-slot-finder > header span { display:block; }
+.admin-dashboard-slot-finder > header strong { color:#172033; font-size:14px; text-transform:uppercase; }
+.admin-dashboard-slot-finder > header span { margin-top:4px; color:#8491a3; font-size:11px; }
+.admin-dashboard-slot-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; margin:12px 14px; padding:4px; border:1px solid #e5ebef; border-radius:10px; background:#f8fafc; }
+.admin-modal .admin-dashboard-slot-tabs button { min-width:0; min-height:38px; padding:0 10px; border:0; border-radius:8px; color:#718096; background:transparent; font:inherit; font-size:12px; font-weight:700; cursor:pointer; }
+.admin-modal .admin-dashboard-slot-tabs button.active { color:#159c9f; background:#fff; box-shadow:0 2px 8px rgba(15,23,42,.07); }
+.admin-dashboard-earliest-dates { max-height:300px; overflow-y:auto; padding:0 14px 14px; scrollbar-width:thin; }
+.admin-dashboard-earliest-dates article { padding:11px 0; border-bottom:1px solid #edf2f5; }
+.admin-dashboard-earliest-dates article:first-child { padding-top:2px; }
+.admin-dashboard-earliest-dates h3,.admin-dashboard-date-choice h3 { margin:0 0 9px; color:#334155; font-size:12px; }
+.admin-dashboard-earliest-dates article.selected-date h3 { color:#159c9f; }
+.admin-dashboard-earliest-dates article > div,.admin-dashboard-date-choice > div { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+.admin-modal .admin-dashboard-earliest-dates article button,.admin-modal .admin-dashboard-date-choice > div button { min-width:0; min-height:36px; padding:0 7px; border:1px solid #bfe8e9; border-radius:8px; color:#159c9f; background:#f7fefe; font:inherit; font-size:11px; font-weight:700; cursor:pointer; }
+.admin-modal .admin-dashboard-earliest-dates article button:hover,.admin-modal .admin-dashboard-date-choice > div button:hover { border-color:#2ec4c7; background:#eafafa; }
+.admin-modal .admin-dashboard-earliest-dates article button.selected,.admin-modal .admin-dashboard-date-choice > div button.selected { border-color:#2ec4c7; color:#fff; background:#2ec4c7; box-shadow:0 4px 12px rgba(46,196,199,.22); }
+.admin-modal .admin-dashboard-earliest-dates .show-more { width:100%; min-height:40px; margin-top:10px; border:1px dashed #bfe8e9; border-radius:9px; color:#159c9f; background:#fff; font:inherit; font-size:12px; font-weight:700; cursor:pointer; }
+.admin-dashboard-date-choice { padding:0 14px 14px; }
+.admin-dashboard-date-choice label span { display:block; margin-bottom:7px; color:#475569; font-size:12px; font-weight:700; }
+.admin-dashboard-date-choice input { width:100%; min-height:42px; padding:0 11px; border:1px solid #dce5eb; border-radius:9px; outline:0; color:#334155; background:#fff; font:inherit; font-size:13px; }
+.admin-dashboard-date-choice input:focus { border-color:#2ec4c7; box-shadow:0 0 0 3px rgba(46,196,199,.12); }
+.admin-dashboard-date-choice h3 { margin-top:13px; }
+.admin-dashboard-date-choice > p { margin:11px 0 0; padding:12px; border:1px dashed #dce5eb; border-radius:9px; color:#64748b; background:#f8fafc; font-size:12px; }
+.admin-dashboard-date-choice > p.unavailable { border-color:#fed7aa; color:#9a5b13; background:#fffaf0; }
+.admin-dashboard-selected-slot { padding:12px 14px; border:1px solid #bfe8e9; border-radius:10px; background:#effcfc; }
+.admin-dashboard-selected-slot span,.admin-dashboard-selected-slot strong { display:block; }
+.admin-dashboard-selected-slot span { margin-bottom:4px; color:#159c9f; font-size:10px; font-weight:800; text-transform:uppercase; }
+.admin-dashboard-selected-slot strong { color:#334155; font-size:13px; }
+.admin-dashboard-selected-slot b { padding:0 5px; color:#159c9f; }
+.admin-dashboard-reason > span { display:block; margin-bottom:7px; color:#475569; font-size:12px; font-weight:700; }
+.admin-dashboard-reason small { color:#94a3b8; font-size:11px; font-weight:500; }
+.admin-dashboard-reason textarea { width:100%; padding:10px 11px; border:1px solid #dce5eb; border-radius:9px; outline:0; color:#334155; background:#fff; font:inherit; font-size:13px; resize:vertical; }
+.admin-dashboard-reason textarea:focus { border-color:#2ec4c7; box-shadow:0 0 0 3px rgba(46,196,199,.12); }
+.admin-dashboard-slot-form > footer { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px; }
+.admin-dashboard-slot-form > footer button { min-height:42px; padding:0 18px; border:1px solid #dce5eb; border-radius:9px; color:#64748b; background:#fff; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.admin-dashboard-slot-form > footer button.primary { border-color:#2ec4c7; color:#fff; background:#2ec4c7; }
+.admin-dashboard-slot-form > footer button:disabled { border-color:#e5ebef; color:#9aa7b6; background:#edf2f5; cursor:not-allowed; }
+
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-slot-finder > header strong { color:#172033; }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-slot-finder > header span { color:#475569; }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-date-choice label span,
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-reason > span { color:var(--portal-secondary); }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-reason small { color:var(--portal-muted); }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-reason textarea::placeholder { color:var(--portal-muted); opacity:1; }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-date-choice input { color:var(--portal-primary); background:var(--portal-input); border-color:var(--portal-border); color-scheme:dark; }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-date-choice input::-webkit-calendar-picker-indicator { filter:invert(1); opacity:.8; }
+[data-theme="dark"] .admin-layout .admin-modal .admin-dashboard-date-choice > p:not(.unavailable) { color:#475569; }
+[data-theme="dark"] .admin-layout .admin-modal :is(.admin-dashboard-earliest-dates h3,.admin-dashboard-date-choice h3) { color:var(--portal-primary); }
+[data-theme="dark"] .admin-layout .admin-modal :is(.admin-dashboard-earliest-dates article button,.admin-dashboard-date-choice > div button) { color:var(--portal-accent); }
+
+@media (max-width:560px) {
+  .admin-dashboard-reschedule-summary { grid-template-columns:1fr; margin:13px 15px 0; }
+  .admin-dashboard-slot-form { padding:14px 15px 18px; }
+  .admin-dashboard-slot-tabs { grid-template-columns:1fr; }
+  .admin-dashboard-earliest-dates article > div,.admin-dashboard-date-choice > div { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .admin-dashboard-slot-form > footer button { flex:1; }
+}
+
+
+/* Viewport-safe modal scrolling */
+.admin-modal{overscroll-behavior:contain;scrollbar-gutter:stable}
+.admin-modal > footer,.admin-dashboard-slot-form > footer{position:sticky;z-index:2;bottom:0;background:#fff}

@@ -1,0 +1,219 @@
+.patient-management-section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(255, 255, 255, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #2ec4c7 0%, #159c9f 100%);
+}
+
+.patient-management-section::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: -220px;
+  right: -150px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.patient-management-container {
+  position: relative;
+  z-index: 2;
+}
+
+.patient-management-heading {
+  max-width: 680px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.patient-management-heading span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.patient-management-heading h2 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(36px, 4vw, 50px);
+  line-height: 1.15;
+}
+
+.patient-management-heading p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.patient-management-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.patient-management-card {
+  min-height: 210px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.patient-management-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.patient-management-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+  border-radius: 14px;
+  color: #159c9f;
+  background: #ffffff;
+  font-size: 19px;
+}
+
+.patient-management-card h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.patient-management-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.patient-management-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 38px;
+}
+
+.patient-management-actions button {
+  min-height: 50px;
+  padding: 0 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.patient-management-primary {
+  color: #159c9f;
+  background: #ffffff;
+}
+
+.patient-management-primary:hover {
+  transform: translateY(-2px);
+  background: #f5ffff;
+}
+
+.patient-management-secondary {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+}
+
+.patient-management-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 1000px) {
+  .patient-management-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .patient-management-section {
+    padding: 75px 0;
+  }
+
+  .patient-management-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-management-actions {
+    flex-direction: column;
+  }
+
+  .patient-management-actions button {
+    width: 100%;
+  }
+}
+
+/* Premium public Patient Management composition. */
+[data-theme="dark"] .home-page .patient-management-section,
+[data-theme="light"] .home-page .patient-management-section{position:relative;isolation:isolate;overflow:hidden;padding:105px 0;background:none}
+[data-theme="dark"] .home-page .patient-management-section{color:#f8fafc;background:radial-gradient(circle at 79% 22%,rgba(46,196,199,.2),transparent 26%),radial-gradient(circle at 4% 88%,rgba(25,121,147,.13),transparent 25%),linear-gradient(140deg,#04121f,#071b29 52%,#03101a)}
+[data-theme="light"] .home-page .patient-management-section{color:#10283a;background:radial-gradient(circle at 79% 22%,rgba(46,196,199,.17),transparent 27%),radial-gradient(circle at 4% 88%,rgba(60,165,198,.1),transparent 25%),linear-gradient(140deg,#f7fcfd,#edf9fa 52%,#f8fcfd)}
+.home-page .patient-management-section::before{width:100%;height:100%;inset:0;border-radius:0;z-index:-2;background-image:radial-gradient(circle at 8% 18%,rgba(82,213,215,.65) 0 1px,transparent 2px),radial-gradient(circle at 29% 74%,rgba(82,213,215,.45) 0 1px,transparent 2px),radial-gradient(circle at 62% 12%,rgba(82,213,215,.5) 0 1px,transparent 2px),radial-gradient(circle at 91% 67%,rgba(82,213,215,.55) 0 1px,transparent 2px),linear-gradient(30deg,transparent 48%,rgba(82,213,215,.035) 49%,transparent 50%),linear-gradient(150deg,transparent 48%,rgba(82,213,215,.035) 49%,transparent 50%);background-size:100% 100%,100% 100%,100% 100%,100% 100%,82px 48px,82px 48px;opacity:.8}
+.home-page .patient-management-section::after{width:75%;height:260px;position:absolute;z-index:-1;right:-20%;bottom:-175px;border:1px solid rgba(46,196,199,.22);border-radius:50%;background:none;box-shadow:0 -25px 0 -24px rgba(46,196,199,.16),0 -54px 0 -53px rgba(46,196,199,.12),0 -88px 0 -87px rgba(46,196,199,.08),0 0 65px rgba(46,196,199,.12);content:"";transform:rotate(-7deg)}
+
+.home-page .patient-management-section .patient-management-container{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.home-page .patient-management-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,.82fr);align-items:center;gap:72px;margin-bottom:54px}
+.home-page .patient-management-section .patient-management-heading{max-width:650px;margin:0;text-align:left}
+.home-page .patient-management-section .patient-management-heading>span{margin-bottom:18px;color:var(--public-accent-strong);font-weight:850}
+.home-page .patient-management-section .patient-management-heading h2{margin-bottom:22px;color:var(--public-text);font-size:clamp(46px,4.3vw,66px);font-weight:790;line-height:1.03;letter-spacing:-2.5px}
+.home-page .patient-management-section .patient-management-heading h2 em{color:var(--public-accent-strong);font-style:normal}
+.home-page .patient-management-section .patient-management-heading p{max-width:590px;color:var(--public-secondary);font-size:16px;line-height:1.8}
+
+.home-page .patient-management-visual{height:430px;position:relative;isolation:isolate}
+.home-page .patient-management-tooth-canvas{width:100%;height:100%;display:block;position:relative;z-index:3;filter:drop-shadow(0 25px 24px rgba(10,70,82,.3))}
+.home-page .patient-management-tooth-loading{width:60%;aspect-ratio:1;position:absolute;left:50%;top:48%;border-radius:50%;background:radial-gradient(circle,rgba(46,196,199,.2),transparent 68%);transform:translate(-50%,-50%)}
+.home-page .patient-management-halo{width:72%;aspect-ratio:1;position:absolute;z-index:0;left:50%;top:48%;border-radius:50%;background:radial-gradient(circle,rgba(82,213,215,.23),rgba(46,196,199,.06) 48%,transparent 70%);filter:blur(13px);transform:translate(-50%,-50%)}
+.home-page .patient-management-platform{width:45%;height:60px;position:absolute;z-index:4;left:50%;bottom:25px;border-radius:50%;background:radial-gradient(ellipse,rgba(211,255,255,.9),rgba(46,196,199,.38) 20%,rgba(46,196,199,.1) 48%,transparent 70%);filter:drop-shadow(0 0 12px rgba(46,196,199,.38));transform:translateX(-50%)}
+.home-page .patient-management-platform i{position:absolute;inset:14px 13%;border:1px solid rgba(82,213,215,.58);border-radius:50%}
+.home-page .patient-management-section .patient-management-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.home-page .patient-management-section .patient-management-card{min-height:220px;position:relative;overflow:hidden;padding:25px;border:1px solid color-mix(in srgb,var(--public-accent) 32%,var(--public-border));border-radius:18px;background:linear-gradient(145deg,color-mix(in srgb,var(--public-surface) 92%,transparent),color-mix(in srgb,var(--public-elevated) 80%,transparent));box-shadow:inset 0 1px rgba(255,255,255,.05),0 15px 32px rgba(5,35,48,.08)}
+.home-page .patient-management-section .patient-management-card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--public-accent) 72%,var(--public-border));box-shadow:inset 0 1px rgba(255,255,255,.07),0 20px 40px rgba(5,70,82,.14)}
+.home-page .patient-management-section .patient-management-icon{color:var(--public-accent-strong);background:var(--public-accent-soft);transition:transform .25s ease}
+.home-page .patient-management-section .patient-management-card:hover .patient-management-icon{transform:translateY(-2px) scale(1.06)}
+.home-page .patient-management-card-accent{width:46px;height:2px;position:absolute;left:25px;bottom:18px;border-radius:99px;background:var(--public-accent-strong);box-shadow:0 0 10px color-mix(in srgb,var(--public-accent) 45%,transparent)}
+
+.home-page .patient-management-section .patient-management-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.home-page .patient-management-section .patient-management-choice{min-height:205px;display:flex;flex-direction:column;padding:23px;border:1px solid color-mix(in srgb,var(--public-accent) 24%,var(--public-border));border-radius:18px;background:linear-gradient(145deg,color-mix(in srgb,var(--public-surface) 93%,transparent),color-mix(in srgb,var(--public-elevated) 80%,transparent));box-shadow:0 15px 34px rgba(5,35,48,.08)}
+.home-page .patient-management-choice-heading{display:flex;align-items:center;gap:16px;margin-bottom:18px}.home-page .patient-management-choice-heading>div{min-width:0}.home-page .patient-management-section .patient-management-choice .patient-management-choice-icon{width:54px;height:54px;display:grid;place-items:center;flex:0 0 54px;margin:0;border:1px solid color-mix(in srgb,var(--public-accent) 28%,transparent);border-radius:15px;color:var(--public-accent-strong);background:var(--public-accent-soft);font-size:30px;line-height:1;opacity:1;overflow:visible}
+.home-page .patient-management-section .patient-management-choice .patient-management-choice-icon>svg{width:30px;height:30px;display:block;color:currentColor;opacity:1}
+.home-page .patient-management-section .patient-management-whatsapp .patient-management-choice-icon{color:#fff;background:#168b50;animation:patient-whatsapp-pulse 2.8s ease-in-out infinite}
+.home-page .patient-management-section .patient-management-choice-heading strong{display:block;color:var(--public-text);font-size:16px}.home-page .patient-management-section .patient-management-choice-heading span{display:block;margin-top:5px;color:var(--public-secondary);font-size:12px;line-height:1.45}
+.home-page .patient-management-section .patient-management-choice :is(button,a){margin-top:auto;margin-bottom:10px}.home-page .patient-management-section .patient-management-primary{color:#fff;background:var(--public-accent-strong)}.home-page .patient-management-section .patient-management-primary>svg,.home-page .patient-management-section .whatsapp-booking>svg{width:20px;height:20px;display:block;flex:0 0 20px;color:currentColor;opacity:1}.home-page .patient-management-section .patient-management-choice small{color:var(--public-muted)}
+@keyframes patient-whatsapp-pulse{50%{box-shadow:0 0 0 7px rgba(22,139,80,.12)}}
+
+.patient-management-motion-ready [data-management-reveal]:not(.is-revealed){opacity:0;transform:translateY(26px)}
+.patient-management-motion-ready .patient-management-visual[data-management-reveal]:not(.is-revealed){transform:translateY(20px) scale(.96)}
+.patient-management-motion-ready [data-management-reveal].is-revealed{animation:patient-management-reveal 680ms cubic-bezier(.16,1,.3,1) var(--management-delay,0ms) backwards}
+@keyframes patient-management-reveal{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+@media(max-width:1050px){.home-page .patient-management-intro{grid-template-columns:minmax(0,1fr) minmax(350px,.8fr);gap:38px}.home-page .patient-management-section .patient-management-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:780px){.home-page .patient-management-intro{grid-template-columns:1fr;gap:28px}.home-page .patient-management-visual{width:min(100%,540px);height:390px;margin-inline:auto}.home-page .patient-management-section .patient-management-heading{max-width:650px}}
+@media(max-width:650px){[data-theme] .home-page .patient-management-section{padding:76px 0}.home-page .patient-management-section .patient-management-heading h2{font-size:42px;letter-spacing:-1.7px}.home-page .patient-management-visual{height:330px}.home-page .patient-management-section .patient-management-grid,.home-page .patient-management-section .patient-management-choices{grid-template-columns:1fr}.home-page .patient-management-section .patient-management-card{min-height:190px}.home-page .patient-management-section .patient-management-choice{min-height:195px}.home-page .patient-management-section .patient-management-choice .patient-management-choice-icon{width:50px;height:50px;flex-basis:50px;font-size:28px}.home-page .patient-management-section .patient-management-choice .patient-management-choice-icon>svg{width:28px;height:28px}.home-page .patient-management-section::after{width:120%;right:-55%}}
+@media(prefers-reduced-motion:reduce){.home-page .patient-management-whatsapp .patient-management-choice-icon{animation:none}.patient-management-motion-ready [data-management-reveal]{opacity:1;transform:none;animation:none}}

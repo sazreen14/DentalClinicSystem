@@ -1,0 +1,2 @@
+import 'dotenv/config';import {closeDatabase} from '../src/config/database.js';import {seedClinicOperations} from '../src/services/clinicOperationsSeedService.js';
+try{const result=await seedClinicOperations();console.log(`Clinic Operations seed synchronized: ${result.hours} operating days, ${result.services} services, ${result.slots} slots, ${result.doctorHours} doctor working days.`);}catch(error){console.error(`Clinic Operations seed failed: ${error.message}`);process.exitCode=1;}finally{await closeDatabase();}

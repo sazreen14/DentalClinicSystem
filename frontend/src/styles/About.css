@@ -1,0 +1,262 @@
+.about-section {
+  padding: 110px 0;
+  background: #ffffff;
+}
+
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  align-items: center;
+  gap: 80px;
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-clinic-image {
+  width: 100%;
+  height: 560px;
+  display: block;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: 0 28px 65px rgba(31, 55, 73, 0.14);
+}
+
+.about-rating-card {
+  position: absolute;
+  right: -38px;
+  bottom: 45px;
+  min-width: 245px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid #e4edef;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 20px 45px rgba(31, 55, 73, 0.16);
+}
+
+.rating-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #f5b51b;
+  background: #fff8df;
+  font-size: 21px;
+}
+
+.about-rating-card strong,
+.about-rating-card span {
+  display: block;
+}
+
+.about-rating-card strong {
+  margin-bottom: 3px;
+  color: #172033;
+  font-size: 14px;
+}
+
+.about-rating-card span {
+  color: #8a97a8;
+  font-size: 11px;
+}
+
+.about-information {
+  max-width: 650px;
+}
+
+.about-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  color: #1aaeb1;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.about-eyebrow::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: #2ec4c7;
+}
+
+.about-information > h2 {
+  max-width: 570px;
+  margin: 0 0 24px;
+  color: #172033;
+  font-size: clamp(36px, 4vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+
+.about-information > p {
+  margin: 0 0 17px;
+  color: #68778b;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.about-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 34px;
+}
+
+.about-feature-card {
+  min-height: 118px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 19px;
+  border: 1px solid #e2eaee;
+  border-radius: 17px;
+  background: #fbfdfd;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.about-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(46, 196, 199, 0.45);
+  box-shadow: 0 14px 30px rgba(31, 55, 73, 0.08);
+}
+
+.about-feature-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #1aaeb1;
+  background: #eafafa;
+  font-size: 17px;
+}
+
+.about-feature-card h3 {
+  margin: 1px 0 5px;
+  color: #253247;
+  font-size: 14px;
+}
+
+.about-feature-card p {
+  margin: 0;
+  color: #8a97a8;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+@media (max-width: 1000px) {
+  .about-wrapper {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .about-visual {
+    max-width: 720px;
+  }
+
+  .about-rating-card {
+    right: 25px;
+  }
+
+  .about-information {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 650px) {
+  .about-section {
+    padding: 75px 0;
+  }
+
+  .about-clinic-image {
+    height: 380px;
+    border-radius: 21px;
+  }
+
+  .about-rating-card {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: calc(100% - 30px);
+    min-width: 0;
+    margin: -38px auto 0;
+  }
+
+  .about-information > h2 {
+    font-size: 34px;
+  }
+
+  .about-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Premium public About composition. */
+[data-theme="light"] .home-page .about-section,
+[data-theme="dark"] .home-page .about-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 108px 0 72px;
+}
+[data-theme="light"] .home-page .about-section {
+  background: radial-gradient(circle at 10% 24%,rgba(93,190,232,.2),transparent 25%),radial-gradient(circle at 92% 30%,rgba(46,196,199,.12),transparent 27%),linear-gradient(140deg,#f4faff,#fff 49%,#f1fbfb);
+}
+[data-theme="dark"] .home-page .about-section {
+  background: radial-gradient(circle at 10% 24%,rgba(37,130,176,.2),transparent 25%),radial-gradient(circle at 92% 30%,rgba(46,196,199,.14),transparent 27%),linear-gradient(140deg,#071724,#0a1c2a 49%,#061621);
+}
+.home-page .about-section::before{position:absolute;z-index:-2;inset:0;pointer-events:none;content:"";background-image:radial-gradient(circle at 6% 15%,rgba(46,196,199,.7) 0 2px,transparent 3px),radial-gradient(circle at 22% 75%,rgba(89,205,209,.55) 0 2px,transparent 3px),radial-gradient(circle at 58% 18%,rgba(46,196,199,.45) 0 1px,transparent 2px),radial-gradient(circle at 91% 66%,rgba(46,196,199,.55) 0 2px,transparent 3px),repeating-radial-gradient(ellipse at 87% 44%,transparent 0 17px,rgba(46,196,199,.07) 18px 19px,transparent 20px 27px)}
+.home-page .about-section::after{width:70%;height:280px;position:absolute;z-index:-1;right:-18%;top:21%;border:1px solid rgba(46,196,199,.16);border-radius:50%;box-shadow:0 24px 0 -23px rgba(46,196,199,.18),0 48px 0 -47px rgba(46,196,199,.14),0 72px 0 -71px rgba(46,196,199,.1);content:"";transform:rotate(-12deg);pointer-events:none}
+.home-page .about-orb{position:absolute;z-index:-1;border-radius:50%;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(46,196,199,.12));box-shadow:inset -8px -8px 15px rgba(46,196,199,.08),0 12px 28px rgba(31,75,93,.08)}
+.home-page .about-orb-one{width:42px;height:42px;left:54%;top:8%}.home-page .about-orb-two{width:58px;height:58px;right:8%;bottom:25%}
+
+.home-page .about-section .about-wrapper{grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);align-items:center;gap:88px;position:relative;z-index:1}
+.home-page .about-section .about-visual{min-height:560px;padding:12px;border:1px solid color-mix(in srgb,var(--public-accent) 24%,var(--public-border));border-radius:30px;background:color-mix(in srgb,var(--public-surface) 88%,transparent);box-shadow:0 28px 70px rgba(19,65,82,.16)}
+.home-page .about-section .about-clinic-image{height:536px;border-radius:20px;object-fit:cover}
+.home-page .about-image-orbit{position:absolute;z-index:3;width:120%;height:190px;left:-18%;bottom:32px;border:2px solid rgba(83,221,224,.64);border-radius:50%;filter:drop-shadow(0 0 10px rgba(46,196,199,.35));transform:rotate(-8deg);pointer-events:none}
+.home-page .about-tooth-stage{width:230px;height:255px;position:absolute;z-index:4;left:-40px;bottom:-52px;pointer-events:none}
+.home-page .about-tooth-canvas{width:100%;height:100%;display:block;position:relative;z-index:2;filter:drop-shadow(0 18px 17px rgba(10,82,91,.28))}
+.home-page .about-tooth-loading{width:70%;height:70%;margin:auto;border-radius:50%;background:radial-gradient(circle,rgba(46,196,199,.22),transparent 67%)}
+.home-page .about-tooth-platform{width:82%;height:62px;position:absolute;z-index:1;left:50%;bottom:18px;border:2px solid rgba(82,229,232,.65);border-radius:50%;background:radial-gradient(ellipse,rgba(217,255,255,.86),rgba(46,196,199,.32) 25%,rgba(46,196,199,.08) 55%,transparent 70%);box-shadow:0 0 25px rgba(46,196,199,.38);transform:translateX(-50%)}
+.home-page .about-tooth-platform i{position:absolute;inset:12px 9%;border:1px solid rgba(21,156,159,.52);border-radius:50%}
+
+.home-page .about-section .about-information{max-width:690px}
+.home-page .about-section .about-information>h2{max-width:640px;margin-bottom:16px;font-size:clamp(42px,4.1vw,62px);font-weight:780;line-height:1.07;letter-spacing:-2px}
+.home-page .about-title-line{width:72px;height:3px;display:block;margin:0 0 23px;border-radius:99px;background:var(--public-accent-strong)}
+.home-page .about-section .about-information>p{font-size:15px;line-height:1.85}
+.home-page .about-section .about-features-grid{gap:14px;margin-top:28px}
+.home-page .about-section .about-feature-card{min-height:112px;padding:20px;border-radius:15px;background:color-mix(in srgb,var(--public-surface) 91%,transparent);box-shadow:0 12px 28px rgba(25,63,78,.07)}
+.home-page .about-section .about-feature-card:hover{transform:translateY(-5px);box-shadow:0 19px 36px rgba(25,63,78,.12)}
+.home-page .about-section .about-feature-icon{width:48px;height:48px;border:1px solid color-mix(in srgb,var(--public-accent) 35%,transparent);border-radius:14px;font-size:19px}
+
+.home-page .about-stats-shell{position:relative;z-index:2;margin-top:82px;overflow:hidden;border:1px solid color-mix(in srgb,var(--public-accent) 22%,var(--public-border));border-radius:20px;background:color-mix(in srgb,var(--public-surface) 87%,transparent);box-shadow:0 20px 45px rgba(19,65,82,.1)}
+.home-page .about-stats-track{width:max-content;display:flex;animation:about-stats-slide 25s linear infinite;will-change:transform}
+.home-page .about-stats-set{min-width:min(100vw - 48px,1180px);display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));align-items:center;padding:20px 10px}
+.home-page .about-stat{min-height:64px;display:flex;align-items:center;justify-content:center;gap:14px;padding:0 28px;border-right:1px solid var(--public-border)}
+.home-page .about-stat:last-child{border-right:0}
+.home-page .about-stat-icon{width:52px;height:52px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;color:#fff;background:linear-gradient(145deg,#16a8ab,#087c89);box-shadow:0 8px 18px rgba(15,143,146,.22);font-size:20px}
+.home-page .about-stat strong,.home-page .about-stat small{display:block}.home-page .about-stat strong{color:var(--public-text);font-size:22px}.home-page .about-stat small{margin-top:3px;color:var(--public-secondary);font-size:11px;white-space:nowrap}
+@keyframes about-stats-slide{to{transform:translateX(-50%)}}
+
+@media (max-width:1000px){
+  .home-page .about-section .about-wrapper{grid-template-columns:1fr;gap:72px}.home-page .about-section .about-visual{width:min(100%,720px)}.home-page .about-section .about-information{max-width:760px}.home-page .about-stats-set{grid-template-columns:repeat(4,minmax(190px,1fr))}.home-page .about-stat{padding-inline:18px}
+}
+@media (max-width:650px){
+  [data-theme] .home-page .about-section{padding:76px 0 58px}.home-page .about-section .about-wrapper{gap:62px}.home-page .about-section .about-visual{min-height:356px;padding:8px;border-radius:22px}.home-page .about-section .about-clinic-image{height:338px;border-radius:15px}.home-page .about-tooth-stage{width:150px;height:175px;left:-12px;bottom:-37px}.home-page .about-image-orbit{height:120px;bottom:18px}.home-page .about-section .about-information>h2{font-size:38px;letter-spacing:-1.3px}.home-page .about-section .about-features-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-page .about-section .about-feature-card{min-height:145px;flex-direction:column;padding:16px}.home-page .about-stats-shell{margin-top:54px;overflow-x:auto;scrollbar-width:none}.home-page .about-stats-shell::-webkit-scrollbar{display:none}.home-page .about-stats-track{animation:none}.home-page .about-stats-set{min-width:620px;grid-template-columns:repeat(4,minmax(145px,1fr));padding:14px 6px}.home-page .about-stats-set[aria-hidden="true"]{display:none}.home-page .about-stat{padding:0 12px}.home-page .about-stat-icon{width:44px;height:44px}.home-page .about-stat strong{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){.home-page .about-stats-track{animation:none}.home-page .about-stats-set[aria-hidden="true"]{display:none}}

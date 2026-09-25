@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS invoices (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  invoice_id VARCHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+  invoice_number VARCHAR(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+  patient_id BIGINT UNSIGNED NOT NULL,
+  appointment_id BIGINT UNSIGNED NULL,
+  status ENUM('Draft','Issued') NOT NULL DEFAULT 'Draft',
+  subtotal DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  total DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  issue_date DATE NULL,
+  issued_at DATETIME NULL,
+  created_by_user_id BIGINT UNSIGNED NOT NULL,
+  issued_by_user_id BIGINT UNSIGNED NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_invoices_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT fk_invoices_appointment FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT fk_invoices_creator FOREIGN KEY (created_by_user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT fk_invoices_issuer FOREIGN KEY (issued_by_user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT chk_invoice_subtotal CHECK (subtotal >= 0),
+  CONSTRAINT chk_invoice_total CHECK (total >= 0),
+  CONSTRAINT chk_invoice_totals_match CHECK (subtotal = total),
+  INDEX idx_invoices_patient_created (patient_id, created_at),
+  INDEX idx_invoices_appointment (appointment_id),
+  INDEX idx_invoices_status_created (status, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS invoice_items (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  item_id VARCHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+  invoice_id BIGINT UNSIGNED NOT NULL,
+  description VARCHAR(250) NOT NULL,
+  quantity INT UNSIGNED NOT NULL,
+  unit_price DECIMAL(12,2) NOT NULL,
+  line_total DECIMAL(12,2) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_invoice_items_invoice FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT chk_invoice_item_quantity CHECK (quantity > 0),
+  CONSTRAINT chk_invoice_item_unit_price CHECK (unit_price >= 0),
+  CONSTRAINT chk_invoice_item_line_total CHECK (line_total >= 0),
+  INDEX idx_invoice_items_invoice (invoice_id, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

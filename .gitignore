@@ -1,0 +1,93 @@
+# Dependencies
+node_modules/
+
+# Local environment files; examples must contain placeholders only
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Build output and caches
+dist/
+dist-ssr/
+build/
+out/
+coverage/
+.nyc_output/
+.vite/
+.cache/
+.next/
+.nuxt/
+*.tsbuildinfo
+
+# Runtime logs and process files
+logs/
+*.log
+*.pid
+*.pid.lock
+
+# Private clinical data and uploaded files
+/backend/private-data/
+/backend/uploads/
+
+# Database dumps, local databases, and backups
+# Keep database/schema.sql, migrations, and rollback SQL versioned.
+dumps/
+backups/
+backup/
+*.dump
+*.sql.gz
+*.sql.zip
+*.sql.bz2
+*.sql.xz
+*.sql.7z
+*.dump.gz
+*dump*.sql
+*backup*.sql
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.db
+*.db-*
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+
+# Local credential/key files
+.npmrc
+.netrc
+.my.cnf
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Temporary files and directories
+tmp/
+temp/
+.tmp/
+.tmp-*
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Operating-system and editor state
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

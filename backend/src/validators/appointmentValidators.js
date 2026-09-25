@@ -1,0 +1,11 @@
+import { body,param,query } from 'express-validator';
+const id=(field,where)=>where(field).trim().isLength({min:1,max:32}).matches(/^[A-Za-z0-9-]+$/);
+const dateRule=(where,field)=>where(field).isISO8601({strict:true});
+const timeRule=(where,field)=>where(field).matches(/^([01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/);
+export const appointmentIdRules=[id('id',param)];
+export const availabilityRules=[id('doctorId',query),id('serviceId',query),dateRule(query,'date')];
+export const createRules=[id('dentalServiceId',body),id('doctorId',body),dateRule(body,'date'),timeRule(body,'time'),body('patientNote').optional({nullable:true}).isString().isLength({max:2000})];
+export const adminCreateRules=[id('patientId',body),...createRules,body('bookingSource').isIn(['Phone','WhatsApp','Walk-in','Admin'])];
+export const adminCreateNewPatientRules=[...createRules,body('bookingSource').isIn(['Phone','WhatsApp','Walk-in','Admin']),body('fullName').trim().isLength({min:2,max:150}),body('phone').trim().isLength({min:7,max:30}).matches(/^[+\d\s().-]+$/),body('email').optional({values:'falsy'}).trim().isEmail().isLength({max:254}),body('identityNumber').optional({values:'falsy'}).trim().isLength({min:4,max:32}).matches(/^[A-Za-z0-9\s-]+$/)];
+export const cancelRules=[...appointmentIdRules,body('reason').trim().isLength({min:2,max:1000})];
+export const rescheduleRules=[...appointmentIdRules,dateRule(body,'date'),timeRule(body,'time'),body('reason').optional({nullable:true}).isString().isLength({max:1000})];

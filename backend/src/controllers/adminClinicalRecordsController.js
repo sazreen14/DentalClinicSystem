@@ -1,0 +1,1 @@
+import * as s from '../services/clinicalRecordsService.js';export async function list(_q,r){r.json({status:'success',records:await s.adminDirectory()});}export async function record(q,r){r.json({status:'success',record:await s.adminRecord(q.params.patientId)});}

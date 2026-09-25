@@ -1,0 +1,116 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5edf0;
+  box-shadow: 0 4px 14px rgba(31, 55, 73, 0.05);
+}
+
+.navbar-content {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.clinic-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tooth-logo {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #dffafa;
+  font-size: 23px;
+}
+
+.clinic-brand h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.clinic-brand small {
+  color: #1aaeb1;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #1aaeb1;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-actions button {
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-secondary {
+  color: #172033;
+  background: #ffffff;
+  border: 1px solid #dce5e9;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background: #2ec4c7;
+}
+
+.btn-primary:hover {
+  background: #1ba7aa;
+}
+
+@media (max-width: 950px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-content {
+    min-height: 68px;
+  }
+
+  .clinic-brand small {
+    display: none;
+  }
+
+  .nav-actions .btn-secondary {
+    display: none;
+  }
+
+  .nav-actions button {
+    padding: 0 17px;
+  }
+}

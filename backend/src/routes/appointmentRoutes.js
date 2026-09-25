@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import * as controller from '../controllers/appointmentController.js';
+import { authenticateToken } from '../middleware/authenticateToken.js';
+import { requireRole } from '../middleware/requireRole.js';
+import { validateRequest } from '../middleware/validateRequest.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { appointmentIdRules,availabilityRules,cancelRules,createRules,rescheduleRules } from '../validators/appointmentValidators.js';
+const router=Router(); router.use(authenticateToken);
+router.get('/options',requireRole('Patient'),asyncHandler(controller.bookingOptions));
+router.get('/availability',requireRole('Patient','Admin'),availabilityRules,validateRequest,asyncHandler(controller.availability));
+router.get('/my',requireRole('Patient'),asyncHandler(controller.myAppointments));
+router.post('/',requireRole('Patient'),createRules,validateRequest,asyncHandler(controller.create));
+router.post('/:id/cancel',requireRole('Patient'),cancelRules,validateRequest,asyncHandler(controller.cancel));
+router.post('/:id/reschedule',requireRole('Patient'),rescheduleRules,validateRequest,asyncHandler(controller.reschedule));
+export default router;
