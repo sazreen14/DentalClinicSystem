@@ -9,6 +9,9 @@ import { notFound } from "./middleware/notFound.js";
 import apiRoutes from "./routes/index.js";
 
 const app = express();
+if (env.nodeEnv === "production") {
+  app.set("trust proxy", "127.0.0.1");
+}
 app.disable("x-powered-by");
 app.use(helmet());
 app.use(cors({ origin: env.frontendOrigin, credentials: true, methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"] }));

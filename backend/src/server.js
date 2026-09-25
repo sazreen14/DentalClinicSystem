@@ -2,7 +2,8 @@ import app from "./app.js";
 import { checkDatabase, closeDatabase } from "./config/database.js";
 import { env } from "./config/env.js";
 
-const server = app.listen(env.port, async () => {
+const host = env.nodeEnv === "production" ? "127.0.0.1" : undefined;
+const server = app.listen(env.port, host, async () => {
   console.log(`Dental Clinic API listening on port ${env.port}`);
   try {
     await checkDatabase();
