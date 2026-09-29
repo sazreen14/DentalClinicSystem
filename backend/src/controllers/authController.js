@@ -1,3 +1,4 @@
+import * as emailVerification from "../services/emailVerificationService.js";
 import * as authService from "../services/authService.js";
 import { env } from "../config/env.js";
 import { AppError } from "../utils/AppError.js";
@@ -39,14 +40,14 @@ export async function refresh(request, response) {
 }
 
 export async function logout(request, response) {
-  await authService.logout(requireRefreshCookie(request), clientIp(request));
   response.clearCookie(REFRESH_COOKIE, cookieOptions);
+  await authService.logout(requireRefreshCookie(request), clientIp(request));
   response.status(200).json({ status: "success", message: "Logged out successfully." });
 }
 
 export async function logoutAll(request, response) {
-  await authService.logoutAll(request.user.id, clientIp(request));
   response.clearCookie(REFRESH_COOKIE, cookieOptions);
+  await authService.logoutAll(request.user.id, clientIp(request));
   response.status(200).json({ status: "success", message: "All sessions have been signed out." });
 }
 
@@ -68,4 +69,14 @@ export async function forgotPassword(request, response) {
 export async function resetPassword(request, response) {
   const result = await authService.resetPassword(request.body, clientIp(request));
   response.status(200).json({ status: "success", ...result });
+}
+
+export async function verifyEmail(request, response) {
+  response.json({ status: "success", ...await emailVerification.verifyEmail(request.body.token, clientIp(request)) });
+}
+export async function resendVerification(request, response) {
+  response.json({ status: "success", ...await emailVerification.resendVerification(request.body.email, clientIp(request)) });
+}
+export async function changeEmail(request, response) {
+  response.json({ status: "success", ...await emailVerification.requestEmailChange(request.user.id, request.body.email, clientIp(request)) });
 }

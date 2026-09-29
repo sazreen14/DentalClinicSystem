@@ -21,7 +21,8 @@ function Footer({ onLogin, onRegister, onBookAppointment }) {
 
         <div className="footer-column"><h3>Navigation</h3><a href="#home">Home</a><a href="#about">About Clinic</a><a href="#services">Services</a><a href="#location">Clinic Location</a><a href="#reviews">Patient Reviews</a></div>
 
-        <div className="footer-column"><h3>Patient Portal</h3><button type="button" onClick={onLogin}>Login to Portal</button><button type="button" onClick={onRegister}>Create Account</button><button type="button" onClick={onBookAppointment}>Book Appointment</button><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Use</a></div>
+        <div className="footer-column">
+          <h3>Patient Portal</h3><button type="button" onClick={onLogin}>Login to Portal</button><button type="button" onClick={onRegister}>Create Account</button><button type="button" onClick={onBookAppointment}>Book Appointment</button><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Use</a></div>
 
         <div className="footer-column footer-contact-column">
           <h3>Contact Info</h3>

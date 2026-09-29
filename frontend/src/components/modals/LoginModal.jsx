@@ -1,12 +1,16 @@
+import ResendVerification from "../auth/ResendVerification";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import {
   FaEnvelope,
+  FaTimes,
   FaLock,
   FaEye,
   FaEyeSlash,
   FaShieldAlt,
+  FaTooth,
+  FaExclamationCircle,
 } from "react-icons/fa";
 
 import "../../styles/LoginModal.css";
@@ -16,6 +20,7 @@ function LoginModal({
   onSwitchToRegister,
   onForgotPassword,
   notice,
+  verificationEmail = "",
 }) {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -23,11 +28,13 @@ function LoginModal({
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    email: "",
+    email: verificationEmail,
     password: "",
     rememberMe: false,
   });
   const [error, setError] = useState("");
+  const [verificationRequired, setVerificationRequired] = useState(Boolean(verificationEmail));
+  const [accountCreated, setAccountCreated] = useState(Boolean(verificationEmail));
   const [submitting, setSubmitting] = useState(false);
 
   function handleChange(event) {
@@ -41,7 +48,9 @@ function LoginModal({
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (submitting) return;
     setError("");
+    setVerificationRequired(false);
     setSubmitting(true);
     try {
       const user = await login({ email: formData.email, password: formData.password });
@@ -52,6 +61,7 @@ function LoginModal({
     } catch (requestError) {
       setFormData((previous) => ({ ...previous, password: "" }));
       setError(requestError.message);
+      setVerificationRequired(requestError.code === "EMAIL_VERIFICATION_REQUIRED");
     } finally { setSubmitting(false); }
   }
 
@@ -65,28 +75,46 @@ function LoginModal({
           type="button"
           className="auth-modal-close"
           onClick={onClose}
-          aria-label="Close login modal"
+          aria-label="Close login"
         >
-          ×
+          <FaTimes aria-hidden="true" />
         </button>
 
         <div className="auth-modal-heading">
-          <div className="auth-modal-icon">
-            <FaShieldAlt />
+          <div className="auth-modal-icon" aria-hidden="true">
+            <FaTooth />
           </div>
 
-          <span>Secure Patient Portal</span>
+          <span>Secure Dental Portal</span>
 
-          <h2>Welcome Back</h2>
+          <h2 id="login-title">{verificationRequired ? "Email verification required" : "Welcome Back"}</h2>
 
           <p>
-            Log in to manage your appointments and patient information.
+            {verificationRequired
+              ? accountCreated
+                ? "Your account has been created successfully. Please verify your email address before logging in."
+                : "Please verify your email address before logging in to your patient account."
+              : "Log in to access your authorized system functions."}
           </p>
         </div>
 
+        {verificationRequired ? (
+          <div className="auth-verification" role="group" aria-labelledby="login-title">
+            {verificationRequired && error && <div className="auth-form-message error" role="alert"><FaExclamationCircle aria-hidden="true" /><span>{error}</span></div>}
+            <ResendVerification initialEmail={formData.email} variant="login" readOnly />
+            <p className="auth-switch-text">
+              <button type="button" onClick={() => {
+                setVerificationRequired(false);
+                setAccountCreated(false);
+                setError("");
+                setShowPassword(false);
+              }}>Return to Login</button>
+            </p>
+          </div>
+        ) : <>
         <form className="auth-form" onSubmit={handleSubmit}>
           {notice && <div className="auth-form-message success" role="status">{notice}</div>}
-          {error && <div className="auth-form-message error" role="alert">{error}</div>}
+          {error && !verificationRequired && <div className="auth-form-message error" role="alert"><FaExclamationCircle aria-hidden="true" /><span>{error}</span></div>}
           <div className="auth-field">
             <label htmlFor="login-email">Email Address</label>
 
@@ -153,8 +181,9 @@ function LoginModal({
             <span>Remember me</span>
           </label>
 
-          <button type="submit" className="auth-submit-button" disabled={submitting}>
-            {submitting ? "Signing in…" : "Login to Portal"}
+          <button type="submit" className="auth-submit-button" disabled={submitting} aria-busy={submitting}>
+            {submitting && <span className="auth-login-spinner" aria-hidden="true" />}
+            <span>{submitting ? "Signing in..." : "Login to Portal"}</span>
           </button>
         </form>
 
@@ -173,6 +202,7 @@ function LoginModal({
             Register here
           </button>
         </p>
+        </>}
       </div>
     </div>
   );

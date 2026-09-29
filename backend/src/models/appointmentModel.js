@@ -29,8 +29,9 @@ export async function listDoctorAppointments(db, doctorId, activeOnly=false) {
 export async function listAllAppointments(db) {
   const [rows] = await db.execute(`${detailsSql} ORDER BY a.appointment_date DESC,a.appointment_time`); return rows;
 }
-export async function findAppointment(db, publicId, { forUpdate=false }={}) {
-  const [rows] = await db.execute(`${detailsSql} WHERE a.appointment_id=? LIMIT 1${forUpdate?' FOR UPDATE':''}`, [publicId]); return rows[0] ?? null;
+export async function findAppointment(db, publicId, { forUpdate = false, patientId } = {}) {
+  const ownership = patientId === undefined ? "" : " AND a.patient_id=?";
+  const [rows] = await db.execute(`${detailsSql} WHERE a.appointment_id=?${ownership} LIMIT 1${forUpdate ? " FOR UPDATE" : ""}`, patientId === undefined ? [publicId] : [publicId, patientId]); return rows[0] ?? null;
 }
 function allowedDoctorSql(allowedDoctorIds) {
   const ids = [...allowedDoctorIds];

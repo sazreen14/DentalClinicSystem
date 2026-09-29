@@ -50,3 +50,5 @@ export const resetPasswordRules = [
     .custom((value, { req }) => value === req.body.newPassword)
     .withMessage("New passwords do not match."),
 ];
+
+export const emailVerificationRules = [body("token").isString().matches(/^[A-Za-z0-9_-]{43}$/)];

@@ -15,3 +15,6 @@ export const loginRateLimiter = limiter(20);
 export const refreshRateLimiter = limiter(60);
 export const forgotPasswordRateLimiter = limiter(5);
 export const resetPasswordRateLimiter = limiter(10);
+
+export const verificationResendRateLimiter = limiter(5);
+export const verificationRateLimiter = limiter(20);

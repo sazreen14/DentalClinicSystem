@@ -10,7 +10,7 @@ let cleaned = false;
 async function cleanup() { if (!cleaned) { await cleanupKnownIntegrationFixtures(db, { family: "security", tag }); cleaned = true; } }
 
 async function createUser(role, suffix) {
-  const [result] = await db.execute("INSERT INTO users(user_id,full_name,email,password_hash,role) VALUES(?,?,?,?,?)", [`SEC-${suffix}-${tag}`, `Security ${suffix}`, `security.${suffix}.${tag}@example.test`, "$2b$12$syntheticSecurityHashOnly000000000000000000000000000", role]);
+  const [result] = await db.execute("INSERT INTO users(email_verified_at,user_id,full_name,email,password_hash,role) VALUES(CURRENT_TIMESTAMP,?,?,?,?,?)", [`SEC-${suffix}-${tag}`, `Security ${suffix}`, `security.${suffix}.${tag}@example.test`, "$2b$12$syntheticSecurityHashOnly000000000000000000000000000", role]);
   ids.users.push(result.insertId); return result.insertId;
 }
 

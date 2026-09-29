@@ -1,3 +1,4 @@
+import { requestEmailChange } from "../services/authApi";
 import { useState } from "react";
 
 import {
@@ -34,6 +35,7 @@ function PatientProfile() {
 }
 
 function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto }) {
+  const [emailNotice, setEmailNotice] = useState("");
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
@@ -183,6 +185,16 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
           </div>
 
           <form className="figma-profile-form" onSubmit={handleSaveProfile}>
+            {currentPatient.pendingEmail && <div role="status" className="figma-profile-full-width">
+              <p>Verification pending for {currentPatient.pendingEmail}. Your current email ({currentPatient.email}) remains active until you verify the new address.</p>
+              <button type="button" disabled={saving} onClick={async () => {
+                setSaving(true);
+                try { const result = await requestEmailChange(currentPatient.pendingEmail); setEmailNotice(result.message); }
+                catch (error) { setEmailNotice(error.message); }
+                finally { setSaving(false); }
+              }}>Resend new email verification</button>
+            </div>}
+            {emailNotice && <p role="status">{emailNotice}</p>}
             {saveError && <p className="figma-profile-save-error" role="alert">{saveError}</p>}
             <label className="figma-profile-full-width">
               Full Name

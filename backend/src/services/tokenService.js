@@ -20,7 +20,7 @@ export function createRefreshToken(user) {
   );
   const decoded = jwt.decode(token);
   return { raw: token, hash: hashToken(token), expiresAt: new Date(decoded.exp * 1000) };
-}
+}-[]
 
 export function createTokenPair(user) {
   const refresh = createRefreshToken(user);
@@ -29,7 +29,9 @@ export function createTokenPair(user) {
 
 export function verifyAccessToken(token) {
   try {
-    return jwt.verify(token, env.jwt.accessSecret);
+    const payload = jwt.verify(token, env.jwt.accessSecret, { algorithms: ["HS256"] });
+    if (!Number.isSafeInteger(Number(payload.sub)) || Number(payload.sub) < 1 || !payload.userId || !["Patient", "Doctor", "Admin"].includes(payload.role)) throw new Error("Invalid identity claims");
+    return payload;
   } catch {
     throw new AppError("Invalid or expired access token.", 401, "INVALID_ACCESS_TOKEN");
   }
@@ -37,7 +39,9 @@ export function verifyAccessToken(token) {
 
 export function verifyRefreshToken(token) {
   try {
-    return jwt.verify(token, env.jwt.refreshSecret);
+    const payload = jwt.verify(token, env.jwt.refreshSecret, { algorithms: ["HS256"] });
+    if (!Number.isSafeInteger(Number(payload.sub)) || Number(payload.sub) < 1 || !payload.jti) throw new Error("Invalid identity claims");
+    return payload;
   } catch {
     throw new AppError("Invalid or expired refresh token.", 401, "INVALID_REFRESH_TOKEN");
   }

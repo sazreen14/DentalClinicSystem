@@ -1,7 +1,7 @@
 export async function findUserByEmail(executor, email, { forUpdate = false } = {}) {
   const [rows] = await executor.execute(
     `SELECT u.id, u.user_id, u.full_name, u.email, u.password_hash, u.role,
-            u.account_status, p.patient_id, d.doctor_id, d.professional_title
+            u.account_status, u.email_verified_at, p.patient_id, d.doctor_id, d.professional_title
        FROM users u
        LEFT JOIN patients p ON p.user_id = u.id
        LEFT JOIN doctors d ON d.user_id = u.id
@@ -13,7 +13,7 @@ export async function findUserByEmail(executor, email, { forUpdate = false } = {
 
 export async function findUserById(executor, id) {
   const [rows] = await executor.execute(
-    `SELECT u.id, u.user_id, u.full_name, u.email, u.role, u.account_status,
+    `SELECT u.id, u.user_id, u.full_name, u.email, u.role, u.account_status, u.email_verified_at,
             p.patient_id, d.doctor_id, d.professional_title
        FROM users u
        LEFT JOIN patients p ON p.user_id = u.id

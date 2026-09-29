@@ -13,7 +13,7 @@
     "dev": "nodemon src/server.js",
     "test": "npm run test:integration",
     "test:db:prepare": "node --env-file=.env.test scripts/prepareTestDatabase.js --reset && node --env-file=.env.test scripts/runMigrations.js && node --env-file=.env.test scripts/seedIntegrationTestPrerequisites.js",
-    "test:integration": "node --env-file=.env.test --import ./test/helpers/requireTestDatabase.js --test --test-concurrency=1 --experimental-test-isolation=none",
+    "test:integration": "node --env-file=.env.test scripts/runIntegrationTests.js",
     "seed:auth": "node scripts/provisionAuthAccounts.js",
     "seed:doctor-b": "node scripts/provisionTemporaryDoctorB.js",
     "seed:doctors": "node scripts/seedClinicDoctors.js",

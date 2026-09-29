@@ -38,7 +38,7 @@ test('Doctor photo upload reuses validated storage, persists, and is account sco
     const doctor=(await response.json()).doctor;
     assert.match(doctor.photoUrl,/^\/api\/public\/profile-photos\/[a-f0-9]{48}\.(jpg|png|webp)$/);
     assert.equal(doctor.photoUrl.includes('uploads'),false);
-    const image=await fetch(`${base}${doctor.photoUrl}`);assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),mime);
+    const image=await fetch(`${base}${doctor.photoUrl}`,{headers:{authorization:`Bearer ${firstToken}`}});assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),mime);
     assert.equal((await profile(firstToken)).photoUrl,doctor.photoUrl);
     assert.equal((await profile(await login(first))).photoUrl,doctor.photoUrl);
   }

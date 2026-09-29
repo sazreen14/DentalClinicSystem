@@ -16,3 +16,13 @@ export const resetPassword = (values) => apiRequest("/auth/reset-password", {
   body: JSON.stringify(values),
   retryOnUnauthorized: false,
 });
+
+export const resendVerification = (email) => apiRequest("/auth/resend-verification", {
+  method: "POST", body: JSON.stringify({ email }), retryOnUnauthorized: false,
+});
+export const verifyEmail = (token) => apiRequest("/auth/verify-email", {
+  method: "POST", body: JSON.stringify({ token }), retryOnUnauthorized: false,
+});
+export const requestEmailChange = (email) => apiRequest("/auth/change-email", {
+  method: "POST", body: JSON.stringify({ email }),
+});

@@ -77,7 +77,7 @@ function RegisterModal({ onClose, onSwitchToLogin, onRegistered }) {
         gender: formData.gender, phone: formData.phone, address: formData.address,
       });
       setFormData((previous) => ({ ...previous, password: "", confirmPassword: "" }));
-      onRegistered();
+      onRegistered(formData.email.trim());
     } catch (requestError) {
       const passwordDetail = requestError.details?.find((detail) => detail.field === "password");
       if (passwordDetail) {

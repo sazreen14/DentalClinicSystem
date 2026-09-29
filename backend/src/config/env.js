@@ -82,6 +82,8 @@ export const env = Object.freeze({
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? "7d",
   }),
   bcryptSaltRounds: integer("BCRYPT_SALT_ROUNDS", 12, { min: 10, max: 15 }),
+  emailVerificationTtlMinutes: integer("EMAIL_VERIFICATION_TTL_MINUTES", 30, { min: 5, max: 60 }),
+  emailVerificationCooldownSeconds: integer("EMAIL_VERIFICATION_COOLDOWN_SECONDS", 60, { min: 60, max: 3600 }),
   passwordResetTokenTtlMinutes: integer("PASSWORD_RESET_TOKEN_TTL_MINUTES", 30, { min: 5, max: 1440 }),
   bookingDoctorIds: csvSet("BOOKING_DOCTOR_IDS", "DOC-DEV-ROSNI,DOC-DEV-DOCTOR-B,DOC-CLINIC-NORA"),
   crypto: Object.freeze({

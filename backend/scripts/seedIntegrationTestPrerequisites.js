@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import {randomBytes} from 'node:crypto';
-import {closeDatabase} from '../src/config/database.js';
+import {db,closeDatabase} from '../src/config/database.js';
 import {env} from '../src/config/env.js';
 import {provisionDevelopmentAccounts,provisionTemporaryDoctorB} from '../src/services/provisioningService.js';
 import {seedClinicOperations} from '../src/services/clinicOperationsSeedService.js';
@@ -15,5 +15,6 @@ try{
   await seedClinicDoctors();
   await seedClinicOperations();
   await seedClinicalRecords();
+  await db.execute("UPDATE users SET email_verified_at=CURRENT_TIMESTAMP WHERE role='Patient'");
   console.log(`Minimum integration-test prerequisites ready in ${env.db.database}.`);
 }finally{await closeDatabase();}

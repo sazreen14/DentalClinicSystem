@@ -26,6 +26,7 @@ import AdminSettings from "./pages/AdminSettings";
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminInvoices from "./pages/AdminInvoices";
 import NotFound from "./pages/NotFound";
+import VerifyEmail from "./pages/VerifyEmail";
 import ResetPassword from "./pages/ResetPassword";
 import { ClinicOperationsProvider } from "./context/ClinicOperationsContext";
 import { AppointmentsProvider } from "./context/AppointmentsContext";
@@ -34,9 +35,8 @@ import { NotificationsProvider } from "./context/NotificationsContext";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
-function App() {
+function AuthenticatedApp() {
   return (
-    <BrowserRouter>
     <AuthProvider>
     <ClinicOperationsProvider>
       <AppointmentsProvider>
@@ -163,8 +163,15 @@ function App() {
       </AppointmentsProvider>
     </ClinicOperationsProvider>
     </AuthProvider>
-    </BrowserRouter>
+
   );
+}
+
+function App() {
+  return <BrowserRouter><Routes>
+    <Route path="/verify-email" element={<VerifyEmail />} />
+    <Route path="*" element={<AuthenticatedApp />} />
+  </Routes></BrowserRouter>;
 }
 
 export default App;

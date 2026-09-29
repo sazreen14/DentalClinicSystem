@@ -17,6 +17,8 @@ import { normalizeAddress, normalizeIdentityNumber, normalizePhone } from "../ut
 import { AppError } from "../utils/AppError.js";
 import { sendPasswordResetEmail } from "./emailService.js";
 
+import { prepareVerification, deliverVerification, requireVerifiedPatient } from "./emailVerificationService.js";
+
 const INVALID_CREDENTIALS = "Invalid email or password.";
 export const PASSWORD_RESET_REQUEST_MESSAGE = "If an account exists for this email, a password reset link has been sent.";
 
@@ -42,6 +44,7 @@ function safeUser(user) {
     email: user.email,
     role: user.role,
     accountStatus: user.account_status,
+    emailVerified: Boolean(user.email_verified_at),
   };
   if (user.role === "Patient") result.patientId = user.patient_id;
   if (user.role === "Doctor") {
@@ -51,7 +54,7 @@ function safeUser(user) {
   return result;
 }
 
-export async function registerPatient(input, ipAddress) {
+export async function registerPatient(input, ipAddress, emailSender) {
   const email = input.email.trim().toLowerCase();
   const identity = normalizeIdentityNumber(input.identityNumber);
   const phone = normalizePhone(input.phone);
@@ -66,10 +69,11 @@ export async function registerPatient(input, ipAddress) {
   const patientId = createPatientId();
 
   try {
-    return await inTransaction(async (connection) => {
+    const result = await inTransaction(async (connection) => {
       if (await findUserByEmail(connection, email, { forUpdate: true })) throw new AppError("An account with these details already exists.", 409, "ACCOUNT_EXISTS");
       if (await findPatientByIdentityIndex(connection, identityBlindIndex, { forUpdate: true })) throw new AppError("An account with these details already exists.", 409, "ACCOUNT_EXISTS");
       const userDatabaseId = await insertUser(connection, { userId, fullName: input.fullName.trim(), email, passwordHash });
+
       await insertPatient(connection, {
         patientId, userDatabaseId, identityCiphertext: identityEncrypted.ciphertext,
         identityBlindIndex, identityKeyVersion: identityEncrypted.keyVersion,
@@ -79,9 +83,13 @@ export async function registerPatient(input, ipAddress) {
         addressCiphertext: addressEncrypted.ciphertext,
         addressKeyVersion: addressEncrypted.keyVersion,
       });
+
       await writeAudit({ userId: userDatabaseId, eventType: "PATIENT_REGISTERED", outcome: "Success", ipAddress }, connection);
-      return { userId, patientId, fullName: input.fullName.trim(), email, role: "Patient", accountStatus: "Active" };
+      const mail = await prepareVerification(connection, { id: userDatabaseId, full_name: input.fullName.trim() }, email, "registration", ipAddress);
+      return { mail, user: { userId, patientId, fullName: input.fullName.trim(), email, role: "Patient", accountStatus: "Active", emailVerified: false } };
     });
+    await deliverVerification(result.mail, ipAddress, emailSender);
+    return result.user;
   } catch (error) {
     if (error.code === "ER_DUP_ENTRY") throw new AppError("An account with these details already exists.", 409, "ACCOUNT_EXISTS");
     throw error;
@@ -99,6 +107,7 @@ export async function login(input, ipAddress) {
     await writeAudit({ userId: user.id, eventType: "ACCOUNT_INACTIVE_LOGIN_ATTEMPT", outcome: "Failure", ipAddress });
     throw new AppError(INVALID_CREDENTIALS, 401, "INVALID_CREDENTIALS");
   }
+  requireVerifiedPatient(user);
   const pair = createTokenPair(user);
   await inTransaction(async (connection) => {
     await insertRefreshToken(connection, { userId: user.id, tokenHash: pair.refresh.hash, expiresAt: pair.refresh.expiresAt });
@@ -115,6 +124,7 @@ export async function refresh(rawToken, ipAddress) {
     if (!stored || stored.revoked_at || new Date(stored.expires_at) <= new Date() || String(stored.user_id) !== payload.sub) throw new AppError("Invalid or expired refresh token.", 401, "INVALID_REFRESH_TOKEN");
     const user = await findUserById(connection, stored.user_id);
     if (!user || user.account_status !== "Active") throw new AppError("Invalid or expired refresh token.", 401, "INVALID_REFRESH_TOKEN");
+    requireVerifiedPatient(user);
     const pair = createTokenPair(user);
     await revokeRefreshToken(connection, stored.id);
     await insertRefreshToken(connection, { userId: user.id, tokenHash: pair.refresh.hash, expiresAt: pair.refresh.expiresAt });

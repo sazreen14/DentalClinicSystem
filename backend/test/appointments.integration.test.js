@@ -20,7 +20,7 @@ let cleaned=false;
 let walkInUserId=null;
 async function cleanup(){if(cleaned)return;setAppointmentEmailSenderForTests(null);await cleanupKnownIntegrationFixtures(db,{family:'appointments',tag:suffix});if(walkInUserId){await db.execute('DELETE FROM notifications WHERE recipient_user_id=?',[walkInUserId]);await db.execute('DELETE FROM security_audit_logs WHERE user_id=?',[walkInUserId]);await db.execute('DELETE FROM patient_clinical_profiles WHERE patient_id IN (SELECT id FROM patients WHERE user_id=?)',[walkInUserId]);await db.execute('DELETE FROM patients WHERE user_id=?',[walkInUserId]);await db.execute('DELETE FROM users WHERE id=?',[walkInUserId]);}await db.execute("DELETE FROM clinic_closed_dates WHERE reason=?",[`TEST-${suffix}`]);env.bookingDoctorIds.delete(`DOC-${suffix}`);cleaned=true;}
 
-async function user(role,name,tag){const [r]=await db.execute("INSERT INTO users(user_id,full_name,email,password_hash,role) VALUES(?,?,?,?,?)",[`UT-${tag}-${suffix}`,name,`${tag.toLowerCase()}.${suffix}@example.test`,'$2b$12$syntheticAppointmentTestHashOnly000000000000000000000',role]);return r.insertId;}
+async function user(role,name,tag){const [r]=await db.execute("INSERT INTO users(email_verified_at,user_id,full_name,email,password_hash,role) VALUES(CURRENT_TIMESTAMP,?,?,?,?,?)",[`UT-${tag}-${suffix}`,name,`${tag.toLowerCase()}.${suffix}@example.test`,'$2b$12$syntheticAppointmentTestHashOnly000000000000000000000',role]);return r.insertId;}
 before(async()=>{
   env.bookingDoctorIds.add(`DOC-${suffix}`);
   setAppointmentEmailSenderForTests(async(event,appointment,recipient)=>{emailEvents.push({event,appointmentId:appointment.id,recipient});return{status:'test'};});

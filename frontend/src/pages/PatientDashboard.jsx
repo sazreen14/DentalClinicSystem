@@ -58,7 +58,7 @@ function PatientDashboard() {
     status: visit.status,
   }));
   const nextSharedAppointment = patientAppointments.filter((item) => item.date >= APPOINTMENT_REFERENCE_DATE && !["Cancelled", "Completed"].includes(item.status)).sort((a,b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))[0];
-  const nextAppointment = nextSharedAppointment ? { ...nextSharedAppointment, doctor:nextSharedAppointment.doctorName, date:new Date(`${nextSharedAppointment.date}T00:00:00`).toLocaleDateString("en-MY", { weekday:"long", day:"numeric", month:"long", year:"numeric" }), location:"Klinik Pergigian Rosni Adam" } : { service:"No upcoming appointment", doctor:"", date:"", time:"", location:"Klinik Pergigian Rosni Adam", status:"Cancelled" };
+  const nextAppointment = nextSharedAppointment ? { ...nextSharedAppointment, doctor:nextSharedAppointment.doctorName, date:new Date(`${nextSharedAppointment.date}T00:00:00`).toLocaleDateString("en-MY", { weekday:"long", day:"numeric", month:"long", year:"numeric" }), location:"Klinik Pergigian Rosni Adam" } : null;
 
   function openAppointmentModal() {
     setShowAppointmentModal(true);
@@ -115,7 +115,7 @@ function PatientDashboard() {
           <div>
             <strong>{patientAppointments.filter((item) => item.status === "Completed").length}</strong>
             <span>Total Visits</span>
-            <small>Since 2022</small>
+            <small>Completed visits</small>
           </div>
         </article>
 
@@ -173,7 +173,7 @@ function PatientDashboard() {
               </button>
             </div>
 
-            <div className="patient-figma-next-appointment">
+            {nextAppointment ? <div className="patient-figma-next-appointment">
               <div className="patient-figma-treatment-icon">
                 🪥
               </div>
@@ -230,7 +230,7 @@ function PatientDashboard() {
                   )}
                 </div>
               </div>
-            </div>
+            </div> : <p>No upcoming appointment</p>}
           </article>
 
           <article className="patient-figma-card">

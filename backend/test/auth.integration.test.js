@@ -1,3 +1,4 @@
+import { verifyFixtureEmail } from "./helpers/verifyFixtureEmail.js";
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 import bcrypt from "bcrypt";
@@ -140,6 +141,9 @@ test("complete authentication lifecycle", async () => {
   assert.equal(wrongLogin.response.status, 401);
   assert.equal(wrongLogin.json.message, "Invalid email or password.");
 
+  const unverified = await api("/api/auth/login", { method: "POST", body: { email: testData.email, password: testData.password } });
+  assert.equal(unverified.json.code, "EMAIL_VERIFICATION_REQUIRED");
+  await verifyFixtureEmail(testData.email);
   const firstLogin = await api("/api/auth/login", { method: "POST", body: { email: testData.email, password: testData.password } });
   assert.equal(firstLogin.response.status, 200);
   const firstAccess = firstLogin.json.accessToken;

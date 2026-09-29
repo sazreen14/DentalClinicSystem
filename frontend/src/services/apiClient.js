@@ -4,6 +4,39 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
 let accessToken = null;
 let refreshPromise = null;
 let onSessionExpired = () => {};
+let sessionVersion = 0;
+let authQueue = Promise.resolve();
+
+export const getApiSessionVersion = () => sessionVersion;
+
+export function resetApiSession() {
+  sessionVersion += 1;
+  accessToken = null;
+  refreshPromise = null;
+  return sessionVersion;
+}
+
+function assertSession(version) {
+  if (version !== sessionVersion) {
+    const error = new Error("The session changed. Please try again.");
+    error.code = "SESSION_CHANGED";
+    throw error;
+  }
+}
+
+// Cookie-changing requests must finish in order, including a refresh already
+// in flight when logout starts. Old responses still cannot update app state.
+function serializeAuth(task) {
+  const result = authQueue.then(task);
+  authQueue = result.catch(() => {});
+  return result;
+}
+
+function tokenSubject(token) {
+  if (!token) return null;
+  try { return JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).sub; }
+  catch { return null; }
+}
 
 export function setApiAccessToken(token) {
   accessToken = token || null;
@@ -32,53 +65,74 @@ async function parseBlobResponse(response) {
 
 export async function refreshAccessToken() {
   if (!refreshPromise) {
-    refreshPromise = fetch(`${API_BASE_URL}/auth/refresh`, {
-      method: "POST",
-      credentials: "include",
-    })
-      .then(parseResponse)
-      .then((data) => {
-        setApiAccessToken(data.accessToken);
-        return data.accessToken;
-      })
-      .finally(() => { refreshPromise = null; });
+    const version = sessionVersion;
+    const subject = tokenSubject(accessToken);
+    const pending = serializeAuth(async () => {
+      assertSession(version);
+      const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        method: "POST", credentials: "include", cache: "no-store",
+      });
+      const data = await parseResponse(response);
+      assertSession(version);
+      if (subject && tokenSubject(data.accessToken) !== subject) {
+        throw new Error("The signed-in account changed. Please log in again.");
+      }
+      setApiAccessToken(data.accessToken);
+      return data.accessToken;
+    }).finally(() => { if (refreshPromise === pending) refreshPromise = null; });
+    refreshPromise = pending;
   }
   return refreshPromise;
 }
 
 export async function apiRequest(path, options = {}) {
+  return request(path, options, parseResponse);
+}
+
+export async function apiBlobRequest(path, options = {}) {
+  return request(path, options, parseBlobResponse);
+}
+
+async function request(path, options, parse) {
+  const version = sessionVersion;
   const { retryOnUnauthorized = true, headers, ...requestOptions } = options;
-  const execute = () => fetch(`${API_BASE_URL}${path}`, {
+  const execute = (finishingLogout = false) => {
+    if (!finishingLogout) assertSession(version);
+    return fetch(`${API_BASE_URL}${path}`, {
     ...requestOptions,
     credentials: "include",
+    cache: "no-store",
     headers: {
       ...(requestOptions.body && !(requestOptions.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...headers,
     },
-  });
+    });
+  };
+
+  if (["/auth/login", "/auth/logout", "/auth/logout-all"].includes(path)) {
+    return serializeAuth(async () => {
+      const result = await parse(await execute(path === "/auth/logout" || path === "/auth/logout-all"));
+      assertSession(version);
+      return result;
+    });
+  }
 
   let response = await execute();
+  assertSession(version);
   if (response.status === 401 && retryOnUnauthorized && !path.startsWith("/auth/refresh")) {
     try {
       await refreshAccessToken();
       response = await execute();
     } catch (error) {
-      setApiAccessToken(null);
-      onSessionExpired();
+      if (version === sessionVersion) {
+        setApiAccessToken(null);
+        onSessionExpired();
+      }
       throw error;
     }
   }
-  return parseResponse(response);
-}
-
-export async function apiBlobRequest(path, options = {}) {
-  const { retryOnUnauthorized = true, headers, ...requestOptions } = options;
-  const execute = () => fetch(`${API_BASE_URL}${path}`, { ...requestOptions, credentials: "include", headers: { ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), ...headers } });
-  let response = await execute();
-  if (response.status === 401 && retryOnUnauthorized) {
-    try { await refreshAccessToken(); response = await execute(); }
-    catch (error) { setApiAccessToken(null); onSessionExpired(); throw error; }
-  }
-  return parseBlobResponse(response);
+  const result = await parse(response);
+  assertSession(version);
+  return result;
 }

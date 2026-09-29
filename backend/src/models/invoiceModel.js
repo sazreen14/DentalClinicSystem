@@ -49,6 +49,21 @@ export async function itemsForInvoice(executor, invoiceId) {
   return rows;
 }
 
+export async function invoiceForUser(executor, invoiceCode, user) {
+  if (user.role === "Admin") return invoiceByCode(executor, invoiceCode);
+  let ownership;
+  if (user.role === "Patient") {
+    ownership = "p.user_id=?";
+  } else if (user.role === "Doctor") {
+    ownership = `EXISTS (SELECT 1 FROM doctors actor WHERE actor.user_id=? AND (
+      EXISTS (SELECT 1 FROM appointments ra WHERE ra.patient_id=i.patient_id AND ra.doctor_id=actor.id AND ra.status IN ('Pending','Confirmed','Completed'))
+      OR EXISTS (SELECT 1 FROM clinical_records rr WHERE rr.patient_id=i.patient_id AND rr.doctor_id=actor.id)
+    ))`;
+  } else return null;
+  const [rows] = await executor.execute(`${invoiceSelect} WHERE i.invoice_id=? AND i.status='Issued' AND ${ownership} LIMIT 1`, [invoiceCode, user.id]);
+  return rows[0] ?? null;
+}
+
 export async function insertItem(executor, value) {
   await executor.execute(`INSERT INTO invoice_items(item_id,invoice_id,description,quantity,unit_price,line_total) VALUES(?,?,?,?,?,?)`, [value.itemId, value.invoiceId, value.description, value.quantity, value.unitPrice, value.lineTotal]);
 }

@@ -29,8 +29,8 @@ async function api(path, { method = "GET", token } = {}) {
 
 async function createUser(tag) {
   const [result] = await db.execute(
-    `INSERT INTO users (user_id, full_name, email, password_hash, role)
-     VALUES (?, ?, ?, ?, 'Admin')`,
+    `INSERT INTO users(email_verified_at,user_id, full_name, email, password_hash, role)
+     VALUES (CURRENT_TIMESTAMP,?, ?, ?, ?, 'Admin')`,
     [`NT-${tag}-${suffix}`, `Notification ${tag}`, `${tag.toLowerCase()}.${suffix}@example.test`, "$2b$12$syntheticNotificationTestHashOnly00000000000000000"],
   );
   const [[user]] = await db.execute("SELECT * FROM users WHERE id = ?", [result.insertId]);

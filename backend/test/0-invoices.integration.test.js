@@ -23,7 +23,7 @@ let auditStart;
 let cleaned = false;
 
 async function createUser(role, suffix) {
-  const [result] = await db.execute("INSERT INTO users(user_id,full_name,email,password_hash,role) VALUES(?,?,?,?,?)", [`USR-INV-${suffix}-${tag}`, `Invoice ${suffix}`, `invoice.${suffix}.${tag}@example.test`, "$2b$12$syntheticInvoiceHashOnly0000000000000000000000000000", role]);
+  const [result] = await db.execute("INSERT INTO users(email_verified_at,user_id,full_name,email,password_hash,role) VALUES(CURRENT_TIMESTAMP,?,?,?,?,?)", [`USR-INV-${suffix}-${tag}`, `Invoice ${suffix}`, `invoice.${suffix}.${tag}@example.test`, "$2b$12$syntheticInvoiceHashOnly0000000000000000000000000000", role]);
   created.users.push(result.insertId);
   const [[user]] = await db.execute("SELECT * FROM users WHERE id=?", [result.insertId]);
   return user;

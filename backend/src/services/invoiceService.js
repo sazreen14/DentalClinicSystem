@@ -1,7 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { db } from "../config/database.js";
 import * as model from "../models/invoiceModel.js";
-import { doctorHasPatient } from "../models/clinicalRecordsModel.js";
 import { inTransaction } from "./authService.js";
 import { writeAudit } from "./auditService.js";
 import { AppError } from "../utils/AppError.js";
@@ -144,17 +143,8 @@ export async function listForUser(user) {
 }
 
 async function authorizedInvoice(user, invoiceCode) {
-  const invoice = await model.invoiceByCode(db, invoiceCode);
+  const invoice = await model.invoiceForUser(db, invoiceCode, user);
   if (!invoice) throw new AppError("Invoice not found.", 404, "INVOICE_NOT_FOUND");
-  if (user.role === "Admin") return invoice;
-  if (invoice.status !== "Issued") throw new AppError("Invoice not found.", 404, "INVOICE_NOT_FOUND");
-  if (user.role === "Patient") {
-    const patient = await model.patientForUser(db, user.id);
-    if (!patient || Number(patient.id) !== Number(invoice.patient_id)) throw new AppError("Invoice not found.", 404, "INVOICE_NOT_FOUND");
-    return invoice;
-  }
-  const doctor = await model.doctorForUser(db, user.id);
-  if (!doctor || !await doctorHasPatient(db, doctor.id, invoice.patient_id)) throw new AppError("Invoice not found.", 404, "INVOICE_NOT_FOUND");
   return invoice;
 }
 

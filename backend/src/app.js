@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 app.use("/api", (request, response, next) => {
-  if (!request.path.startsWith("/public/") && request.path !== "/health") response.set("Cache-Control", "no-store, private");
+  if (request.path.startsWith("/public/profile-photos/") || (!request.path.startsWith("/public/") && request.path !== "/health")) response.set("Cache-Control", "no-store, private");
   next();
 });
 app.use("/api", rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: "draft-8", legacyHeaders: false }), apiRoutes);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import Topbar from "../components/Topbar";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
@@ -22,13 +21,17 @@ function Home() {
   const { user, isAuthenticated } = useAuth();
   const [activeModal, setActiveModal] = useState(() => location.state?.openLogin ? "login" : null);
   const [authNotice, setAuthNotice] = useState("");
+  const [verificationEmail, setVerificationEmail] = useState("");
 
   function openModal(modalName) {
+    setVerificationEmail("");
+    setAuthNotice("");
     setActiveModal(modalName);
   }
 
   function openBooking() {
     if (!isAuthenticated) {
+      setVerificationEmail("");
       setAuthNotice("Please sign in with your Patient account to book an appointment.");
       setActiveModal("login");
       return;
@@ -38,8 +41,6 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Topbar />
-
       <Navbar
         onLogin={() => openModal("login")}
         onRegister={() => openModal("register")}
@@ -72,10 +73,11 @@ function Home() {
 
       {activeModal === "login" && (
         <LoginModal
-        onClose={() => setActiveModal(null)}
-        onSwitchToRegister={() => setActiveModal("register")}
-        onForgotPassword={() => setActiveModal("forgotPassword")}
+        onClose={() => openModal(null)}
+        onSwitchToRegister={() => openModal("register")}
+        onForgotPassword={() => openModal("forgotPassword")}
         notice={authNotice}
+        verificationEmail={verificationEmail}
         />
       )}
 
@@ -83,7 +85,7 @@ function Home() {
         <RegisterModal
         onClose={() => setActiveModal(null)}
         onSwitchToLogin={() => setActiveModal("login")}
-        onRegistered={() => { setAuthNotice("Registration successful. Please log in to continue."); setActiveModal("login"); }}
+        onRegistered={(email) => { setAuthNotice(""); setVerificationEmail(email); setActiveModal("login"); }}
         />
       )}
 

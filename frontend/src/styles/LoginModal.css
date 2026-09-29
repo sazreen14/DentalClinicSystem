@@ -42,6 +42,12 @@
   background: #e7eef2;
 }
 
+.auth-modal-close svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
 .auth-modal-heading {
   margin-bottom: 28px;
   text-align: center;
@@ -256,3 +262,137 @@
 .auth-form-message.error { color: #a42834; background: #fff0f1; border: 1px solid #f2c9ce; }
 .auth-form-message.success { color: #176b63; background: #edfbf9; border: 1px solid #bce8e3; }
 .auth-submit-button:disabled { cursor: wait; opacity: .7; }
+
+/* Card-only polish. The existing overlay and page background stay unchanged. */
+.auth-modal-card {
+  width: min(100%, 460px);
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 30px 32px 26px;
+  border-color: #d5e9eb;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, .2);
+}
+.auth-modal-card .auth-modal-heading { margin-bottom: 24px; }
+.auth-modal-card .auth-modal-icon { width: 46px; height: 46px; margin-bottom: 12px; border: 1px solid #b9e7e8; border-radius: 13px; color: #128f92; background: #e8fbfb; }
+.auth-modal-card .auth-modal-heading > span { color: #0f7b7e; font-size: 10px; letter-spacing: 1.5px; }
+.auth-modal-card .auth-modal-heading h2 { color: #0f172a; font-size: 28px; letter-spacing: -.7px; line-height: 1.3; }
+.auth-modal-card .auth-modal-heading p { color: #64748b; font-size: 12px; line-height: 1.7; }
+.auth-modal-card .auth-form { gap: 16px; }
+.auth-modal-card .auth-field { gap: 7px; }
+.auth-modal-card .auth-label-row { gap: 10px; flex-wrap: wrap; }
+.auth-modal-card .auth-input-wrapper,
+.auth-modal-card .auth-resend-form .reset-password-input { min-height: 48px; padding: 0 13px; border: 1px solid #d5e2e8; border-radius: 11px; background: #f8fbfc; gap: 10px; }
+.auth-modal-card .auth-input-wrapper input,
+.auth-modal-card .auth-resend-form input { font: inherit; font-size: 13px; line-height: 1.5; min-width: 0; color: #172033; background: transparent; }
+.auth-modal-card .auth-input-wrapper input::placeholder { color: #738296; }
+.auth-modal-card .auth-input-wrapper > svg,
+.auth-modal-card .auth-resend-form .reset-password-input > svg { flex-shrink: 0; color: #64828c; font-size: 14px; }
+.auth-modal-card .auth-input-wrapper:focus-within,
+.auth-modal-card .auth-resend-form .reset-password-input:focus-within { border-color: #128f92; box-shadow: 0 0 0 3px rgba(18, 143, 146, .13); }
+.auth-modal-card :is(button, input):focus-visible { outline: 3px solid #128f92; outline-offset: 3px; }
+.auth-modal-card .auth-input-wrapper input:focus-visible,
+.auth-modal-card .auth-resend-form input:focus-visible { outline: none; }
+.auth-modal-card .password-toggle { width: 34px; height: 38px; border-radius: 7px; color: #64748b; }
+.auth-modal-card .password-toggle:hover { color: #0f7b7e; background: #e8fbfb; }
+.auth-modal-card .forgot-password-button,
+.auth-modal-card .auth-switch-text button { color: #0f7b7e; }
+.auth-modal-card .forgot-password-button:hover,
+.auth-modal-card .auth-switch-text button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.auth-modal-card .remember-checkbox { min-height: 24px; }
+.auth-modal-card .remember-checkbox input { width: 15px; height: 15px; accent-color: #128f92; }
+.auth-modal-card .auth-submit-button,
+.auth-modal-card .auth-resend-form .reset-password-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #128f92;
+  border-radius: 11px;
+  color: #fff;
+  background: linear-gradient(115deg, #0f7b7e, #106b74);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: 0 6px 16px rgba(18, 143, 146, .15);
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.auth-modal-card .auth-submit-button:hover:not(:disabled),
+.auth-modal-card .auth-resend-form .reset-password-submit:hover:not(:disabled) { background: linear-gradient(115deg, #106b74, #0d5d66); box-shadow: 0 8px 20px rgba(18, 143, 146, .2); }
+.auth-modal-card .auth-resend-form .reset-password-submit:disabled { cursor: wait; opacity: .7; }
+.auth-modal-card .auth-resend-form .reset-password-submit svg { flex-shrink: 0; font-size: 12px; }
+.auth-modal-card .auth-verification { display: grid; gap: 12px; }
+.auth-modal-card .auth-verification-info { display: flex; gap: 12px; padding: 14px; border: 1px solid #b9e7e8; border-radius: 12px; background: #e8fbfb; }
+.auth-modal-card .auth-verification-info > svg { flex-shrink: 0; margin-top: 2px; color: #0f7b7e; font-size: 17px; }
+.auth-modal-card .auth-verification-info h3 { margin: 0 0 5px; color: #155e68; font-size: 13px; font-weight: 700; line-height: 1.4; }
+.auth-modal-card .auth-verification-info p { margin: 0; color: #426773; font-size: 12px; line-height: 1.65; }
+.auth-modal-card .auth-form-message { display: flex; align-items: flex-start; gap: 9px; padding: 10px 12px; border-radius: 10px; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.auth-modal-card .auth-form-message > svg { flex-shrink: 0; margin-top: 3px; font-size: 13px; }
+.auth-modal-card .auth-form-message.error { color: #a42834; background: #fff3f4; border-color: #f0d4d8; }
+.auth-modal-card .auth-form-message.success { color: #155e68; background: #e8fbfb; border-color: #b9e7e8; }
+.auth-modal-card .auth-resend-form { margin: 3px 0 0; gap: 12px; }
+.auth-modal-card .auth-resend-form label > span { color: #334155; font-size: 12px; font-weight: 600; }
+.auth-modal-card .auth-resend-message { display: flex; gap: 9px; margin: 0; padding: 11px 12px; border: 1px solid #b9e7e8; border-radius: 10px; color: #155e68; background: #e8fbfb; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.auth-modal-card .auth-resend-message > svg { flex-shrink: 0; margin-top: 3px; }
+.auth-modal-card .auth-verification-divider { display: flex; align-items: center; gap: 14px; margin: 19px 0; color: #64748b; font-size: 11px; }
+.auth-modal-card .auth-verification-divider::before,
+.auth-modal-card .auth-verification-divider::after { content: ""; flex: 1; height: 1px; background: #e0eaed; }
+.auth-modal-card .auth-security-note { margin-top: 18px; padding: 12px 0 0; border: 0; border-top: 1px solid #e0eaed; border-radius: 0; background: transparent; color: #64748b; font-size: 11px; }
+.auth-modal-card .auth-security-note svg { color: #128f92; }
+.auth-modal-card .auth-switch-text { margin-top: 16px; color: #64748b; }
+
+/* Allow form tracks and flex content to shrink inside the scrollable card.
+   In particular, input intrinsic widths must not set the grid's minimum width. */
+.auth-modal-card :is(.auth-form, .auth-field, .auth-verification, .auth-resend-form) {
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+.auth-modal-card :is(.auth-input-wrapper, .reset-password-input, .auth-resend-form label,
+  .auth-verification-info > div, .auth-form-message > span, .auth-resend-message > span) {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.auth-modal-card :is(.auth-input-wrapper, .reset-password-input) input {
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 100%;
+}
+.auth-modal-card .auth-verification-info { overflow-wrap: anywhere; }
+.auth-login-spinner {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  border: 2px solid rgba(255, 255, 255, .4);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: auth-login-spin .8s linear infinite;
+}
+@keyframes auth-login-spin { to { transform: rotate(360deg); } }
+
+/* Preserve the application's existing dark-mode support inside the card. */
+[data-theme="dark"] .auth-modal-card .auth-modal-heading h2 { color: var(--text-primary); }
+[data-theme="dark"] .auth-modal-card :is(.auth-modal-heading > span, .forgot-password-button, .auth-switch-text button) { color: var(--accent); }
+[data-theme="dark"] .auth-modal-card :is(.auth-modal-heading p, .auth-security-note, .auth-switch-text) { color: var(--text-secondary); }
+[data-theme="dark"] .auth-modal-card :is(.auth-input-wrapper, .auth-resend-form .reset-password-input) { background: var(--input-bg); border-color: var(--border); }
+[data-theme="dark"] .auth-modal-card :is(.auth-verification-info, .auth-resend-message, .auth-form-message.success) { background: #17383c; border-color: #2b6267; color: #c4ebec; }
+[data-theme="dark"] .auth-modal-card .auth-verification-info :is(h3, p, svg) { color: #c4ebec; }
+[data-theme="dark"] .auth-modal-card .auth-form-message.error { color: #fecdd3; background: #351c24; border-color: #7f3944; }
+[data-theme="dark"] .auth-modal-card .auth-resend-form label > span { color: var(--text-primary); }
+
+@media (max-width: 520px) {
+  .auth-modal-card { max-height: calc(100dvh - 28px); padding: 26px 20px 22px; border-radius: 20px; }
+  .auth-modal-card .auth-modal-heading h2 { font-size: 26px; }
+  .auth-modal-card .auth-modal-heading { margin-bottom: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-modal-card *, .auth-modal-card *::before, .auth-modal-card *::after { transition: none; }
+  .auth-login-spinner { animation: none; }
+}

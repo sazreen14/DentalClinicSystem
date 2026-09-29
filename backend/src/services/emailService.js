@@ -104,3 +104,35 @@ export function createPasswordResetEmailService(config = env.email, transport = 
 }
 
 export const sendPasswordResetEmail = createPasswordResetEmailService();
+
+export function createVerificationEmailService(config = env.email, transport = null) {
+  let activeTransport = transport;
+  return async ({ recipientEmail, recipientName, verificationUrl, expiresInMinutes, purpose }) => {
+    if (!config.enabled) return { status: "disabled" };
+    activeTransport ??= createSmtpTransport(config);
+    const introduction = purpose === "email_change" ? "Confirm your new email address. Your current email stays active until you confirm." : "Verify your email address to access your patient account.";
+    const info = await activeTransport.sendMail({
+      from: clinicSender(config), to: recipientEmail,
+      subject: `Verify Your Email - ${CLINIC_NAME}`,
+      text: `Hello ${recipientName},\n\n${introduction}\n${verificationUrl}\n\nThis link expires in ${expiresInMinutes} minutes and can be used once. If you did not request this, ignore this email.`,
+      html: `<p>Hello ${escapeHtml(recipientName)},</p><p>${introduction}</p><p><a href="${escapeHtml(verificationUrl)}">Verify email</a></p><p>This link expires in ${expiresInMinutes} minutes and can be used once. If you did not request this, ignore this email.</p>`,
+    });
+    return { status: transport ? "test" : "sent", messageId: info.messageId };
+  };
+}
+export const sendVerificationEmail = createVerificationEmailService();
+
+export function createEmailChangedNotificationService(config = env.email, transport = null) {
+  let activeTransport = transport;
+  return async ({ recipientEmail }) => {
+    if (!config.enabled) return { status: "disabled" };
+    activeTransport ??= createSmtpTransport(config);
+    const info = await activeTransport.sendMail({
+      from: clinicSender(config), to: recipientEmail,
+      subject: `Your Email Address Changed - ${CLINIC_NAME}`,
+      text: `The email address for your patient account has been changed after verification. If you did not request this change, please contact ${CLINIC_NAME} immediately.`,
+    });
+    return { status: transport ? "test" : "sent", messageId: info.messageId };
+  };
+}
+export const sendEmailChangedNotification = createEmailChangedNotificationService();
