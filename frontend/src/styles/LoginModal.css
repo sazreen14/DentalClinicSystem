@@ -346,6 +346,11 @@
 .auth-modal-card .auth-verification-divider::after { content: ""; flex: 1; height: 1px; background: #e0eaed; }
 .auth-modal-card .auth-security-note { margin-top: 18px; padding: 12px 0 0; border: 0; border-top: 1px solid #e0eaed; border-radius: 0; background: transparent; color: #64748b; font-size: 11px; }
 .auth-modal-card .auth-security-note svg { color: #128f92; }
+.auth-modal-card .auth-security-note,
+.home-page .auth-modal-card .auth-security-note {
+  background: transparent;
+  border: 0;
+}
 .auth-modal-card .auth-switch-text { margin-top: 16px; color: #64748b; }
 
 /* Allow form tracks and flex content to shrink inside the scrollable card.

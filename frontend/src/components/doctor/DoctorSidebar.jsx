@@ -13,7 +13,6 @@ import {
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
-import { MdMedicalServices } from "react-icons/md";
 
 const menuItems = [
   { id: "overview", label: "Overview", icon: <FaHome />, path: "/doctor-dashboard" },
@@ -37,7 +36,7 @@ function DoctorSidebar({ activePage = "overview", doctorName = "Dr. Rosni Adam",
     <aside className="doctor-sidebar">
       <div className="doctor-sidebar-brand">
         <div className="doctor-sidebar-logo">
-          <MdMedicalServices />
+          <img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} />
         </div>
         <div>
           <strong>Klinik Pergigian</strong>

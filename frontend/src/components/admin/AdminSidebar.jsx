@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useNotifications } from "../../context/useNotifications";
 import { useAuth } from "../../context/useAuth";
 import { FaBell, FaCalendarAlt, FaClipboardList, FaCog, FaFileInvoiceDollar, FaHome, FaSignOutAlt, FaStore, FaUsers } from "react-icons/fa";
-import { MdMedicalServices } from "react-icons/md";
 
 const menuItems = [
   { id: "overview", label: "Overview", icon: <FaHome />, path: "/admin-dashboard" },
@@ -25,7 +24,7 @@ function AdminSidebar({ activePage = "overview", adminName = "Clinic Admin", adm
 
   return (
     <aside className="admin-sidebar">
-      <div className="admin-sidebar-brand"><div className="admin-sidebar-logo"><MdMedicalServices /></div><div><strong>Klinik Pergigian</strong><span>Rosni Adam</span></div></div>
+      <div className="admin-sidebar-brand"><div className="admin-sidebar-logo"><img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} /></div><div><strong>Klinik Pergigian</strong><span>Rosni Adam</span></div></div>
       <div className="admin-sidebar-user"><div className="admin-sidebar-avatar">{adminInitials}</div><div><strong>{adminName}</strong><span>Administrator</span></div></div>
       <nav className="admin-sidebar-navigation" aria-label="Admin portal">
         {menuItems.map((item) => (

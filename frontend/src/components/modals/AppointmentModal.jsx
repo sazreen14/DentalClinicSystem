@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { TbMessageCircle, TbScan, TbBrush, TbDentalOff, TbDental } from "react-icons/tb";
 import {
   FaCheck,
   FaChevronLeft,
@@ -10,9 +11,17 @@ import "../../styles/AppointmentModal.css";
 import "../../styles/AppointmentSuccess.css";
 import { useClinicOperations } from "../../context/useClinicOperations";
 import { useAppointments } from "../../context/useAppointments";
+import { useAuth } from "../../context/useAuth";
+import { useIdentity } from "../../context/useIdentity";
 import { sameDayAvailabilityAdjustment } from "../../utils/appointmentDateAvailability";
 
-const serviceIcons = { scaling:"🪥", filling:"🦷", extraction:"🔬", braces:"😁", whitening:"✨", consultation:"📋", xray:"💀", implant:"⚙️", followup:"🗓️", general:"🦷" };
+const serviceIcons = {
+  "Dental Consultation": TbMessageCircle,
+  "Dental X-Ray": TbScan,
+  "Scaling & Polishing": TbBrush,
+  "Tooth Extraction": TbDentalOff,
+  "Tooth Filling": TbDental,
+};
 
 const monthNames = [
   "January",
@@ -32,6 +41,11 @@ const displayDate = value => value ? new Date(`${value}T00:00:00`).toLocaleDateS
 const displayTime = value => value ? new Date(`2000-01-01T${value}:00`).toLocaleTimeString("en-MY", { hour:"numeric", minute:"2-digit" }) : "—";
 
 function AppointmentModal({ onClose }) {
+  const { user, isAuthenticated } = useAuth();
+  const { patients, loading: profileLoading, error: profileError } = useIdentity();
+  const currentPatient = isAuthenticated && user?.role === "Patient" && user.patientId && !profileLoading && !profileError
+    ? patients.find((patient) => patient.patientId === user.patientId)
+    : null;
   const { clinicInfo } = useClinicOperations();
   const { addAppointment, getBookingOptions, getAvailability } = useAppointments();
   const [services,setServices]=useState([]),[doctors,setDoctors]=useState([]),[availableTimeSlots,setAvailableTimeSlots]=useState([]),[submitError,setSubmitError]=useState('');
@@ -46,17 +60,20 @@ function AppointmentModal({ onClose }) {
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
-  const [formData, setFormData] = useState({
+  const [bookingData, setFormData] = useState({
     service: null,
     doctor: null,
     date: "",
     time: "",
-    fullName: "",
-    icNumber: "",
-    phone: "",
-    email: "",
     notes: "",
   });
+  const formData = {
+    ...bookingData,
+    fullName: currentPatient?.fullName ?? "",
+    icNumber: currentPatient?.identityNumber ?? "",
+    phone: currentPatient?.phone ?? "",
+    email: currentPatient?.email ?? "",
+  };
 
   const calendarDays = useMemo(() => {
     const year = calendarDate.getFullYear();
@@ -132,6 +149,10 @@ function AppointmentModal({ onClose }) {
   }
 
   async function handleConfirm() {
+    if (!canContinueStep4) {
+      setStep(4);
+      return;
+    }
     setSubmitError('');
     try { await addAppointment({dentalServiceId:formData.service.id,doctorId:formData.doctor.id,date:formData.date,time:formData.time,patientNote:formData.notes||undefined}); setBookingConfirmed(true); }
     catch(error){setSubmitError(error.message);}
@@ -278,6 +299,7 @@ function AppointmentModal({ onClose }) {
 
                   <div className="appointment-services-grid">
                     {services.map((service) => {
+                      const ServiceIcon = serviceIcons[service.name] || TbDental;
                       const selected =
                         formData.service?.name === service.name;
 
@@ -291,7 +313,7 @@ function AppointmentModal({ onClose }) {
                           onClick={() => setFormData((previous) => ({ ...previous, service, doctor:null, date:"", time:"" }))}
                         >
                           <span className="appointment-service-icon">
-                            {serviceIcons[service.iconKey] || serviceIcons.general}
+                            <ServiceIcon size="1em" strokeWidth={1.75} style={{ color: "var(--public-accent-strong, var(--accent, #128f92))", verticalAlign: "top" }} aria-hidden="true" />
                           </span>
 
                           <strong>{service.name}</strong>
@@ -493,6 +515,12 @@ function AppointmentModal({ onClose }) {
                   </h3>
 
                   <div className="patient-details-form">
+                    <p className="full-width" role={profileLoading || canContinueStep4 ? "status" : "alert"}>
+                      {profileLoading ? "Loading your patient profile..."
+                        : profileError || !currentPatient ? "Your patient profile could not be loaded. Please reopen booking or check My Profile before continuing."
+                          : !canContinueStep4 ? "Required profile information is missing. Please update My Profile before continuing. If your IC / Passport Number is missing, contact the clinic for assistance."
+                            : "These details come from your patient profile and cannot be edited here. To make changes, update My Profile."}
+                    </p>
                     <label className="full-width">
                       Full Name *
                       <input
@@ -500,7 +528,7 @@ function AppointmentModal({ onClose }) {
                         type="text"
                         placeholder="Enter your full name"
                         value={formData.fullName}
-                        onChange={handleDetailsChange}
+                        readOnly
                         required
                       />
                     </label>
@@ -512,7 +540,7 @@ function AppointmentModal({ onClose }) {
                         type="text"
                         placeholder="Enter IC or passport number"
                         value={formData.icNumber}
-                        onChange={handleDetailsChange}
+                        readOnly
                         required
                       />
                     </label>
@@ -524,7 +552,7 @@ function AppointmentModal({ onClose }) {
                         type="tel"
                         placeholder="Example: 0192817109"
                         value={formData.phone}
-                        onChange={handleDetailsChange}
+                        readOnly
                         required
                       />
                     </label>
@@ -536,7 +564,7 @@ function AppointmentModal({ onClose }) {
                         type="email"
                         placeholder="Enter your email address"
                         value={formData.email}
-                        onChange={handleDetailsChange}
+                        readOnly
                         required
                       />
                     </label>

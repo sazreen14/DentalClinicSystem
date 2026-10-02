@@ -1,0 +1,32 @@
+.privacy-policy-modal {
+  box-sizing: border-box;
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border, #d5e9eb);
+  border-radius: 24px;
+  background: var(--bg-surface, #fff);
+  color: var(--text-primary, #172033);
+  box-shadow: 0 24px 64px rgba(15, 23, 42, .24);
+  font-family: inherit;
+}
+.privacy-policy-modal[open] { display: flex; flex-direction: column; }
+.privacy-policy-modal::backdrop { background: rgba(15, 23, 42, .68); backdrop-filter: blur(8px); }
+.privacy-policy-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 24px 24px 18px; border-bottom: 1px solid var(--border, #d5e9eb); }
+.privacy-policy-header p { margin: 0 0 7px; color: var(--accent, #128f92); font-size: 12px; font-weight: 600; }
+.privacy-policy-header h2 { margin: 0; color: var(--text-primary, #172033); font-size: 24px; }
+.privacy-policy-x { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; color: var(--text-secondary, #64748b); background: var(--input-bg, #f3fbfb); }
+.privacy-policy-content { overflow-y: auto; overscroll-behavior: contain; padding: 20px 24px; font-size: 13px; line-height: 1.75; overflow-wrap: anywhere; }
+.privacy-policy-content p { margin: 0 0 16px; color: var(--text-secondary, #64748b); }
+.privacy-policy-content h3 { margin: 20px 0 6px; color: var(--text-primary, #172033); font-size: 15px; }
+.privacy-policy-content address { display: grid; gap: 5px; font-style: normal; }
+.privacy-policy-content a { color: var(--accent, #128f92); }
+.privacy-policy-actions { padding: 16px 24px; border-top: 1px solid var(--border, #d5e9eb); text-align: right; }
+.privacy-policy-actions button { min-height: 42px; padding: 10px 26px; border: 0; border-radius: 10px; background: var(--accent, #128f92); color: var(--bg-surface, #fff); font: inherit; font-weight: 600; }
+.privacy-policy-modal button:hover { filter: brightness(.95); }
+.privacy-policy-modal :is(button, a):focus-visible { outline: 3px solid var(--accent, #128f92); outline-offset: 3px; }
+@media (max-width: 520px) {
+  .privacy-policy-modal { border-radius: 20px; }
+  .privacy-policy-header, .privacy-policy-content, .privacy-policy-actions { padding-left: 18px; padding-right: 18px; }
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaTooth } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { useClinicOperations } from "../context/useClinicOperations";
 import ThemeToggle from "./ThemeToggle";
 import "../styles/Navbar.css";
@@ -13,7 +13,7 @@ function Navbar({ onLogin, onRegister }) {
     <nav className="navbar" aria-label="Public navigation">
       <div className="container navbar-content">
         <a className="clinic-brand" href="#home" onClick={closeMenu} aria-label={`${clinicInfo.clinicName} home`}>
-          <div className="tooth-logo" aria-hidden="true"><FaTooth /></div>
+          <div className="tooth-logo" aria-hidden="true"><img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} /></div>
           <div><h2>{clinicInfo.clinicName}</h2><small>Secure Dental Patient Portal</small></div>
         </a>
         <div id="public-nav-links" className={`nav-links ${menuOpen ? "open" : ""}`}>

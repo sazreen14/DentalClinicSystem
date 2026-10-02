@@ -94,6 +94,18 @@
   gap: 8px;
 }
 
+/* Keep helper/error text below the password inputs without stretching their rows. */
+.register-field:has(#register-password),
+.register-field:has(#register-confirm-password) {
+  align-content: start;
+}
+
+.register-input-wrapper:has(#register-password),
+.register-input-wrapper:has(#register-confirm-password) {
+  box-sizing: border-box;
+  height: 50px;
+}
+
 .register-field label {
   color: #334155;
   font-size: 13px;
@@ -162,6 +174,12 @@
 .register-consent input {
   margin-top: 3px;
   accent-color: #2ec4c7;
+  flex-shrink: 0;
+}
+
+.register-modal-card .register-consent,
+.home-page .register-modal-card .register-consent {
+  background: transparent;
 }
 
 .register-submit-button {
@@ -239,7 +257,7 @@
   font-size: 13px;
 }
 
-.register-field-wide { margin: 16px 0; }
+.register-field-wide { margin: 0; }
 .register-input-wrapper select,
 .register-input-wrapper textarea {
   width: 100%;

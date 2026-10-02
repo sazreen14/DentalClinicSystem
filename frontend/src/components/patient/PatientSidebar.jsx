@@ -81,7 +81,7 @@ function PatientSidebar({
     <aside className="figma-patient-sidebar">
       <div className="figma-sidebar-brand">
         <div className="figma-sidebar-logo">
-          🦷
+          <img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} />
         </div>
 
         <div>

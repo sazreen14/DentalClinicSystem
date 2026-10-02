@@ -9,7 +9,6 @@ import {
   FaEye,
   FaEyeSlash,
   FaShieldAlt,
-  FaTooth,
   FaExclamationCircle,
 } from "react-icons/fa";
 
@@ -82,7 +81,7 @@ function LoginModal({
 
         <div className="auth-modal-heading">
           <div className="auth-modal-icon" aria-hidden="true">
-            <FaTooth />
+            <img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} />
           </div>
 
           <span>Secure Dental Portal</span>
