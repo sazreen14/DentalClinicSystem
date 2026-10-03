@@ -72,10 +72,11 @@ before(async () => {
   doctor = await staff('Doctor', 'D'); otherDoctor = await staff('Doctor', 'OTHER'); admin = await staff('Admin', 'ADMIN');
   const [service] = await db.execute("INSERT INTO dental_services(service_code,name,duration_minutes,status) VALUES(?, 'Synthetic isolation service',30,'Active')", [`SVC-ISO-${tag}`]);
   serviceId = service.insertId;
-  const [appointment] = await db.execute("INSERT INTO appointments(appointment_id,patient_id,doctor_id,dental_service_id,appointment_date,appointment_time,status) VALUES(?,?,?,?,DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY),'10:00','Confirmed')", [appointmentCode, patientA.patient_db_id, doctor.doctorId, serviceId]);
+  const [appointment] = await db.execute("INSERT INTO appointments(appointment_id,patient_id,doctor_id,dental_service_id,appointment_date,appointment_time,status) VALUES(?,?,?,?,DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),'10:00','Completed')", [appointmentCode, patientA.patient_db_id, doctor.doctorId, serviceId]);
   appointmentId = appointment.insertId;
   const [record] = await db.execute('INSERT INTO clinical_records(record_id,patient_id,doctor_id,appointment_id) VALUES(?,?,?,?)', [recordCode, patientA.patient_db_id, doctor.doctorId, appointmentId]);
   recordId = record.insertId;
+  await db.execute("INSERT INTO treatment_history(clinical_record_id,doctor_id,treatment_date,treatment_name,treatment_status,encryption_key_version) VALUES(?,?,CURRENT_DATE,'Synthetic A visit','Completed',1)", [recordId, doctor.doctorId]);
   const instruction = encryptField('Synthetic A instruction', 'patient_clinical_instructions.content');
   await db.execute("INSERT INTO patient_clinical_instructions(instruction_id,clinical_record_id,patient_id,doctor_id,instruction_type,title,content_ciphertext,encryption_key_version,publication_status) VALUES(?,?,?,?,'General Care','Synthetic A instruction',?,?,'Published')", [`INS-ISO-${tag}`, recordId, patientA.patient_db_id, doctor.doctorId, instruction.ciphertext, instruction.keyVersion]);
   const notification = encryptField('Synthetic A notification', 'notifications.message');
@@ -94,6 +95,7 @@ after(async () => {
   }
   if (invoiceId) await db.execute('DELETE FROM invoices WHERE id=?', [invoiceId]);
   if (recordId) {
+    await db.execute('DELETE FROM treatment_history WHERE clinical_record_id=?', [recordId]);
     await db.execute('DELETE FROM patient_clinical_instructions WHERE clinical_record_id=?', [recordId]);
     await db.execute('DELETE FROM clinical_records WHERE id=?', [recordId]);
   }
@@ -109,6 +111,7 @@ test('A owns appointments, published records, notifications and invoices; B stay
   const a = await login(patientA);
   assert.equal((await call('/appointments/my', a)).data.appointments.length, 1);
   assert.equal((await call('/patient/records', a)).data.record.instructions.length, 1);
+  assert.equal((await call('/patient/records', a)).data.record.recentVisits[0].treatment, 'Synthetic A visit');
   assert.equal((await call('/notifications', a)).data.notifications.length, 1);
   assert.equal((await call('/invoices', a)).data.invoices.length, 1);
   assert.equal((await call('/auth/logout', { ...a, method: 'POST' })).status, 200);
@@ -117,6 +120,7 @@ test('A owns appointments, published records, notifications and invoices; B stay
   for (let i = 0; i < 2; i += 1) {
     assert.deepEqual((await call(`/appointments/my?patient_id=${patientA.patient_id}`, b)).data.appointments, []);
     assert.deepEqual((await call(`/patient/records?patientId=${patientA.patient_id}`, b)).data.record.instructions, []);
+    assert.deepEqual((await call(`/patient/records?patientId=${patientA.patient_id}`, b)).data.record.recentVisits, []);
     assert.deepEqual((await call('/notifications', b)).data.notifications, []);
     assert.deepEqual((await call('/invoices', b)).data.invoices, []);
     assert.equal((await call('/patient/profile', b)).data.patient.patientId, patientB.patient_id);
@@ -143,7 +147,7 @@ test('B cannot access A resource IDs; unknown IDs return the same response', asy
   assert.equal((await call(`/doctor/patients/${patientA.patient_id}/record`, b)).status, 403);
   assert.equal((await call(`/admin/identity/patients/${patientA.patient_id}`, b)).status, 403);
   const [[appointment]] = await db.execute('SELECT status FROM appointments WHERE id=?', [appointmentId]);
-  assert.equal(appointment.status, 'Confirmed');
+  assert.equal(appointment.status, 'Completed');
 });
 
 test('Doctor relationship scope and Admin review permissions remain enforced', async () => {

@@ -1,4 +1,28 @@
 const patientSelect=`SELECT p.*,u.full_name,COALESCE(u.email,p.contact_email) AS email,u.account_status FROM patients p JOIN users u ON u.id=p.user_id`;
+export async function recentPatientVisits(db, patientId) {
+  const [rows] = await db.execute(`
+    SELECT id, treatment_date, treatment_name, treatment_status, doctor_name FROM (
+    SELECT t.id, t.treatment_date, t.treatment_name, t.treatment_status, u.full_name AS doctor_name,
+      ROW_NUMBER() OVER (PARTITION BY CASE WHEN COALESCE(t.appointment_id, cr.appointment_id) IS NOT NULL THEN CONCAT('appointment:', COALESCE(t.appointment_id, cr.appointment_id)) ELSE CONCAT('encounter:', cr.id) END ORDER BY t.treatment_date DESC, t.id DESC) AS visit_rank
+    FROM treatment_history t
+    JOIN clinical_records cr ON cr.id = t.clinical_record_id
+    JOIN doctors d ON d.id = t.doctor_id
+    JOIN users u ON u.id = d.user_id
+    WHERE cr.patient_id = ? AND t.treatment_date <= CURRENT_DATE AND t.treatment_status = 'Completed'
+      AND (t.appointment_id IS NULL OR cr.appointment_id IS NULL OR t.appointment_id = cr.appointment_id)
+      AND EXISTS (
+        SELECT 1 FROM appointments linked WHERE linked.id = COALESCE(t.appointment_id, cr.appointment_id)
+        AND linked.patient_id = cr.patient_id AND linked.doctor_id = t.doctor_id AND linked.status = 'Completed')
+      AND NOT EXISTS (SELECT 1 FROM treatment_history replacement WHERE replacement.supersedes_treatment_id = t.id)
+    ) visits WHERE visit_rank = 1
+    ORDER BY treatment_date DESC, id DESC
+    LIMIT 3`, [patientId]);
+  return rows;
+}
+export async function completedPatientVisitCount(db, patientId) {
+  const [[row]] = await db.execute("SELECT COUNT(*) AS total FROM appointments WHERE patient_id = ? AND status = 'Completed'", [patientId]);
+  return Number(row.total);
+}
 export async function doctorForUser(db,userId){const [r]=await db.execute('SELECT id,doctor_id FROM doctors WHERE user_id=? LIMIT 1',[userId]);return r[0]??null;}
 export async function patientForUser(db,userId){const [r]=await db.execute(`${patientSelect} WHERE p.user_id=? LIMIT 1`,[userId]);return r[0]??null;}
 export async function patientByCode(db,code){const [r]=await db.execute(`${patientSelect} WHERE p.patient_id=? LIMIT 1`,[code]);return r[0]??null;}
@@ -12,7 +36,7 @@ export async function recordByCode(db,recordCode,patientId){const[r]=await db.ex
 export async function notes(db,patientId){const [r]=await db.execute(`SELECT n.*,cr.record_id,d.doctor_id,u.full_name doctor_name FROM clinical_notes n JOIN clinical_records cr ON cr.id=n.clinical_record_id JOIN doctors d ON d.id=n.doctor_id JOIN users u ON u.id=d.user_id WHERE cr.patient_id=? ORDER BY n.created_at DESC,n.id DESC`,[patientId]);return r;}
 export async function treatments(db,patientId){const [r]=await db.execute(`SELECT t.*,cr.record_id,d.doctor_id,u.full_name doctor_name,a.appointment_id FROM treatment_history t JOIN clinical_records cr ON cr.id=t.clinical_record_id JOIN doctors d ON d.id=t.doctor_id JOIN users u ON u.id=d.user_id LEFT JOIN appointments a ON a.id=t.appointment_id WHERE cr.patient_id=? ORDER BY t.treatment_date DESC,t.id DESC`,[patientId]);return r;}
 export async function patientAppointments(db,patientId){const [r]=await db.execute(`SELECT a.appointment_id,a.appointment_date,a.appointment_time,a.status,ds.name service_name,d.doctor_id,u.full_name doctor_name FROM appointments a JOIN dental_services ds ON ds.id=a.dental_service_id JOIN doctors d ON d.id=a.doctor_id JOIN users u ON u.id=d.user_id WHERE a.patient_id=? ORDER BY a.appointment_date DESC,a.appointment_time DESC`,[patientId]);return r;}
-export async function validateAppointment(db,publicId,patientId,doctorId,{lock=false}={}){const [r]=await db.execute(`SELECT * FROM appointments WHERE appointment_id=? AND patient_id=? AND doctor_id=? LIMIT 1${lock?' FOR UPDATE':''}`,[publicId,patientId,doctorId]);return r[0]??null;}
+export async function validateAppointment(db,publicId,patientId,doctorId,{lock=false}={}){const [r]=await db.execute(`SELECT *, appointment_date > CURRENT_DATE AS is_future FROM appointments WHERE appointment_id=? AND patient_id=? AND doctor_id=? LIMIT 1${lock?' FOR UPDATE':''}`,[publicId,patientId,doctorId]);return r[0]??null;}
 export async function recordForAppointment(db,appointmentId){const [r]=await db.execute('SELECT * FROM clinical_records WHERE appointment_id=? LIMIT 1',[appointmentId]);return r[0]??null;}
 export async function insertRecord(db,v){const [r]=await db.execute(`INSERT INTO clinical_records(record_id,patient_id,doctor_id,appointment_id,diagnosis_ciphertext,treatment_plan_ciphertext,prescriptions_ciphertext,encryption_key_version) VALUES(?,?,?,?,?,?,?,?)`,[v.recordId,v.patientId,v.doctorId,v.appointmentId??null,v.diagnosis,v.plan,v.prescription,v.keyVersion]);return r.insertId;}
 export async function insertNote(db,v){const [r]=await db.execute(`INSERT INTO clinical_notes(clinical_record_id,doctor_id,visit_date,treatment_service,diagnosis_ciphertext,clinical_note_ciphertext,action_taken_ciphertext,prescription_ciphertext,follow_up_recommendation_ciphertext,encryption_key_version,supersedes_clinical_note_id,amendment_reason_ciphertext,amended_by_user_id,amended_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,[v.recordId,v.doctorId,v.visitDate,v.treatment,v.diagnosis,v.note,v.action,v.prescription,v.followUp,v.keyVersion,v.supersedesId??null,v.amendmentReason??null,v.amendedBy??null,v.amendedAt??null]);return r.insertId;}

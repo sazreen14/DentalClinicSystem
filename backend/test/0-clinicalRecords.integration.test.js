@@ -1,3 +1,4 @@
+import { reconcileCompletedVisits } from '../src/services/completedVisitReconciliation.js';
 import './helpers/requireTestDatabase.js';
 import test, { after, before } from 'node:test';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import * as s from '../src/services/clinicalRecordsService.js';
 const tag = randomBytes(6).toString('hex').toUpperCase();
 const patientCode = 'PT-NOTE-' + tag;
 const marker = 'Synthetic API Note ' + tag;
-const userIds = [], doctorIds = [];
+const userIds = [], doctorIds = [], appointmentIds = [];
 let patientDbId, server, base, doctor, otherDoctor, patient, admin;
 let added, amended, instruction, auditStart = 0;
 
@@ -50,6 +51,9 @@ before(async () => {
     await db.execute('INSERT INTO clinical_records(record_id,patient_id,doctor_id) VALUES(?,?,?)',
       ['REC-NOTE-' + index + '-' + tag, patientDbId, actor.doctorId]);
   }
+  const [[service]] = await db.query('SELECT id FROM dental_services LIMIT 1');
+  const [appointment] = await db.execute("INSERT INTO appointments(appointment_id,patient_id,doctor_id,dental_service_id,appointment_date,appointment_time,status) VALUES(?,?,?,?,CURRENT_DATE,'09:00','Confirmed')", ['APT-BASE-'+tag,patientDbId,doctor.doctorId,service.id]);
+  appointmentIds.push(appointment.insertId);
   const [[audit]] = await db.execute('SELECT COALESCE(MAX(id),0) id FROM security_audit_logs'); auditStart = Number(audit.id);
   await new Promise(resolve => { server = app.listen(0, '127.0.0.1', () => { base = 'http://127.0.0.1:' + server.address().port + '/api'; resolve(); }); });
 });
@@ -67,6 +71,7 @@ after(async () => {
     await db.execute('DELETE FROM treatment_history WHERE clinical_record_id IN (SELECT id FROM clinical_records WHERE patient_id=?)', [patientDbId]);
     await db.execute('DELETE FROM clinical_records WHERE patient_id=?', [patientDbId]);
     await db.execute('DELETE FROM patient_clinical_profiles WHERE patient_id=?', [patientDbId]);
+    for (const id of appointmentIds) { await db.execute('DELETE FROM appointment_history WHERE appointment_id=?', [id]); await db.execute('DELETE FROM appointments WHERE id=?', [id]); }
     await db.execute('DELETE FROM patients WHERE id=?', [patientDbId]);
   }
   for (const id of doctorIds) await db.execute('DELETE FROM doctors WHERE id=?', [id]);
@@ -74,7 +79,12 @@ after(async () => {
   if (server) { server.closeAllConnections?.(); await new Promise(resolve => server.close(resolve)); }
 });
 
-const payload = { treatment: 'Synthetic Review', treatmentStatus: 'Completed', diagnosis: 'Synthetic diagnosis', procedurePerformed: 'Synthetic procedure', clinicalNote: marker, prescription: 'Synthetic prescription', followUpRecommendation: 'Synthetic follow-up' };
+const payload = { appointmentId: 'APT-BASE-'+tag, treatment: 'Synthetic Review', treatmentStatus: 'Completed', diagnosis: 'Synthetic diagnosis', procedurePerformed: 'Synthetic procedure', clinicalNote: marker, prescription: 'Synthetic prescription', followUpRecommendation: 'Synthetic follow-up' };
+
+test('New patient with encounters but no treatments has no recent visits', async () => {
+  assert.deepEqual((await s.patientRecord(patient.id)).recentVisits, []);
+  assert.equal((await s.patientRecord(patient.id)).completedVisitCount, 0);
+});
 
 test('Doctor appends encrypted note and treatment history', async () => {
   assert.ok((await s.doctorDirectory(doctor.id)).some(row => row.patientId === patientCode));
@@ -131,7 +141,7 @@ test('Patient instructions are encrypted, Draft-first, publishable and withdrawa
   instruction = await s.createInstruction(doctor.id, patientCode, { recordId: added.recordId, type: 'Follow-up', title: 'Synthetic guidance', content: 'Synthetic private instruction content' }, '127.0.0.1');
   assert.equal(instruction.status, 'Draft');
   let own = await s.patientRecord(patient.id);
-  assert.deepEqual(Object.keys(own).sort(), ['instructions', 'patientId']);
+  assert.deepEqual(Object.keys(own).sort(), ['completedVisitCount', 'instructions', 'patientId', 'recentVisits']);
   assert.equal(own.instructions.some(row => row.id === instruction.id), false);
   const [[stored]] = await db.execute('SELECT content_ciphertext,encryption_key_version FROM patient_clinical_instructions WHERE instruction_id=?', [instruction.id]);
   assert.ok(!stored.content_ciphertext.includes('Synthetic private instruction content'));
@@ -163,4 +173,80 @@ test('Instruction audit history uses safe public metadata', async () => {
     assert.equal(metadata.instructionId, instruction.id);
     assert.equal(JSON.stringify(metadata).includes('Synthetic private instruction content'), false);
   }
+});
+
+
+test('Patient recent visits match treatment history without exposing private notes', async () => {
+  const [[record]] = await db.execute('SELECT id FROM clinical_records WHERE patient_id=? ORDER BY id LIMIT 1', [patientDbId]);
+  for (const days of [-3, -2, -1, 1]) {
+    await db.execute("INSERT INTO treatment_history(clinical_record_id,doctor_id,treatment_date,treatment_name,treatment_status,encryption_key_version) VALUES(?,?,DATE_ADD(CURRENT_DATE, INTERVAL ? DAY),?,'Completed',1)", [record.id, doctor.doctorId, days, `Synthetic dated visit ${days}`]);
+  }
+  const [[clock]] = await db.query('SELECT DATE_FORMAT(CURRENT_DATE, "%Y-%m-%d") today');
+  const history = (await s.doctorRecord(doctor.id, patientCode)).treatments;
+  const seen = new Set();
+  const expected = history.filter(row => { if(row.date > clock.today || row.status !== 'Completed' || !row.appointmentId || seen.has(row.recordId)) return false; seen.add(row.recordId); return true; }).slice(0, 3).map(({id,date,treatment,doctor,status}) => ({id,date,treatment,doctor,status}));
+  const result = await api('/patient/records?patient_id=not-the-current-patient', { token: createAccessToken(patient) });
+  assert.equal(result.response.status, 200);
+  assert.deepEqual(result.json.record.recentVisits, expected);
+  assert.equal(expected.length, 1);
+  assert.equal(result.json.record.completedVisitCount, 1);
+  for (const visit of result.json.record.recentVisits) assert.deepEqual(Object.keys(visit).sort(), ['date','doctor','id','status','treatment']);
+});
+
+
+test('Completed treatment completes only its linked appointment without duplicate visits', async () => {
+  const [[service]] = await db.query('SELECT id FROM dental_services LIMIT 1');
+  assert.ok(service, 'Test clinic service fixture is required');
+  const code = 'APT-NOTE-' + tag;
+  const [inserted] = await db.execute("INSERT INTO appointments(appointment_id,patient_id,doctor_id,dental_service_id,appointment_date,appointment_time,status) VALUES(?,?,?,?,CURRENT_DATE,'10:00','Confirmed')", [code,patientDbId,doctor.doctorId,service.id]);
+  appointmentIds.push(inserted.insertId);
+  const input = { ...payload, appointmentId: code };
+  const priorCount = (await s.patientRecord(patient.id)).completedVisitCount;
+  await s.addNote(doctor.id, patientCode, { ...input, treatmentStatus: 'Planned' });
+  assert.equal((await s.patientRecord(patient.id)).completedVisitCount, priorCount);
+  const [[plannedAppointment]] = await db.execute('SELECT status FROM appointments WHERE id=?',[inserted.insertId]);
+  assert.equal(plannedAppointment.status,'Confirmed');
+  await s.addNote(doctor.id, patientCode, { ...input, treatmentStatus: 'In Progress' });
+  assert.equal((await s.patientRecord(patient.id)).completedVisitCount, priorCount);
+  let [[a]] = await db.execute('SELECT status FROM appointments WHERE id=?',[inserted.insertId]);
+  assert.equal(a.status,'Confirmed');
+  await s.addNote(doctor.id, patientCode, input);
+  [[a]] = await db.execute('SELECT status FROM appointments WHERE id=?',[inserted.insertId]);
+  assert.equal(a.status,'Completed');
+  const ownAppointments = await api('/appointments/my', {token:createAccessToken(patient)});
+  assert.equal(ownAppointments.json.appointments.find(row=>row.id===code).status,'Completed');
+  assert.equal((await s.patientRecord(patient.id)).completedVisitCount,priorCount+1);
+  const [[history]] = await db.execute("SELECT COUNT(*) n FROM appointment_history WHERE appointment_id=? AND action='Completed'",[inserted.insertId]);
+  assert.equal(Number(history.n),1);
+  const before = await s.patientRecord(patient.id);
+  await s.addNote(doctor.id, patientCode, input);
+  assert.equal((await s.patientRecord(patient.id)).completedVisitCount,before.completedVisitCount);
+  const [[recordCount]] = await db.execute('SELECT COUNT(*) n FROM clinical_records WHERE appointment_id=?',[inserted.insertId]);
+  assert.equal(Number(recordCount.n),1);
+  await assert.rejects(s.addNote(otherDoctor.id,patientCode,input), { code:'INVALID_APPOINTMENT_LINK' });
+  assert.equal((await reconcileCompletedVisits(patientCode)).eligible,0);
+  await assert.rejects(reconcileCompletedVisits(patientCode,{apply:true}), /dry-run only/);
+  await db.execute("UPDATE appointments SET status='Cancelled' WHERE id=?",[inserted.insertId]);
+  await assert.rejects(s.addNote(doctor.id,patientCode,input), {code:'INVALID_APPOINTMENT_STATUS'});
+  assert.equal((await reconcileCompletedVisits(patientCode)).updated,0);
+});
+
+
+test('New visits reject missing, foreign, unknown, pending and future appointment links', async () => {
+  const {appointmentId, ...unlinked} = payload;
+  for (const treatmentStatus of ['Planned','In Progress','Completed']) {
+    await assert.rejects(s.addNote(doctor.id,patientCode,{...unlinked,treatmentStatus}), {code:'APPOINTMENT_REQUIRED'});
+  }
+  const rejected = await api('/doctor/patients/'+patientCode+'/clinical-notes', {method:'POST',token:createAccessToken(doctor),body:unlinked});
+  assert.equal(rejected.response.status,422);
+  await assert.rejects(s.addNote(doctor.id,patientCode,{...payload,appointmentId:'UNKNOWN'}), {code:'INVALID_APPOINTMENT_LINK'});
+  const [[service]] = await db.query('SELECT id FROM dental_services LIMIT 1');
+  const code='APT-REJECT-'+tag;
+  const [inserted]=await db.execute("INSERT INTO appointments(appointment_id,patient_id,doctor_id,dental_service_id,appointment_date,appointment_time,status) VALUES(?,?,?,?,CURRENT_DATE,'11:00','Pending')",[code,patientDbId,doctor.doctorId,service.id]);
+  appointmentIds.push(inserted.insertId);
+  await assert.rejects(s.addNote(doctor.id,patientCode,{...payload,appointmentId:code}),{code:'INVALID_APPOINTMENT_STATUS'});
+  await db.execute("UPDATE appointments SET status='Confirmed', appointment_date=DATE_ADD(CURRENT_DATE,INTERVAL 1 DAY) WHERE id=?",[inserted.insertId]);
+  await assert.rejects(s.addNote(doctor.id,patientCode,{...payload,appointmentId:code}),{code:'INVALID_APPOINTMENT_DATE'});
+  const [[count]]=await db.execute('SELECT COUNT(*) n FROM clinical_records WHERE appointment_id=?',[inserted.insertId]);
+  assert.equal(Number(count.n),0);
 });

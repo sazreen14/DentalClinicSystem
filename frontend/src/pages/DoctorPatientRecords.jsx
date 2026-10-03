@@ -57,6 +57,7 @@ function formatPatientRecord(value) {
     prescriptions: value.clinicalNotes[0]?.prescription || "None",
     clinicalNotes: value.clinicalNotes[0]?.clinicalNote || "Not recorded",
     clinicalNotesHistory: value.clinicalNotes,
+    visitAppointments: value.appointments,
     appointments: {
       previous: previous ? `${previous.date}, ${previous.time} · ${previous.service}` : "No previous appointment",
       upcoming: upcoming ? `${upcoming.date}, ${upcoming.time} · ${upcoming.service}` : "No upcoming appointment",
@@ -95,7 +96,7 @@ function DoctorPatientRecords() {
   useEffect(()=>{getDoctorPatients().then(items=>setPatients(items.map(item=>({...item,id:item.patientId,period:['today','week','month'],status:item.recordStatus})))).catch(error=>setDirectoryError(error.message)).finally(()=>setDirectoryLoading(false));},[]);
   useEffect(()=>{queueMicrotask(async()=>{if(!selectedPatientId){setSelectedPatient(null);setRecordLoading(false);return;}setRecordLoading(true);setRecordMessage("");try{const value=await getDoctorPatientRecord(selectedPatientId);setSelectedPatient(formatPatientRecord(value));}catch(error){setRecordMessage(`The patient record could not be loaded: ${error.message}`);}finally{setRecordLoading(false);}});},[selectedPatientId]);
   async function refreshSelected(patientId=selectedPatientId){const value=await getDoctorPatientRecord(patientId);const refreshedPatient=formatPatientRecord(value);setSelectedPatient(refreshedPatient);return refreshedPatient;}
-  async function saveClinicalRecord(record) {const patientId=selectedPatient.patientId;await addDoctorClinicalNote(patientId,{treatment:record.treatment,treatmentStatus:record.status,diagnosis:record.diagnosis,procedurePerformed:record.procedure,clinicalNote:record.clinicalNote,prescription:record.prescription,followUpRecommendation:record.followUp,...(location.state?.appointmentId&&{appointmentId:location.state.appointmentId})});await refreshSelected(patientId);setClinicalNoteModalOpen(false);setRecordMessage("Clinical note saved. The patient record has been updated.");}
+  async function saveClinicalRecord(record) {const patientId=selectedPatient.patientId;await addDoctorClinicalNote(patientId,{treatment:record.treatment,treatmentStatus:record.status,diagnosis:record.diagnosis,procedurePerformed:record.procedure,clinicalNote:record.clinicalNote,prescription:record.prescription,followUpRecommendation:record.followUp,appointmentId:record.appointmentId});await refreshSelected(patientId);setClinicalNoteModalOpen(false);setRecordMessage("Clinical note saved. The patient record has been updated.");}
   async function saveAmendment(record){await amendDoctorClinicalNote(selectedPatient.patientId,amendingNote.id,{treatment:record.treatment,treatmentStatus:'Completed',diagnosis:record.diagnosis,procedurePerformed:record.procedure,clinicalNote:record.clinicalNote,prescription:record.prescription,followUpRecommendation:record.followUp,amendmentReason:record.amendmentReason});await refreshSelected();}
   async function saveProfile(values){await updateDoctorClinicalProfile(selectedPatient.patientId,values);await refreshSelected();setProfileModalOpen(false);}
   async function saveInstruction(values){await createPatientInstruction(selectedPatient.patientId,values);await refreshSelected();setInstructionModalOpen(false);}
@@ -209,6 +210,7 @@ function DoctorPatientRecords() {
           patient={selectedPatient}
           onClose={() => setClinicalNoteModalOpen(false)}
           onSave={saveClinicalRecord}
+          originAppointmentId={location.state?.appointmentId}
         />
       )}
       {amendingNote&&selectedPatient&&<AmendmentModal patient={selectedPatient} note={amendingNote} onClose={()=>setAmendingNote(null)} onSave={saveAmendment}/>} 
@@ -349,9 +351,11 @@ function PatientInstructionModal({patient,onClose,onSave}){
   return <div className="doctor-treatment-modal-overlay" onMouseDown={onClose}><section className="doctor-treatment-modal" role="dialog" aria-modal="true" onMouseDown={(event)=>event.stopPropagation()}><header className="doctor-treatment-modal-header"><div><FaClipboardList/></div><span><small>Patient-visible Draft</small><h2>Create Patient Instruction</h2></span><button type="button" onClick={onClose} aria-label="Close"><FaTimes/></button></header><div className="doctor-treatment-patient"><div><span>Patient</span><strong>{patient.name}</strong><small>{patient.patientId}</small></div></div><form className="doctor-treatment-form" onSubmit={submit}><label><span>Clinical Encounter *</span><select value={form.recordId} onChange={(event)=>setForm({...form,recordId:event.target.value})} required><option value="">Select encounter</option>{patient.encounters?.map((encounter)=><option value={encounter.recordId} key={encounter.recordId}>{encounter.date} · {encounter.service}</option>)}</select></label><label><span>Instruction Type *</span><select value={form.type} onChange={(event)=>setForm({...form,type:event.target.value})}><option>Medication</option><option>Follow-up</option><option>General Care</option></select></label><label className="wide"><span>Title *</span><input value={form.title} onChange={(event)=>setForm({...form,title:event.target.value})} required maxLength="180"/></label><label className="wide"><span>Patient Instruction *</span><textarea rows="6" value={form.content} onChange={(event)=>setForm({...form,content:event.target.value})} required maxLength="10000"/></label><p className="wide">This is saved as Draft. It is not visible to the Patient until you publish it intentionally.</p>{error&&<p className="wide" role="alert">{error}</p>}<footer><button type="button" onClick={onClose}>Cancel</button><button type="submit" className="primary">Save Draft</button></footer></form></section></div>;
 }
 
-function ClinicalRecordModal({ patient, onClose, onSave }) {
+function ClinicalRecordModal({ patient, onClose, onSave, originAppointmentId }) {
   const { user } = useAuth();
-  const [form, setForm] = useState({ treatment: "", status: "Planned", diagnosis: "", procedure: "", clinicalNote: "", prescription: "", followUp: "" });
+  const eligibleAppointments = (patient.visitAppointments || []).filter(appointment =>
+    appointment.doctorId === user?.doctorId && ["Confirmed", "Completed"].includes(appointment.status));
+  const [form, setForm] = useState({ appointmentId: eligibleAppointments.some(appointment => appointment.id === originAppointmentId) ? originAppointmentId : "", treatment: "", status: "Planned", diagnosis: "", procedure: "", clinicalNote: "", prescription: "", followUp: "" });
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
   const [requestError, setRequestError] = useState("");
@@ -370,6 +374,7 @@ function ClinicalRecordModal({ patient, onClose, onSave }) {
   async function submitClinicalRecord(event) {
     event.preventDefault();
     const nextErrors = Object.fromEntries(Object.entries(form).filter(([, value]) => !value.trim()).map(([field]) => [field, "This field is required."]));
+    if (!eligibleAppointments.some(appointment => appointment.id === form.appointmentId)) nextErrors.appointmentId = "Select a confirmed appointment assigned to you for this patient.";
     if (Object.keys(nextErrors).length) {
       setErrors(nextErrors);
       return;
@@ -377,7 +382,7 @@ function ClinicalRecordModal({ patient, onClose, onSave }) {
     setRequestError("");
     setSubmitting(true);
     try {
-      await onSave({ id: `record-${Date.now()}`, date: currentDate, doctor: user?.fullName, ...form });
+      await onSave({ date: currentDate, doctor: user?.fullName, ...form });
       setSaved(true);
     } catch (error) {
       setRequestError(error.message || "The clinical note could not be saved.");
@@ -396,6 +401,7 @@ function ClinicalRecordModal({ patient, onClose, onSave }) {
             <header className="doctor-treatment-modal-header"><div><FaNotesMedical /></div><span><small>Patient Clinical Record</small><h2 id="treatment-modal-title">Add Clinical Note</h2></span><button type="button" onClick={onClose} aria-label="Close clinical note modal"><FaTimes /></button></header>
             <div className="doctor-treatment-patient"><div><span>Patient</span><strong>{patient.name}</strong><small>{patient.patientId}</small></div><div><span>Doctor</span><strong>{user?.fullName}</strong></div><div><span>Date</span><strong>{currentDate}</strong></div></div>
             <form className="doctor-treatment-form" onSubmit={submitClinicalRecord} noValidate>
+              <label><span>Related Appointment *</span><select name="appointmentId" value={form.appointmentId} onChange={updateField} required aria-invalid={Boolean(errors.appointmentId)}><option value="">Select an appointment</option>{eligibleAppointments.map(appointment => <option key={appointment.id} value={appointment.id}>{appointment.date} {appointment.time} - {appointment.service} ({appointment.status})</option>)}</select>{errors.appointmentId && <small>{errors.appointmentId}</small>}{!eligibleAppointments.length && <small>No confirmed appointments assigned to you are available for this patient. Confirm an appointment before recording a new visit.</small>}</label>
               <label><span>Treatment / Service *</span><input name="treatment" value={form.treatment} onChange={updateField} placeholder="Enter treatment or service" aria-invalid={Boolean(errors.treatment)} />{errors.treatment && <small>{errors.treatment}</small>}</label>
               <label><span>Treatment Status *</span><select name="status" value={form.status} onChange={updateField}><option>Planned</option><option>In Progress</option><option>Completed</option><option>Follow-up Required</option></select></label>
               <label><span>Diagnosis *</span><textarea name="diagnosis" rows="2" value={form.diagnosis} onChange={updateField} placeholder="Enter diagnosis" aria-invalid={Boolean(errors.diagnosis)} />{errors.diagnosis && <small>{errors.diagnosis}</small>}</label>

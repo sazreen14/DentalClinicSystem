@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   FaCalendarAlt,
@@ -20,7 +21,8 @@ import "../styles/PatientAppointments.css";
 
 function PatientAppointments() {
   const { appointments: sharedAppointments, loading, error, cancelAppointment, patientRescheduleAppointment, getAvailability } = useAppointments();
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.state?.tab === "completed" ? "completed" : "upcoming");
   const [showAppointmentModal, setShowAppointmentModal] =
     useState(false);
 

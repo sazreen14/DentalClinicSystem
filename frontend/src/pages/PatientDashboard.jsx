@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TbMessageCircle, TbScan, TbBrush, TbDentalOff, TbDental } from "react-icons/tb";
 
 import {
   FaCalendarAlt,
@@ -22,6 +23,14 @@ import { useNotifications } from "../context/useNotifications";
 import { getPatientRecord } from "../services/clinicalRecordsApi";
 
 import "../styles/PatientDashboard.css";
+
+const serviceIcons = {
+  "Dental Consultation": TbMessageCircle,
+  "Dental X-Ray": TbScan,
+  "Scaling & Polishing": TbBrush,
+  "Tooth Extraction": TbDentalOff,
+  "Tooth Filling": TbDental,
+};
 
 function PatientDashboard() {
   const navigate = useNavigate();
@@ -50,15 +59,18 @@ function PatientDashboard() {
   }
 
   const patientAppointments = appointments;
-  const recentVisits = (clinicalRecord?.treatments || []).slice(0, 3).map((visit) => ({
+  const completedAppointments = patientAppointments.filter((item) => item.status === "Completed");
+  const recentVisits = [...completedAppointments].sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)).slice(0, 3).map((visit) => ({
     id: visit.id,
-    service: visit.treatment,
+    service: visit.service,
     date: new Date(`${visit.date}T00:00:00`).toLocaleDateString("en-MY", { day:"numeric", month:"long", year:"numeric" }),
-    doctor: visit.doctor,
+    doctor: visit.doctorName,
     status: visit.status,
   }));
   const nextSharedAppointment = patientAppointments.filter((item) => item.date >= APPOINTMENT_REFERENCE_DATE && !["Cancelled", "Completed"].includes(item.status)).sort((a,b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))[0];
   const nextAppointment = nextSharedAppointment ? { ...nextSharedAppointment, doctor:nextSharedAppointment.doctorName, date:new Date(`${nextSharedAppointment.date}T00:00:00`).toLocaleDateString("en-MY", { weekday:"long", day:"numeric", month:"long", year:"numeric" }), location:"Klinik Pergigian Rosni Adam" } : null;
+
+  const ServiceIcon = serviceIcons[nextAppointment?.service] || TbDental;
 
   function openAppointmentModal() {
     setShowAppointmentModal(true);
@@ -113,7 +125,7 @@ function PatientDashboard() {
           </div>
 
           <div>
-            <strong>{patientAppointments.filter((item) => item.status === "Completed").length}</strong>
+            <strong>{appointmentsLoading || appointmentsError ? "—" : completedAppointments.length}</strong>
             <span>Total Visits</span>
             <small>Completed visits</small>
           </div>
@@ -175,7 +187,7 @@ function PatientDashboard() {
 
             {nextAppointment ? <div className="patient-figma-next-appointment">
               <div className="patient-figma-treatment-icon">
-                🪥
+                <ServiceIcon size="1em" strokeWidth={1.75} style={{ color: "var(--public-accent-strong, var(--accent, #128f92))", verticalAlign: "top" }} aria-hidden="true" />
               </div>
 
               <div className="patient-figma-appointment-main">
@@ -240,7 +252,7 @@ function PatientDashboard() {
               <button
                 type="button"
                 onClick={() =>
-                  navigate("/patient-records")
+                  navigate("/patient-appointments", { state: { tab: "completed" } })
                 }
               >
                 View all
@@ -249,9 +261,9 @@ function PatientDashboard() {
             </div>
 
             <div className="patient-figma-visit-list">
-              {clinicalLoading && <p role="status">Loading recent clinical activity…</p>}
-              {!clinicalLoading && clinicalError && <p role="alert">Recent clinical activity is unavailable.</p>}
-              {!clinicalLoading && !clinicalError && recentVisits.map((visit) => (
+              {appointmentsLoading && <p role="status">Loading recent clinical activity…</p>}
+              {!appointmentsLoading && appointmentsError && <p role="alert">Recent clinical activity is unavailable.</p>}
+              {!appointmentsLoading && !appointmentsError && recentVisits.map((visit) => (
                 <div
                   className="patient-figma-visit-row"
                   key={visit.id}
@@ -273,7 +285,7 @@ function PatientDashboard() {
                   </span>
                 </div>
               ))}
-              {!clinicalLoading && !clinicalError && !recentVisits.length && <p>No clinical visits recorded yet.</p>}
+              {!appointmentsLoading && !appointmentsError && !recentVisits.length && <p>No clinical visits recorded yet.</p>}
             </div>
           </article>
         </div>
