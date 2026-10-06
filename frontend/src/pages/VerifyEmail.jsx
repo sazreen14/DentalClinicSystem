@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowRight, FaCheck, FaClock, FaExclamationTriangle, FaInfoCircle, FaShieldAlt, FaTooth } from "react-icons/fa";
+import { FaArrowRight, FaCheck, FaClock, FaExclamationTriangle, FaInfoCircle, FaShieldAlt } from "react-icons/fa";
 import ResendVerification from "../components/auth/ResendVerification";
 import { verifyEmail } from "../services/authApi";
 import "../styles/VerifyEmail.css";
@@ -30,7 +30,7 @@ export default function VerifyEmail() {
   return <main className="verification-page">
     <header className="verification-header">
       <button type="button" className="verification-brand" onClick={() => navigate("/")} aria-label="Klinik Pergigian Rosni Adam home">
-        <span className="verification-brand-mark" aria-hidden="true"><FaTooth /></span>
+        <span className="verification-brand-mark" aria-hidden="true"><img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} /></span>
         <span className="verification-brand-copy"><strong>Klinik Pergigian Rosni Adam</strong><small>Secure Dental Patient Portal</small></span>
       </button>
     </header>

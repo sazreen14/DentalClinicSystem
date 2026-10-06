@@ -367,3 +367,29 @@
   box-shadow:0 15px 31px rgba(37,211,102,.3);
   transform:translateY(-2px);
 }
+
+/* Public section backgrounds only: shared radiance / curved-line pattern. */
+.home-page {
+  --public-section-radiance: radial-gradient(ellipse at top left, rgba(45,212,191,.25), transparent 48%), radial-gradient(ellipse at bottom right, rgba(70,205,209,.22), transparent 48%), #fff;
+  --public-section-pattern-base: #f8fefe;
+  --public-section-pattern: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22900%22%20height%3D%22650%22%20viewBox%3D%220%200%20900%20650%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23CBEFED%22%20stroke-width%3D%221.5%22%20opacity%3D%22.25%22%3E%3Cpath%20d%3D%22M-100%2080C180-150%20370%20180%20190%20400S330%20770%20570%20630M-80%20105C175-110%20335%20180%20170%20390S320%20735%20550%20605M-60%20130C170-70%20300%20180%20150%20380S310%20700%20530%20580M610-100C360%20130%20960%20190%20700%20420S740%20790%201010%20590M635-80C405%20130%20990%20190%20725%20435S775%20790%201035%20615M660-60C450%20130%201020%20190%20750%20450S810%20790%201060%20640%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+[data-theme="dark"] .home-page {
+  --public-section-radiance: radial-gradient(ellipse at top left, rgba(45,212,191,.045), transparent 38%), radial-gradient(ellipse at bottom right, rgba(34,211,238,.04), transparent 42%), #0b1220;
+  --public-section-pattern-base: #0b1220;
+  --public-section-pattern: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22900%22%20height%3D%22650%22%20viewBox%3D%220%200%20900%20650%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2352d5d7%22%20stroke-width%3D%221.5%22%20opacity%3D%22.08%22%3E%3Cpath%20d%3D%22M-100%2080C180-150%20370%20180%20190%20400S330%20770%20570%20630M-80%20105C175-110%20335%20180%20170%20390S320%20735%20550%20605M-60%20130C170-70%20300%20180%20150%20380S310%20700%20530%20580M610-100C360%20130%20960%20190%20700%20420S740%20790%201010%20590M635-80C405%20130%20990%20190%20725%20435S775%20790%201035%20615M660-60C450%20130%201020%20190%20750%20450S810%20790%201060%20640%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+.home-page.home-page :is(section.hero, section.about-section, section.location-section) {
+  background: var(--public-section-radiance);
+}
+.home-page.home-page :is(section.services-section, section.patient-management-section, section.reviews-section) {
+  background: var(--public-section-pattern) repeat 0 0 / 900px 650px var(--public-section-pattern-base);
+}
+/* Neutralize legacy decorative background layers without altering their geometry. */
+.home-page.home-page :is(section.hero, section.about-section, section.services-section, section.patient-management-section, section.location-section)::before,
+.home-page.home-page :is(section.hero, section.about-section, section.services-section, section.patient-management-section, section.location-section)::after,
+.home-page.home-page .about-orb {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}

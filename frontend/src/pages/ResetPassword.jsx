@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaShieldAlt, FaTooth } from "react-icons/fa";
+import { FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaShieldAlt } from "react-icons/fa";
 import { resetPassword } from "../services/authApi";
 import "../styles/ResetPassword.css";
 import "../styles/VerifyEmail.css";
@@ -45,7 +45,7 @@ function ResetPassword() {
   return <main className="verification-page reset-recovery-page">
     <header className="verification-header">
       <button type="button" className="verification-brand" onClick={() => navigate("/")} aria-label="Klinik Pergigian Rosni Adam home">
-        <span className="verification-brand-mark" aria-hidden="true"><FaTooth /></span>
+        <span className="verification-brand-mark" aria-hidden="true"><img src="/clinic-logo.png" alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit", display: "block" }} /></span>
         <span className="verification-brand-copy"><strong>Klinik Pergigian Rosni Adam</strong><small>Secure Dental Patient Portal</small></span>
       </button>
     </header>
