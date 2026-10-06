@@ -27,8 +27,8 @@ function Hero({ onBookAppointment }) {
 
           <h1>
             <span className="hero-title-line hero-title-white">SECURE WEB-BASED</span>
-            <span className="hero-title-line hero-title-accent">Dental Clinic System and</span>
-            <span className="hero-title-line hero-title-accent">Patient Management System</span>
+            <span className="hero-title-line hero-title-accent">Dental Clinic Appointment</span>
+            <span className="hero-title-line hero-title-accent">and Patient Management System</span>
           </h1>
 
           <p className="hero-description">

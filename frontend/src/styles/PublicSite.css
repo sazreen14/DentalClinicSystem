@@ -297,6 +297,13 @@
   .home-page .hero-left h1{font-size:clamp(40px,4vw,49px)}.home-page .hero-trust-list{flex-wrap:wrap;gap:15px 25px}.home-page .tooth-hero-visual,.home-page .tooth-hero-loading{height:570px}
   .home-page .tooth-callout-1,.home-page .tooth-callout-3{left:0}.home-page .tooth-callout-2,.home-page .tooth-callout-4{right:0}
 }
+@media (min-width:851px){
+  .home-page .tooth-callout-1{top:105px;left:clamp(12px,3vw,40px)}
+  .home-page .tooth-callout-2{top:150px;right:clamp(12px,3vw,40px)}
+  .home-page .tooth-callout-3{bottom:155px;left:clamp(12px,3vw,40px)}
+  .home-page .tooth-callout-4{bottom:125px;right:clamp(12px,3vw,40px)}
+  .home-page .tooth-callout::after{width:22px}
+}
 @media (max-width:850px){
   .home-page .hero .hero-container{width:min(100% - 48px,760px);grid-template-columns:1fr;gap:48px}.home-page .hero-left{max-width:720px}.home-page .hero-left h1{font-size:clamp(40px,7vw,53px)}
   .home-page .tooth-hero-visual,.home-page .tooth-hero-loading{height:540px}
