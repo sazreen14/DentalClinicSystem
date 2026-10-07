@@ -7,7 +7,7 @@
 .doctor-schedule-navigation, .doctor-schedule-view-toggle { display: flex; align-items: center; gap: 6px; padding: 5px; border: 1px solid #e5ebef; border-radius: 12px; background: #fff; }
 .doctor-schedule-navigation button, .doctor-schedule-view-toggle button { min-height: 36px; display: grid; place-items: center; padding: 0 12px; border: 0; border-radius: 8px; color: #64748b; background: transparent; font-family: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
 .doctor-schedule-navigation button:hover, .doctor-schedule-view-toggle button:hover { background: #f3fbfb; }
-.doctor-schedule-navigation button.today, .doctor-schedule-view-toggle button.active { color: #159c9f; background: #eafafa; }
+.doctor-schedule-view-toggle button.active { color: #159c9f; background: #eafafa; }
 .doctor-schedule-navigation strong { min-width: 170px; color: #334155; font-size: 11px; text-align: center; }
 .doctor-schedule-view-toggle button { min-width: 58px; }
 .doctor-schedule-summary { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin-bottom: 18px; }

@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   FaCalendarAlt,
   FaCheckCircle,
-  FaChevronLeft,
   FaChevronRight,
   FaClipboardList,
   FaClock,
@@ -15,42 +14,28 @@ import {
 } from "react-icons/fa";
 
 import DoctorLayout from "../components/doctor/DoctorLayout";
-import { APPOINTMENT_REFERENCE_DATE, useAppointments } from "../context/useAppointments";
+import { useAppointments } from "../context/useAppointments";
 import { useIdentity } from "../context/useIdentity";
 
+import ScheduleDateNavigation from "../components/ScheduleDateNavigation";
+import { getClinicDateKey, getScheduleDays, formatScheduleDate, scheduleTimeKey } from "../utils/scheduleDates";
 import "../styles/DoctorSchedule.css";
 
-const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
 
-function formatShortDate(date) {
-  return date.toLocaleDateString("en-MY", { day: "numeric", month: "short" });
-}
-
-function DoctorSchedule() {
+function DoctorScheduleContent() {
   const navigate = useNavigate();
   const { appointments: sharedAppointments } = useAppointments();
   const { patients } = useIdentity();
   const appointments = useMemo(() => sharedAppointments.filter((item) => item.status !== "Cancelled").map((item) => ({ ...item, patient:patients.find((patient)=>patient.patientId===item.patientId)?.fullName||item.patientName, treatment:item.service, note:item.patientNote })), [sharedAppointments,patients]);
-  const nextAppointment = appointments.filter((item) => item.date >= APPOINTMENT_REFERENCE_DATE && !["Completed", "Cancelled"].includes(item.status)).sort((a,b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))[0];
-  const [weekOffset, setWeekOffset] = useState(0);
+  const today = getClinicDateKey();
+  const nextAppointment = appointments.filter((item) => item.date >= today && !["Completed", "Cancelled"].includes(item.status)).sort((a,b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))[0];
+  const [selectedDate, setSelectedDate] = useState(getClinicDateKey);
   const [view, setView] = useState("week");
-  const [selectedDayIndex, setSelectedDayIndex] = useState(5);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [blockedSlots, setBlockedSlots] = useState([]);
 
-  const weekDays = useMemo(() => {
-    const monday = new Date(2026, 7, 3 + weekOffset * 7);
-
-    return dayNames.map((name, index) => {
-      const date = new Date(monday);
-      date.setDate(monday.getDate() + index);
-      return { name, date, index };
-    });
-  }, [weekOffset]);
-
-  const displayedDays = view === "day" ? [weekDays[selectedDayIndex]] : weekDays;
-  const weekRange = `${formatShortDate(weekDays[0].date)} – ${formatShortDate(weekDays[5].date)} ${weekDays[5].date.getFullYear()}`;
+  const displayedDays = useMemo(() => getScheduleDays(selectedDate, view), [selectedDate, view]);
 
   function getAppointmentDetails(appointment) {
     const appointmentDate = new Date(`${appointment.date}T00:00:00`).toLocaleDateString("en-MY", { day: "numeric", month: "long", year: "numeric" });
@@ -61,8 +46,8 @@ function DoctorSchedule() {
     navigate("/doctor-patient-records", { state: { patientId: appointment.patientId, appointmentId: appointment.id, from: "/doctor-schedule" } });
   }
 
-  function toggleBlockedSlot(day, time) {
-    const key = `${weekOffset}-${day}-${time}`;
+  function toggleBlockedSlot(date, time) {
+    const key = `${date}-${time}`;
     setBlockedSlots((previous) =>
       previous.includes(key) ? previous.filter((slot) => slot !== key) : [...previous, key]
     );
@@ -86,12 +71,7 @@ function DoctorSchedule() {
       </section>
 
       <section className="doctor-schedule-controls">
-        <div className="doctor-schedule-navigation">
-          <button type="button" className="today" onClick={() => { setWeekOffset(0); setSelectedDayIndex(5); }}>Today</button>
-          <button type="button" onClick={() => setWeekOffset((value) => value - 1)} aria-label="Previous week"><FaChevronLeft /></button>
-          <strong>{weekRange}</strong>
-          <button type="button" onClick={() => setWeekOffset((value) => value + 1)} aria-label="Next week"><FaChevronRight /></button>
-        </div>
+        <ScheduleDateNavigation className="doctor-schedule-navigation" selectedDate={selectedDate} onDateChange={setSelectedDate} view={view} />
         <div className="doctor-schedule-view-toggle" role="tablist" aria-label="Schedule view">
           <button type="button" role="tab" aria-selected={view === "day"} className={view === "day" ? "active" : ""} onClick={() => setView("day")}>Day</button>
           <button type="button" role="tab" aria-selected={view === "week"} className={view === "week" ? "active" : ""} onClick={() => setView("week")}>Week</button>
@@ -99,7 +79,7 @@ function DoctorSchedule() {
       </section>
 
       <section className="doctor-schedule-summary" aria-label="Schedule summary">
-        <article><div className="teal"><FaCalendarAlt /></div><p><strong>4</strong><span>Today&apos;s Appointments</span><small>Saturday, 8 August</small></p></article>
+        <article><div className="teal"><FaCalendarAlt /></div><p><strong>4</strong><span>Today&apos;s Appointments</span><small>{formatScheduleDate(today, { weekday: "long", day: "numeric", month: "long" })}</small></p></article>
         <article><div className="blue"><FaUserClock /></div><p><strong>5</strong><span>Available Slots</span><small>Open today</small></p></article>
         <article><div className="purple"><FaCheckCircle /></div><p><strong>1</strong><span>Completed Today</span><small>3 remaining</small></p></article>
         <article><div className="orange"><FaClock /></div><p><strong>4</strong><span>Pending Appointments</span><small>Awaiting confirmation</small></p></article>
@@ -108,7 +88,7 @@ function DoctorSchedule() {
       <section className="doctor-schedule-layout">
         <article className="doctor-calendar-card">
           <div className="doctor-calendar-card-heading">
-            <div><span>{view === "week" ? "Weekly Calendar" : "Daily Calendar"}</span><h3>{view === "week" ? "Clinic Schedule" : `${weekDays[selectedDayIndex].name} Schedule`}</h3></div>
+            <div><span>{view === "week" ? "Weekly Calendar" : "Daily Calendar"}</span><h3>{view === "week" ? "Clinic Schedule" : `${displayedDays[0].name} Schedule`}</h3></div>
             <p>Sunday closed</p>
           </div>
 
@@ -117,7 +97,7 @@ function DoctorSchedule() {
               <div className="doctor-calendar-corner">Time</div>
               {displayedDays.map((day) => (
                 <div className="doctor-calendar-day" key={day.name}>
-                  <strong>{day.name}</strong><span>{formatShortDate(day.date)}</span>
+                  <strong>{day.name}</strong><span>{formatScheduleDate(day.date)}</span>
                 </div>
               ))}
 
@@ -125,10 +105,10 @@ function DoctorSchedule() {
                 <div className="doctor-calendar-row" key={time}>
                   <div className="doctor-calendar-time">{time}</div>
                   {displayedDays.map((day) => {
-                    const dateKey = day.date.toLocaleDateString("en-CA");
-                    const appointment = appointments.find((item) => item.date === dateKey && item.time === time);
-                    const isClosed = day.index === 5 && time === "6:00 PM";
-                    const blockKey = `${weekOffset}-${day.index}-${time}`;
+                    const dateKey = day.date;
+                    const appointment = appointments.find((item) => item.date === dateKey && scheduleTimeKey(item.time) === scheduleTimeKey(time));
+                    const isClosed = day.index === 6 || (day.index === 5 && time === "6:00 PM");
+                    const blockKey = `${day.date}-${time}`;
                     const isBlocked = blockedSlots.includes(blockKey);
 
                     return (
@@ -142,9 +122,9 @@ function DoctorSchedule() {
                         ) : isClosed ? (
                           <span className="doctor-calendar-closed">Closed</span>
                         ) : isBlocked ? (
-                          <button type="button" className="doctor-calendar-blocked" onClick={() => toggleBlockedSlot(day.index, time)}><FaLock /> Blocked</button>
+                          <button type="button" className="doctor-calendar-blocked" onClick={() => toggleBlockedSlot(day.date, time)}><FaLock /> Blocked</button>
                         ) : (
-                          <button type="button" className="doctor-calendar-empty" onClick={() => toggleBlockedSlot(day.index, time)} aria-label={`Block ${day.name} at ${time}`}><FaPlus /></button>
+                          <button type="button" className="doctor-calendar-empty" onClick={() => toggleBlockedSlot(day.date, time)} aria-label={`Block ${day.name} at ${time}`}><FaPlus /></button>
                         )}
                       </div>
                     );
@@ -159,7 +139,7 @@ function DoctorSchedule() {
           <article className="doctor-schedule-side-card">
             <div className="doctor-schedule-side-heading"><span>Today</span><h3>Today&apos;s Schedule</h3></div>
             <div className="doctor-today-list">
-              {appointments.filter((item) => item.date === weekDays[selectedDayIndex].date.toLocaleDateString("en-CA")).map((appointment) => (
+              {appointments.filter((item) => item.date === today).map((appointment) => (
                 <button type="button" key={appointment.id} onClick={() => setSelectedAppointment(getAppointmentDetails(appointment))}>
                   <time>{appointment.time}</time><p><strong>{appointment.patient}</strong><span>{appointment.treatment}</span></p><FaChevronRight />
                 </button>
@@ -176,7 +156,7 @@ function DoctorSchedule() {
           <article className="doctor-schedule-side-card">
             <div className="doctor-schedule-side-heading"><span>Open Today</span><h3>Available Time Slots</h3></div>
             <div className="doctor-available-slots">{["10:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "4:00 PM"].map((time) => <span key={time}>{time}</span>)}</div>
-            <button type="button" className="doctor-block-slot-action" onClick={() => toggleBlockedSlot(5, "4:00 PM")}><FaLock /> Block Time Slot</button>
+            <button type="button" className="doctor-block-slot-action" onClick={() => toggleBlockedSlot(today, "4:00 PM")}><FaLock /> Block Time Slot</button>
           </article>
 
           <article className="doctor-schedule-side-card">
@@ -203,4 +183,7 @@ function ScheduleAppointmentModal({ appointment, onClose, onViewPatientRecord })
   );
 }
 
-export default DoctorSchedule;
+export default function DoctorSchedule() {
+  const location = useLocation();
+  return <DoctorScheduleContent key={location.key} />;
+}

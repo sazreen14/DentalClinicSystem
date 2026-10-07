@@ -6,11 +6,9 @@ import {
   FaCheckCircle,
   FaEnvelope,
   FaIdCard,
-  FaLock,
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaSave,
-  FaShieldAlt,
   FaUser,
 } from "react-icons/fa";
 
@@ -56,12 +54,6 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
     setProfileData({ fullName:currentPatient.fullName || "", email:currentPatient.email || "", phone:currentPatient.phone || "", address:currentPatient.address || "" });
   }
 
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
   function handleProfileChange(event) {
     const { name, value } = event.target;
 
@@ -95,15 +87,6 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
     }
   }
 
-  function handlePasswordChange(event) {
-    const { name, value } = event.target;
-
-    setPasswordData((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
-  }
-
   async function handleSaveProfile(event) {
     event.preventDefault();
     if (saving) return;
@@ -131,23 +114,6 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
     }
   }
 
-  function handleChangePassword(event) {
-    event.preventDefault();
-
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("New password and confirmation password do not match.");
-      return;
-    }
-
-    alert("Password update will be connected to the backend later.");
-
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
-  }
-
   return (
     <PatientLayout
       activePage="profile"
@@ -160,7 +126,7 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
         <div>
           <span>Account Settings</span>
           <h2>My Profile</h2>
-          <p>Manage your personal information, photo, and account security.</p>
+          <p>Manage your personal information and photo.</p>
         </div>
 
         <div className="figma-profile-heading-icon" aria-hidden="true">
@@ -294,70 +260,6 @@ function PatientProfileForm({ currentPatient, updatePatient, updatePatientPhoto 
             <small>JPG, PNG or WEBP. Maximum file size: 2 MB.</small>
             {photoMessage && <small className="figma-profile-photo-message" role="status">{photoMessage}</small>}
             {photoError && <small className="figma-profile-photo-error" role="alert">{photoError}</small>}
-          </article>
-
-          <article className="figma-profile-card">
-            <div className="figma-profile-card-heading">
-              <div>
-                <span>Account Security</span>
-                <h3>Update Password</h3>
-              </div>
-              <div className="figma-profile-security-icon" aria-hidden="true">
-                <FaShieldAlt />
-              </div>
-            </div>
-
-            <form
-              className="figma-profile-password-form"
-              onSubmit={handleChangePassword}
-            >
-              <label>
-                Current Password
-                <div className="figma-profile-input-wrapper">
-                  <FaLock />
-                  <input
-                    name="currentPassword"
-                    type="password"
-                    value={passwordData.currentPassword}
-                    onChange={handlePasswordChange}
-                    required
-                  />
-                </div>
-              </label>
-
-              <label>
-                New Password
-                <div className="figma-profile-input-wrapper">
-                  <FaLock />
-                  <input
-                    name="newPassword"
-                    type="password"
-                    value={passwordData.newPassword}
-                    onChange={handlePasswordChange}
-                    required
-                  />
-                </div>
-              </label>
-
-              <label>
-                Confirm New Password
-                <div className="figma-profile-input-wrapper">
-                  <FaLock />
-                  <input
-                    name="confirmPassword"
-                    type="password"
-                    value={passwordData.confirmPassword}
-                    onChange={handlePasswordChange}
-                    required
-                  />
-                </div>
-              </label>
-
-              <button type="submit" className="figma-profile-primary-button">
-                <FaLock />
-                Update Password
-              </button>
-            </form>
           </article>
         </aside>
       </section>

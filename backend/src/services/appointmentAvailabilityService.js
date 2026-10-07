@@ -28,7 +28,7 @@ export async function getAvailability(db,{doctorCode,serviceCode,date,excludeApp
   const open=Math.max(minutes(clinic.opening_time),weeklyHours?minutes(weeklyHours.start_time):0);
   const close=Math.min(minutes(clinic.closing_time),weeklyHours?minutes(weeklyHours.end_time):1440);
   const [slotRows]=await db.execute("SELECT doctor_id,slot_time,is_enabled FROM appointment_time_slots WHERE doctor_id IS NULL OR doctor_id=? ORDER BY slot_time,doctor_id DESC",[doctor.id]);
-  const [blocked]=await db.execute("SELECT start_time,end_time FROM doctor_blocked_times WHERE doctor_id=? AND blocked_date=?",[doctor.id,date]);
+  const [blocked]=await db.execute(`SELECT start_time,end_time FROM doctor_blocked_times WHERE doctor_id=? AND blocked_date=?${lock?' FOR UPDATE':''}`,[doctor.id,date]);
   const [breaks]=await db.execute("SELECT start_time,end_time FROM clinic_recurring_breaks WHERE day_of_week=? AND is_enabled=TRUE",[day]);
   const suffix=lock?' FOR UPDATE':'';
   const [booked]=await db.execute(`SELECT a.id,a.appointment_time,ds.duration_minutes FROM appointments a JOIN dental_services ds ON ds.id=a.dental_service_id WHERE a.doctor_id=? AND a.appointment_date=? AND a.status IN ('Pending','Confirmed')${suffix}`,[doctor.id,date]);

@@ -1,9 +1,8 @@
 import {useState} from 'react';
-import {FaBriefcaseMedical,FaCamera,FaCheckCircle,FaEnvelope,FaIdCard,FaLock,FaSave,FaShieldAlt,FaTooth,FaUser} from 'react-icons/fa';
+import {FaBriefcaseMedical,FaCamera,FaCheckCircle,FaEnvelope,FaIdCard,FaSave,FaTooth,FaUser} from 'react-icons/fa';
 import DoctorLayout from '../components/doctor/DoctorLayout';
 import PatientAvatar from '../components/patient/PatientAvatar';
 import {useIdentity} from '../context/useIdentity';
-import {changePassword} from '../services/authApi';
 import '../styles/DoctorProfile.css';
 
 const fields=['fullName','email','professionalTitle','specialization','licenseNumber','qualification','yearsOfExperience'];
@@ -13,8 +12,6 @@ function DoctorProfileForm({doctor,updateDoctorProfile,updateDoctorPhoto}){
   const [values,setValues]=useState(()=>formValues(doctor));
   const [loadedVersion,setLoadedVersion]=useState(()=>JSON.stringify(formValues(doctor)));
   const [saving,setSaving]=useState(false),[saved,setSaved]=useState(false),[saveError,setSaveError]=useState('');
-  const [password,setPassword]=useState({currentPassword:'',newPassword:'',confirmPassword:''});
-  const [passwordSaving,setPasswordSaving]=useState(false),[passwordMessage,setPasswordMessage]=useState(''),[passwordError,setPasswordError]=useState('');
   const [photoSaving,setPhotoSaving]=useState(false),[photoMessage,setPhotoMessage]=useState(''),[photoError,setPhotoError]=useState('');
   const currentVersion=JSON.stringify(formValues(doctor));
   if(currentVersion!==loadedVersion){setLoadedVersion(currentVersion);setValues(formValues(doctor));}
@@ -43,17 +40,9 @@ function DoctorProfileForm({doctor,updateDoctorProfile,updateDoctorPhoto}){
     catch(error){setSaveError(error.message||'Profile changes could not be saved.');}
     finally{setSaving(false);}
   }
-  async function updatePassword(event){
-    event.preventDefault();if(passwordSaving)return;setPasswordMessage('');setPasswordError('');
-    if(password.newPassword!==password.confirmPassword){setPasswordError('New password and confirmation do not match.');return;}
-    setPasswordSaving(true);
-    try{await changePassword(password);setPassword({currentPassword:'',newPassword:'',confirmPassword:''});setPasswordMessage('Password updated successfully.');}
-    catch(error){setPasswordError(error.message||'Password could not be updated.');}
-    finally{setPasswordSaving(false);}
-  }
 
-  return <DoctorLayout activePage="profile" pageTitle="My Profile" pageSubtitle="Manage your professional information and account security">
-    <section className="doctor-profile-heading"><div><span>Professional Account</span><h2>My Profile</h2><p>Manage your professional information and account security.</p></div><div className="doctor-profile-heading-icon" aria-hidden="true"><FaUser/></div></section>
+  return <DoctorLayout activePage="profile" pageTitle="My Profile" pageSubtitle="Manage your professional information and photo">
+    <section className="doctor-profile-heading"><div><span>Professional Account</span><h2>My Profile</h2><p>Manage your professional information and photo.</p></div><div className="doctor-profile-heading-icon" aria-hidden="true"><FaUser/></div></section>
     <section className="doctor-profile-layout">
       <article className="doctor-profile-card doctor-profile-details-card">
         <div className="doctor-profile-card-heading"><div><span>Professional Information</span><h3>Profile Details</h3></div>{saved&&<span className="doctor-profile-saved" role="status"><FaCheckCircle/> Changes saved</span>}</div>
@@ -72,7 +61,6 @@ function DoctorProfileForm({doctor,updateDoctorProfile,updateDoctorPhoto}){
       </article>
       <aside className="doctor-profile-side">
         <article className="doctor-profile-card doctor-profile-photo-card"><div className="doctor-profile-card-heading"><div><span>Profile Photo</span><h3>Your Photo</h3></div></div><div className="doctor-profile-photo-content"><PatientAvatar className="doctor-profile-avatar" photoUrl={doctor.photoUrl} initials={initials} alt="Doctor profile"/><div><strong>{doctor.fullName}</strong><span>{doctor.professionalTitle||'Doctor'}</span><label className="doctor-profile-upload" htmlFor="doctor-profile-upload"><FaCamera/>{photoSaving?'Uploading...':'Change Photo'}</label><input id="doctor-profile-upload" className="doctor-profile-file-input" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" disabled={photoSaving} onChange={changePhoto}/></div></div><small>JPG, PNG or WEBP. Maximum file size: 2 MB.</small>{photoMessage&&<small className="doctor-profile-photo-message" role="status">{photoMessage}</small>}{photoError&&<small className="doctor-profile-photo-error" role="alert">{photoError}</small>}</article>
-        <article className="doctor-profile-card"><div className="doctor-profile-card-heading"><div><span>Account Security</span><h3>Update Password</h3></div><div className="doctor-profile-security-icon" aria-hidden="true"><FaShieldAlt/></div></div><form className="doctor-profile-password-form" onSubmit={updatePassword}>{passwordError&&<p className="doctor-profile-error" role="alert">{passwordError}</p>}{passwordMessage&&<p className="doctor-profile-password-success" role="status">{passwordMessage}</p>}{[['currentPassword','Current Password'],['newPassword','New Password'],['confirmPassword','Confirm New Password']].map(([name,label])=><label key={name}>{label}<div className="doctor-profile-input"><FaLock/><input type="password" name={name} value={password[name]} onChange={event=>setPassword(previous=>({...previous,[name]:event.target.value}))} disabled={passwordSaving} required/></div></label>)}<button className="doctor-profile-primary" type="submit" disabled={passwordSaving}><FaLock/>{passwordSaving?'Updating...':'Update Password'}</button></form></article>
       </aside>
     </section>
   </DoctorLayout>;

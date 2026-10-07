@@ -7,6 +7,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = Router();
 router.use(authenticateToken);
+router.get("/preferences", asyncHandler(controller.getPreferences));
+router.patch("/preferences", asyncHandler(controller.savePreferences));
 router.get("/", asyncHandler(controller.getNotifications));
 router.post("/read-all", asyncHandler(controller.markAllAsRead));
 router.post(

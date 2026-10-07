@@ -1,0 +1,23 @@
+.schedule-date-navigation { min-width: 0; max-width: 100%; }
+.schedule-date-navigation > button { flex-shrink: 0; }
+.schedule-date-navigation .schedule-date-picker {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  flex: 1; min-width: 0; min-height: 40px; gap: 8px; padding: 4px 8px;
+  border-radius: 8px; color: #334155; background: transparent;
+  font-size: 13px; font-weight: 700; text-align: center; cursor: pointer;
+}
+.schedule-date-picker > span { line-height: 1.4; }
+.schedule-date-picker > svg { flex-shrink: 0; color: #159c9f; }
+.schedule-date-picker > input {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0;
+  opacity: 0; cursor: pointer; box-sizing: border-box;
+}
+.schedule-date-picker:hover { background: #eafafa; }
+.schedule-date-picker:focus-within { outline: 2px solid #159c9f; outline-offset: 2px; }
+[data-theme="dark"] .schedule-date-navigation .schedule-date-picker { color: var(--portal-primary); color-scheme: dark; }
+[data-theme="dark"] .schedule-date-picker:hover { background: var(--portal-accent-soft); }
+@media (max-width: 650px) {
+  .schedule-date-navigation { width: 100%; }
+  .schedule-date-navigation .schedule-date-picker { font-size: 12px; padding-inline: 2px; }
+  .schedule-date-navigation > button { padding-inline: 10px; }
+}

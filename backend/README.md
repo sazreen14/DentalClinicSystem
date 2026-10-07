@@ -7,7 +7,16 @@ Express and MySQL backend for Klinik Pergigian Rosni Adam.
 1. Copy `.env.example` to `.env` and replace all placeholder secrets.
 2. Create the database by running `database/schema.sql` in MySQL 8+.
 3. Install packages with `npm install`.
-4. Start development mode with `npm run dev`.
+4. Apply database migrations with `npm run migrate`.
+5. Start development mode with `npm run dev`.
+
+## Notification preferences
+
+Migration `018_notification_preferences.sql` adds per-user notification preferences. Apply it before deploying the updated Settings pages/API.
+
+`GET /api/notifications/preferences` returns the authenticated user's saved values (or the existing role defaults). `PATCH /api/notifications/preferences` accepts a non-empty object containing boolean values for that role's notification options. Both endpoints require authentication; ownership comes exclusively from the authenticated session. Unknown fields, IDs, and options for other roles are rejected. Partial updates retain other saved values.
+
+Patient options are `appointmentReminder` and `emailNotifications`; Doctor options are `appointments`, `followUps`, and `system`; Admin options are `appointment`, `cancellation`, `reschedule`, `newPatient`, and `security`. Privacy-tab settings are separate. This change persists preferences only; appointment notification and email dispatch behavior is unchanged.
 
 ## Health check
 
